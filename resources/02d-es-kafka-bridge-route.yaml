@@ -1,0 +1,13 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+    name: jgr-es-demo-bridge
+    namespace: tools
+spec:
+  to:
+    kind: Service
+    name: jgr-es-demo-bridge-bridge-service
+    weight: 100
+  port:
+    targetPort: rest-api
+  wildcardPolicy: None

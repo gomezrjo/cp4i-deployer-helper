@@ -1,0 +1,88 @@
+info:
+  version: 1.2.0
+  title: JGRMQAPI Product
+  name: jgrmqapi-product
+gateways:
+  - datapower-api-gateway
+plans:
+  default-plan:
+    title: Default Plan
+    description: Default Plan
+    approval: false
+    rate-limits:
+      default:
+        value: 5/1minute
+        hard-limit: true
+    apis:
+      jgrmqapi1.2.0: {}
+  premium-plan:
+    title: Premium Plan
+    description: Premium Plan
+    approval: true
+    rate-limits:
+      Default rate-limit:
+        value: 600/1hour
+        hard-limit: false
+    assembly-rate-limits:
+      graphql-field-cost:
+        - use-app-id: false
+          dynamic-value: ''
+          weight: >-
+            message.attributes.graphql.request.fieldCost -
+            [message.attributes.graphql.response.fieldCost, 0][0]
+          is-client: true
+          value: unlimited
+          use-client-id: false
+          cache-only: true
+          use-api-name: false
+          hard-limit: true
+      graphql-design-request:
+        - use-app-id: false
+          weight: '1'
+          use-client-id: false
+          cache-only: true
+          is-client: true
+          use-api-name: false
+          hard-limit: true
+          value: 3/1second
+      graphql-input-type-cost:
+        - use-app-id: false
+          dynamic-value: ''
+          weight: >-
+            message.attributes.graphql.request.inputTypeCost -
+            [message.attributes.graphql.response.inputTypeCost, 0][0]
+          is-client: true
+          value: unlimited
+          use-client-id: false
+          cache-only: true
+          use-api-name: false
+          hard-limit: true
+      graphql-type-cost:
+        - use-app-id: false
+          dynamic-value: ''
+          weight: >-
+            message.attributes.graphql.request.typeCost -
+            [message.attributes.graphql.response.typeCost, 0][0]
+          is-client: true
+          value: unlimited
+          use-client-id: false
+          cache-only: true
+          use-api-name: false
+          hard-limit: true
+    apis:
+      jgrmqapi1.2.0: {}
+apis:
+  jgrmqapi1.2.0:
+    $ref: jgrmqapi_1.2.0.yaml
+visibility:
+  view:
+    type: authenticated
+    orgs: []
+    tags: []
+    enabled: true
+  subscribe:
+    type: authenticated
+    orgs: []
+    tags: []
+    enabled: true
+product: 1.0.0

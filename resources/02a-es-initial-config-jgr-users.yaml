@@ -1,0 +1,359 @@
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaUser
+metadata:
+  labels:
+    app.kubernetes.io/instance: es-demo
+    eventstreams.ibm.com/cluster: es-demo
+  name: es-admin
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    acls:
+      - operations:
+          - Alter
+          - DescribeConfigs
+        resource:
+          type: cluster
+      - operations:
+          - Create
+          - Read
+          - Write
+          - Delete
+          - DescribeConfigs
+          - Alter
+          - AlterConfigs
+        resource:
+          name: '*'
+          patternType: literal
+          type: topic
+      - operations:
+          - Alter
+          - Read
+        resource:
+          name: __schema_
+          patternType: prefix
+          type: topic
+      - operations:
+          - Read
+          - Delete
+        resource:
+          name: '*'
+          patternType: literal
+          type: group
+    type: simple
+---
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaUser
+metadata:
+  labels:
+    app.kubernetes.io/instance: es-demo
+    eventstreams.ibm.com/cluster: es-demo
+  name: ace-user
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    acls:
+      - host: '*'
+        operations:
+          - Read
+          - Write
+          - Create
+        resource:
+          name: '*'
+          patternType: literal
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+          - Alter
+        resource:
+          name: __schema_
+          patternType: prefix
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+        resource:
+          name: '*'
+          patternType: literal
+          type: group
+      - host: '*'
+        operations:
+          - Write
+        resource:
+          name: '*'
+          patternType: literal
+          type: transactionalId
+    type: simple
+---
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaUser
+metadata:
+  labels:
+    app.kubernetes.io/instance: es-demo
+    eventstreams.ibm.com/cluster: es-demo
+  name: designer-user
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    acls:
+      - host: '*'
+        operations:
+          - Read
+          - Write
+          - Create
+        resource:
+          name: '*'
+          patternType: literal
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+          - Alter
+        resource:
+          name: __schema_
+          patternType: prefix
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+        resource:
+          name: '*'
+          patternType: literal
+          type: group
+      - host: '*'
+        operations:
+          - Write
+        resource:
+          name: '*'
+          patternType: literal
+          type: transactionalId
+    type: simple
+---
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaUser
+metadata:
+  labels:
+    app.kubernetes.io/instance: es-demo
+    eventstreams.ibm.com/cluster: es-demo
+  name: kafka-connect-user
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    acls:
+      - host: '*'
+        operations:
+          - Read
+          - Write
+          - Create
+        resource:
+          name: '*'
+          patternType: literal
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+          - Alter
+        resource:
+          name: __schema_
+          patternType: prefix
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+        resource:
+          name: '*'
+          patternType: literal
+          type: group
+      - host: '*'
+        operations:
+          - Write
+        resource:
+          name: '*'
+          patternType: literal
+          type: transactionalId
+    type: simple
+---
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaUser
+metadata:
+  labels:
+    app.kubernetes.io/instance: es-demo
+    eventstreams.ibm.com/cluster: es-demo
+  name: kafka-bridge-user
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    acls:
+      - host: '*'
+        operations:
+          - Read
+          - Write
+          - Create
+        resource:
+          name: '*'
+          patternType: literal
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+          - Alter
+        resource:
+          name: __schema_
+          patternType: prefix
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+        resource:
+          name: '*'
+          patternType: literal
+          type: group
+      - host: '*'
+        operations:
+          - Write
+        resource:
+          name: '*'
+          patternType: literal
+          type: transactionalId
+    type: simple
+---
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaUser
+metadata:
+  labels:
+    app.kubernetes.io/instance: es-demo
+    eventstreams.ibm.com/cluster: es-demo
+  name: eem-user
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    acls:
+      - host: '*'
+        operations:
+          - Read
+          - Write
+          - Create
+        resource:
+          name: '*'
+          patternType: literal
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+          - Alter
+        resource:
+          name: __schema_
+          patternType: prefix
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+        resource:
+          name: '*'
+          patternType: literal
+          type: group
+      - host: '*'
+        operations:
+          - Write
+        resource:
+          name: '*'
+          patternType: literal
+          type: transactionalId
+    type: simple
+---
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaUser
+metadata:
+  labels:
+    app.kubernetes.io/instance: es-demo
+    eventstreams.ibm.com/cluster: es-demo
+  name: ep-user
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    acls:
+      - host: '*'
+        operations:
+          - Read
+          - Write
+          - Create
+        resource:
+          name: '*'
+          patternType: literal
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+          - Alter
+        resource:
+          name: __schema_
+          patternType: prefix
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+        resource:
+          name: '*'
+          patternType: literal
+          type: group
+      - host: '*'
+        operations:
+          - Write
+        resource:
+          name: '*'
+          patternType: literal
+          type: transactionalId
+    type: simple
+---
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaUser
+metadata:
+  labels:
+    app.kubernetes.io/instance: es-demo
+    eventstreams.ibm.com/cluster: es-demo
+  name: apic-analytics-offload-user
+spec:
+  authentication:
+    type: scram-sha-512
+  authorization:
+    acls:
+      - host: '*'
+        operations:
+          - Read
+          - Write
+          - Create
+        resource:
+          name: '*'
+          patternType: literal
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+          - Alter
+        resource:
+          name: __schema_
+          patternType: prefix
+          type: topic
+      - host: '*'
+        operations:
+          - Read
+        resource:
+          name: '*'
+          patternType: literal
+          type: group
+      - host: '*'
+        operations:
+          - Write
+        resource:
+          name: '*'
+          patternType: literal
+          type: transactionalId
+    type: simple

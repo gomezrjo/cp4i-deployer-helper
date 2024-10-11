@@ -1,0 +1,22 @@
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaConnector
+metadata:
+  name: mq-sink
+  namespace: tools
+  labels:
+    eventstreams.ibm.com/cluster: jgr-connect-cluster
+spec:
+  class: com.ibm.eventstreams.connect.mqsink.MQSinkConnector
+  tasksMax: 1
+  config:
+    mq.queue.manager: QMGRDEMO
+    mq.connection.name.list: qmgr-demo-ibm-mq(1414)
+    mq.channel.name: ES.TO.MQ
+    mq.queue: CP4I.DEMO.ES.TO.MQ
+    mq.user.name: ""
+    mq.password: ""
+    topics: cp4i-es-2-mq-demo-topic
+    mq.connection.mode: client
+    mq.message.builder: com.ibm.eventstreams.connect.mqsink.builders.DefaultMessageBuilder
+    key.converter: org.apache.kafka.connect.storage.StringConverter
+    value.converter: org.apache.kafka.connect.storage.StringConverter

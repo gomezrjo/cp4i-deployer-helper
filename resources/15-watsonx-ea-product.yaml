@@ -1,0 +1,30 @@
+info:
+  version: 1.0.0
+  title: WatsonX Product
+  name: watsonx-product
+gateways:
+  - datapower-api-gateway
+plans:
+  default-plan:
+    title: Default Plan
+    description: Default Plan
+    rate-limits:
+      default:
+        value: 100/1hour
+    apis:
+      watsonx.ai1.0.0: {}
+apis:
+  watsonx.ai1.0.0:
+    $ref: 14-watsonx-ea-api.yaml
+visibility:
+  view:
+    type: public
+    orgs: []
+    tags: []
+    enabled: true
+  subscribe:
+    type: authenticated
+    orgs: []
+    tags: []
+    enabled: true
+product: 1.0.0

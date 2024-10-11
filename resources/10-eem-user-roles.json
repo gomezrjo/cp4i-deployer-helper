@@ -1,0 +1,16 @@
+{
+    "mappings": [
+        {
+            "id": "eem-admin",
+            "roles": [
+                "author"
+            ]
+        },
+        {
+            "id": "eem-user",
+            "roles": [
+                "viewer"
+            ]
+        }
+    ]
+}

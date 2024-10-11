@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: ingress-issuer
+  labels: {
+    app.kubernetes.io/instance: "management",
+    app.kubernetes.io/managed-by: "ibm-apiconnect",
+    app.kubernetes.io/name: "ingress-issuer"
+  }
+spec:
+  ca:
+    secretName: apim-demo-ingress-ca

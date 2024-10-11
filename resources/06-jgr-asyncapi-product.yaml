@@ -1,0 +1,27 @@
+info:
+  version: 1.0.0
+  title: JGRAsyncAPI Product
+  name: jgrasyncapi-product
+gateways:
+  - event-gateway
+plans:
+  default-plan:
+    title: Default Plan
+    description: Default Plan
+    apis:
+      cp4i-es-demo-topic1.0.0: {}
+apis:
+  cp4i-es-demo-topic1.0.0:
+    $ref: cp4i-es-demo-topic.yaml
+visibility:
+  view:
+    type: public
+    orgs: []
+    tags: []
+    enabled: true
+  subscribe:
+    type: authenticated
+    orgs: []
+    tags: []
+    enabled: true
+product: 1.0.0

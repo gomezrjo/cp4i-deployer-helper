@@ -1,0 +1,61 @@
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaTopic
+metadata:
+  name: stock-prices-ibm
+  labels:
+    eventstreams.ibm.com/cluster: es-demo
+spec:
+  topicName: STOCK.PRICES.IBM
+  partitions: 1
+  replicas: 1
+  config:
+    min.insync.replicas: '1'
+    retention.bytes: '524288000'
+
+---
+
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaTopic
+metadata:
+  name: stock-prices-ibm-output
+  labels:
+    eventstreams.ibm.com/cluster: es-demo
+spec:
+  topicName: STOCK.PRICES.IBM.SUMMARIES
+  partitions: 1
+  replicas: 1
+  config:
+    min.insync.replicas: '1'
+    retention.bytes: '524288000'
+
+---
+
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaTopic
+metadata:
+  name: weather-ibm-hursley
+  labels:
+    eventstreams.ibm.com/cluster: es-demo
+spec:
+  topicName: WEATHER.IBM.HURSLEY
+  partitions: 1
+  replicas: 3
+  config:
+    min.insync.replicas: '2'
+    retention.ms: '2592000000'
+
+---
+
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaTopic
+metadata:
+  name: weather-ibm-hursley-output
+  labels:
+    eventstreams.ibm.com/cluster: es-demo
+spec:
+  topicName: WEATHER.IBM.HURSLEY.SUMMARIES
+  partitions: 1
+  replicas: 3
+  config:
+    min.insync.replicas: '2'
+    retention.ms: '2592000000'

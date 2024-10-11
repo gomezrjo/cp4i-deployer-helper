@@ -1,0 +1,23 @@
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaConnector
+metadata:
+  name: mq-source
+  namespace: tools
+  labels:
+    eventstreams.ibm.com/cluster: jgr-connect-cluster
+spec:
+  class: com.ibm.eventstreams.connect.mqsource.MQSourceConnector
+  tasksMax: 1
+  config:
+    mq.queue.manager: QMGRDEMO
+    mq.connection.name.list: qmgr-demo-ibm-mq(1414)
+    mq.channel.name: MQ.TO.ES
+    mq.queue: CP4I.DEMO.MQ.TO.ES
+    mq.user.name: ""
+    mq.password: ""
+    topic: cp4i-mq-2-es-demo-topic
+    mq.connection.mode: client
+    mq.record.builder: com.ibm.eventstreams.connect.mqsource.builders.DefaultRecordBuilder
+    mq.message.body.jms: true
+    key.converter: org.apache.kafka.connect.storage.StringConverter
+    value.converter: org.apache.kafka.connect.storage.StringConverter
