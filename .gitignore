@@ -1,0 +1,8 @@
+# Igone MQ config & API files
+artifacts/*
+# exception to the rule
+!artifacts/.gitkeep 
+# Ignore OS generated files
+.DS_Store
+# Ignore sync scripts
+/*.sh
