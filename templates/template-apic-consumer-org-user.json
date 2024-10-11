@@ -1,0 +1,15 @@
+{
+    "type": "user",
+    "api_version": "2.0.0",
+    "name": "andre",
+    "title": "andre",
+    "state": "enabled",
+    "identity_provider": "${CATALOG_NAME}-idp",
+    "username": "andre",
+    "email": "andre@cp4i.net",
+    "first_name": "Andre",
+    "last_name": "Apic",
+    "password": "${APPDEV_PWD}",
+    "org_url": "${PORG_URL}",
+    "user_registry_url": "${USER_REGISTRY_URL}"
+}

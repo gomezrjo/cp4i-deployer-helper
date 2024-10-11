@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${QMGR_NAME}-selfsigned-cert
+  namespace: ${QMGR_NAMESPACE}
+spec:
+  commonName: ${QMGR_NAME}-ca
+  dnsNames:
+    - ${QMGR_NAME}-ibm-mq-qm-${QMGR_NAMESPACE}.${OCP_CLUSTER_DOMAIN}
+    - ${QMGR_NAME}-ibm-mq.${QMGR_NAMESPACE}.svc
+    - ${QMGR_NAME}-ibm-mq.${QMGR_NAMESPACE}.svc.cluster.local
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+  secretName:  ${QMGR_NAME}-tls-secret
+  subject:
+    organizations:
+    - IBM

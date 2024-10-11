@@ -1,0 +1,14 @@
+{
+    "type": "subscription",
+    "api_version": "2.0.0",
+    "name": "${SUBSCRIPTION_NAME}",
+    "title": "${SUBSCRIPTION_NAME}",
+    "state": "enabled",
+    "product_url": "${PRODUCT_URL}",
+    "plan": "${PLAN_NAME}",
+    "plan_title": "${PLAN_TITLE}",
+    "org_url": "${PORG_URL}",
+    "catalog_url": "${CATALOG_URL}",
+    "consumer_org_url": "${CONSUMER_ORG_URL}",
+    "app_url": "${APP_URL}"
+}

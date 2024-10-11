@@ -1,0 +1,75 @@
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaConnect
+metadata:
+  name: watsonx-demo-sources
+  namespace: tools
+  annotations:
+    eventstreams.ibm.com/use-connector-resources: 'true'
+spec:
+  authentication:
+    passwordSecret:
+      password: password
+      secretName: kafka-connect-user
+    type: scram-sha-512
+    username: kafka-connect-user
+  bootstrapServers: ${ES_BOOTSTRAP_SERVER}
+  build:
+    output:
+      image: 'image-registry.openshift-image-registry.svc:5000/tools/watsonx-demo:0.0.1'
+      type: docker
+    plugins:
+      - artifacts:
+          - artifact: camel-weather-kafka-connector
+            group: org.apache.camel.kafkaconnector
+            type: maven
+            version: 0.11.5
+        name: weather
+      - artifacts:
+          - type: jar
+            url: 'https://github.com/dalelane/kafka-connect-stockprice-source/releases/download/v0.0.3/kafka-connect-stockprice-source-connector.jar'
+        name: stockprices
+  config:
+    client.id: watsonx-demo-sources
+    config.providers: file
+    config.providers.file.class: org.apache.kafka.common.config.provider.DirectoryConfigProvider
+    config.storage.topic: watsonx-demo-configs
+    group.id: watsonx-demo-connect
+    offset.storage.topic: watsonx-demo-offsets
+    status.storage.topic: watsonx-demo-status
+  replicas: 1
+  resources:
+    limits:
+      cpu: 1048m
+      memory: 1Gi
+    requests:
+      cpu: 1048m
+      memory: 1Gi
+  template:
+    buildConfig:
+      pullSecret: ibm-entitlement-key
+    connectContainer:
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        privileged: false
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+    pod:
+      imagePullSecrets: []
+      metadata:
+        annotations:
+          cloudpakId: c8b82d189e7545f0892db9ef2731b90d
+          productVersion: ${ES_VERSION}
+          productID: 2a79e49111f44ec3acd89608e56138f5
+          cloudpakName: IBM Cloud Pak for Integration
+          productChargedContainers: watsonx-demo-sources-connect
+          productCloudpakRatio: '2:1'
+          productName: IBM Event Streams for Non Production
+          eventstreams.production.type: CloudPakForIntegrationNonProduction
+          productMetric: VIRTUAL_PROCESSOR_CORE
+  tls:
+    trustedCertificates:
+      - certificate: ca.crt
+        secretName: es-demo-cluster-ca-cert

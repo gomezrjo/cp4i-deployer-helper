@@ -1,0 +1,85 @@
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaConnect
+metadata:
+  annotations:
+    eventstreams.ibm.com/use-connector-resources: 'true'
+  name: jgr-connect-cluster
+  namespace: tools
+spec:
+  config:
+    group.id: kafka-connect
+    client.id: kafka-connect-client
+    config.storage.topic: connect-configs
+    offset.storage.topic: connect-offsets
+    status.storage.topic: connect-status
+    config.providers: file
+    config.providers.file.class: org.apache.kafka.common.config.provider.DirectoryConfigProvider
+  bootstrapServers: ${ES_BOOTSTRAP_SERVER}
+  resources:
+    limits:
+      cpu: 2048m
+      memory: 2Gi
+    requests:
+      cpu: 2048m
+      memory: 2Gi
+  authentication:
+    passwordSecret:
+      password: password
+      secretName: kafka-connect-user
+    type: scram-sha-512
+    username: kafka-connect-user
+  template:
+    buildConfig:
+      pullSecret: ibm-entitlement-key
+    connectContainer:
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        privileged: false
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true
+    pod:
+      imagePullSecrets: []
+      metadata:
+        annotations:
+          cloudpakId: c8b82d189e7545f0892db9ef2731b90d
+          productVersion: ${ES_VERSION}
+          productID: 2a79e49111f44ec3acd89608e56138f5
+          cloudpakName: IBM Cloud Pak for Integration
+          productChargedContainers: jgr-connect-cluster-connect
+          productCloudpakRatio: '2:1'
+          productName: IBM Event Streams for Non Production
+          eventstreams.production.type: CloudPakForIntegrationNonProduction
+          productMetric: VIRTUAL_PROCESSOR_CORE
+  tls:
+    trustedCertificates:
+      - certificate: ca.crt
+        secretName: es-demo-cluster-ca-cert
+  replicas: 1
+  build:
+    output:
+      type: docker
+      image: image-registry.openshift-image-registry.svc:5000/tools/jgr-connect-cluster-image:latest
+    plugins:
+      - name: datagen
+        artifacts:
+          - type: jar
+            url: https://github.com/IBM/kafka-connect-loosehangerjeans-source/releases/download/0.1.2/kafka-connect-loosehangerjeans-source-0.1.2-jar-with-dependencies.jar
+          - type: maven
+            artifact: apicurio-registry-serdes-avro-serde
+            group: io.apicurio
+            version: 2.5.10.Final
+          - type: maven
+            artifact: apicurio-registry-utils-converter
+            group: io.apicurio
+            version: 2.5.10.Final
+      - name: mq-source
+        artifacts:
+          - type: jar
+            url: https://github.com/ibm-messaging/kafka-connect-mq-source/releases/download/v2.1.0/kafka-connect-mq-source-2.1.0-jar-with-dependencies.jar
+      - name: mq-sink
+        artifacts:
+          - type: jar
+            url: https://github.com/ibm-messaging/kafka-connect-mq-sink/releases/download/v2.2.0/kafka-connect-mq-sink-2.2.0-jar-with-dependencies.jar

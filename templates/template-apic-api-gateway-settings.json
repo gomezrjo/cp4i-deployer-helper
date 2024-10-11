@@ -1,0 +1,8 @@
+{
+  "sni": [
+    {
+      "host": "*",
+      "tls_server_profile_url": "${TLS_SERVER_PROFILE_URL}"
+    }
+  ]
+}

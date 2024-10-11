@@ -1,0 +1,12 @@
+{
+    "type": "app",
+    "api_version": "2.0.0",
+    "name": "${APP_NAME}",
+    "title": "${APP_TITLE}",
+    "summary": "",
+    "state": "enabled",
+    "lifecycle_state": "production",
+    "org_url": "${PORG_URL}",
+    "catalog_url": "${CATALOG_URL}",
+    "consumer_org_url": "${CONSUMER_ORG_URL}"
+}

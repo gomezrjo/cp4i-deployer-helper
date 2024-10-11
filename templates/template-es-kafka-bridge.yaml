@@ -1,0 +1,32 @@
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaBridge
+metadata:
+  name: jgr-es-demo-bridge
+  namespace: tools
+  labels:
+    eventstreams.ibm.com/cluster: es-demo
+spec:
+  authentication:
+    type: scram-sha-512
+    username: kafka-bridge-user
+    passwordSecret:
+      secretName: kafka-bridge-user
+      password: password
+  bootstrapServers: ${ES_BOOTSTRAP_SERVER}
+  http:
+    port: 8080
+  replicas: 1
+  tls:
+    trustedCertificates:
+      - certificate: ca.crt
+        secretName: es-demo-cluster-ca-cert
+  template:
+    bridgeContainer:
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+        privileged: false
+        readOnlyRootFilesystem: true
+        runAsNonRoot: true

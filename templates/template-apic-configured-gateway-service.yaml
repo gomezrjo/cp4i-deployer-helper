@@ -1,0 +1,3 @@
+name: '${GATEWAY_SERVICE_NAME}'
+gateway_service_url: '${GATEWAY_SERVICE_URL}'
+gateway_service_type: '${GATEWAY_SERVICE_TYPE}'

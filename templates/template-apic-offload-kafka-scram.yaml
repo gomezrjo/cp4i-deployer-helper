@@ -1,0 +1,19 @@
+spec:
+  analytics:
+    external:
+      offload:
+        enabled: true
+        output: |
+          kafka {
+                topic_id => "apic-analytics-offload-topic"
+                bootstrap_servers => "${ES_BOOTSTRAP_SERVER}"
+                codec => "json"
+                id => "kafka-offload"
+                ssl_truststore_location => "/etc/velox/external_certs/offload/es-cert.jks" 
+                ssl_truststore_type => "JKS"
+                security_protocol => "SASL_SSL"
+                sasl_mechanism => "SCRAM-SHA-512"
+                sasl_jaas_config => "org.apache.kafka.common.security.scram.ScramLoginModule required username='apic-analytics-offload-user' password='${ES_USER_PWD}';"
+          }
+        secretName: apim-demo-offload-a7s-certificate
+        passwordSecretName: apim-demo-offload-a7s-password

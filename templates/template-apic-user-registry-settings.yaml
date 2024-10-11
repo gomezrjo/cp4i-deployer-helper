@@ -1,0 +1,6 @@
+configuration:
+  features:
+    - 'auto_onboard'
+    - 'proxy_access_token'
+    - 'proxied_token_as_separate_claim'
+    - 'override_provider_ttl'

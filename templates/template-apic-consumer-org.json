@@ -1,0 +1,11 @@
+{
+    "type": "consumer_org",
+    "api_version": "2.0.0",
+    "name": "${ORG_NAME}",
+    "title": "${ORG_NAME}",
+    "summary": "Andre Apic",
+    "state": "enabled",
+    "owner_url": "${OWNER_URL}",
+    "org_url": "${PORG_URL}",
+    "catalog_url": "${CATALOG_URL}"
+}

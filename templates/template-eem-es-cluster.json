@@ -1,0 +1,23 @@
+{
+    "name": "es-demo",
+    "bootstrapServers": [
+        {
+            "host": "${ES_BOOTSTRAP_SERVER}",
+            "port": 9095,
+            "ssl": true,
+            "certificates": [
+                {
+                    "pem": "${ES_CERTIFICATE}"
+                }
+            ]
+        }
+    ],
+    "credentials": {
+        "type": "SASL",
+        "data": {
+            "username": "eem-user",
+            "password": "${ES_PASSWORD}",
+            "mechanism": "SCRAM-SHA-512"
+        }
+    }
+}

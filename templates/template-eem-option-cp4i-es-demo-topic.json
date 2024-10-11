@@ -1,0 +1,9 @@
+{
+    "eventSourceId": "<templated>",
+    "alias": "cp4i-es-demo-topic",
+    "name": "Self service",
+    "hidden": false,
+    "allowSubscriptions": true,
+    "gatewayGroups": [ "egw-group" ],
+    "controls": []
+}

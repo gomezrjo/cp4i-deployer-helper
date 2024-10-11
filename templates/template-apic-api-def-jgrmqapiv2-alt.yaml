@@ -1,0 +1,203 @@
+swagger: '2.0'
+info:
+  title: JGRMQAPI
+  x-ibm-name: jgrmqapi
+  version: 1.2.0
+  description: JGRMQAPI
+schemes:
+  - https
+basePath: /jgrmqapi/v2
+security:
+  - clientIdHeader: []
+securityDefinitions:
+  clientIdHeader:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-Id
+x-ibm-configuration:
+  gateway: datapower-api-gateway
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  cors:
+    enabled: true
+  assembly:
+    execute:
+      - parse:
+          version: 2.0.0
+          title: parse
+          parse-settings-reference:
+            default: apic-default-parsesettings
+      - set-variable:
+          version: 2.0.0
+          title: set-variable
+          actions:
+            - set: my-path
+              value: /jgrmqapi/v1/contacts
+              type: string
+            - set: my-mb
+              value: $(message.body)
+              type: any
+      - switch:
+          version: 2.0.0
+          title: switch
+          case:
+            - condition: message.body.metadata.code="TEST"
+              execute: []
+            - otherwise:
+                - gatewayscript:
+                    version: 2.0.0
+                    title: gatewayscript
+                    source: |-
+                      var apim = require('apim');
+                      var mb = apim.getvariable('message.body.payload');
+                      apim.setvariable('message.body', mb);
+                      apim.output('application/json');
+                - invoke:
+                    title: invoke
+                    version: 2.0.0
+                    verb: keep
+                    follow-redirects: false
+                    timeout: 60
+                    parameter-control:
+                      type: blocklist
+                    header-control:
+                      type: blocklist
+                      values:
+                        - ^X-IBM-Client-Id$
+                    inject-proxy-headers: true
+                    output: sf-lead
+                    target-url: $(target-url)
+                    persistent-connection: true
+                - gatewayscript:
+                    version: 2.0.0
+                    title: gatewayscript
+                    source: |-
+                      var apim = require('apim');
+                      var mb = apim.getvariable('my-mb');
+                      var sf = apim.getvariable('sf-lead.body');
+                      mb.payload.id = sf.id;
+                      apim.setvariable('message.body', mb);
+                      apim.output('application/json');
+      - switch:
+          version: 2.0.0
+          title: switch
+          case:
+            - condition: plan.name="default-plan"
+              execute:
+                - invoke:
+                    title: invoke
+                    version: 2.0.0
+                    verb: keep
+                    target-url: $(default-url)$(my-path)
+                    follow-redirects: false
+                    timeout: 60
+                    parameter-control:
+                      type: blocklist
+                    header-control:
+                      type: blocklist
+                      values:
+                        - ^X-IBM-Client-Id$
+                    inject-proxy-headers: true
+                    persistent-connection: true
+            - otherwise:
+                - invoke:
+                    title: invoke
+                    version: 2.0.0
+                    verb: keep
+                    target-url: $(premium-url)$(my-path)
+                    follow-redirects: false
+                    timeout: 60
+                    parameter-control:
+                      type: blacklist
+                    header-control:
+                      type: blacklist
+                      values:
+                        - ^X-IBM-Client-Id$
+                    inject-proxy-headers: true
+    finally: []
+  properties:
+    target-url:
+      description: The URL of the target service
+      encoded: false
+      value: ${TARGET_URL}
+    premium-url:
+      value: ${PREMIUM_URL}
+    default-url:
+      value: ${DEFAULT_URL}
+  application-authentication:
+    certificate: false
+  activity-log:
+    enabled: true
+    error-content: header
+    success-content: activity
+  servers:
+    - url: ''
+definitions:
+  jgr-metadafa:
+    type: object
+    properties:
+      code:
+        type: string
+  jgr-data:
+    type: object
+    properties:
+      id:
+        type: string
+      fname:
+        type: string
+      lname:
+        type: string
+      email:
+        type: string
+      phone:
+        type: string
+      company:
+        type: string
+      comments:
+        type: string
+  jgr-response:
+    type: object
+    properties:
+      code:
+        type: string
+      msg:
+        type: string
+      time:
+        type: string
+  jgr-in-msg:
+    type: object
+    properties:
+      metadata:
+        $ref: '#/definitions/jgr-metadafa'
+      payload:
+        $ref: '#/definitions/jgr-data'
+  jgr-out-msg:
+    type: object
+    properties:
+      response:
+        $ref: '#/definitions/jgr-response'
+      payload:
+        $ref: '#/definitions/jgr-data'
+paths:
+  /contacts:
+    post:
+      operationId: postContacts
+      responses:
+        '200':
+          description: The operation was successful.
+          schema:
+            $ref: '#/definitions/jgr-out-msg'
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      description: Insert a contacts
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/jgr-in-msg'
+          description: The request body for the operation
+          required: true

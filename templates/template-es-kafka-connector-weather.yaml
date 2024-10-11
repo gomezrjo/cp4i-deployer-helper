@@ -1,0 +1,25 @@
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaConnector
+metadata:
+  name: weather-hursley
+  namespace: tools
+  labels:
+    eventstreams.ibm.com/cluster: watsonx-demo-sources
+spec:
+  class: org.apache.camel.kafkaconnector.weather.CamelWeatherSourceConnector
+  config:
+    topics: WEATHER.IBM.HURSLEY
+    camel.source.endpoint.lat: 51.02671210773644
+    camel.source.endpoint.lon: -1.3988643964483924
+    camel.source.endpoint.delay: 120000
+    camel.source.endpoint.appid: ${OPEN_WEATHER_API_KEY}
+    camel.source.endpoint.units: metric
+    key.converter.schemas.enable: false
+    key.converter: org.apache.kafka.connect.storage.StringConverter
+    camel.source.endpoint.mode: JSON
+    value.converter.schemas.enable: false
+    value.converter: org.apache.kafka.connect.storage.StringConverter
+    transforms: dropheaders
+    transforms.dropheaders.headers: 'CamelHeader.CamelWeatherQuery,CamelProperty.CamelToEndpoint'
+    transforms.dropheaders.type: org.apache.kafka.connect.transforms.DropHeaders
+    camel.source.path.name: unused
