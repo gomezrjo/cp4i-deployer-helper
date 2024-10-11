@@ -1,0 +1,13 @@
+kind: SwitchServer
+apiVersion: appconnect.ibm.com/v1beta1
+metadata:
+  labels:
+    backup.appconnect.ibm.com/component: switchserver
+  name: ace-switch-server
+  namespace: tools
+spec:
+  license:
+    accept: true
+    license: L-XRNH-47FJAW
+    use: CloudPakForIntegrationNonProduction
+  version: '12.0'

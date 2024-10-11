@@ -1,0 +1,28 @@
+apiVersion: appconnect.ibm.com/v1beta1
+kind: IntegrationRuntime
+metadata:
+  name: jgr-ace-fry-cp4i-spec-ver
+  namespace: tools
+spec:
+  license:
+    accept: true
+    license: L-KZVS-2G3FW4
+    use: CloudPakForIntegrationNonProductionFREE
+  template:
+    spec:
+      containers:
+        - name: runtime
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 512Mi      
+  replicas: 1
+  version: '12.0.11.3-r1'
+  barURL: 
+    - >-
+      https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/jgr-cp4i-aceivt.bar
+  configurations:
+    - github-barauth

@@ -1,0 +1,26 @@
+apiVersion: appconnect.ibm.com/v1beta1
+kind: IntegrationRuntime
+metadata:
+  name: jgr-ace-bake-cp4i
+  namespace: tools
+spec:
+  flowType:
+    toolkitFlow: true
+  license:
+    accept: true
+    license: L-KZVS-2G3FW4
+    use: CloudPakForIntegrationNonProduction
+  template:
+    spec:
+      containers:
+        - name: runtime
+          image:  quay.io/jgomezr/ace-12.0.11.2-r1-jgrcp4i-aceivt:1.0.0
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 512Mi     
+  replicas: 2
+  version: 12.0.11.2-r1

@@ -1,0 +1,40 @@
+apiVersion: apiconnect.ibm.com/v1beta1
+kind: APIConnectCluster
+metadata:
+  annotations:
+    apiconnect-operator/backups-not-configured: 'true'
+  labels:
+    backup.apiconnect.ibm.com/component: apiconnectcluster
+  name: apim-demo
+  namespace: tools
+spec:
+  analytics:
+    mtlsValidateClient: true
+  license:
+    accept: true
+    license: L-DZZQ-MGVN8V
+    metric: VIRTUAL_PROCESSOR_CORE
+    use: nonproduction
+  portal:
+    mtlsValidateClient: true
+  profile: n1xc7.m48
+  version: 10.0.8.0
+  storageClassName: ${OCP_BLOCK_STORAGE}
+  management:
+    billing:
+      enabled: true
+    discovery:
+      enabled: true
+      proxyCollectorEnabled: true
+    governance:
+      enabled: true
+    testAndMonitor:
+      enabled: true
+      autoTestEnabled: true
+  gateway:
+    podAutoScaling:
+      method: HPA
+      hpa:
+        minReplicas: 1
+        maxReplicas: 3
+        targetCPUUtilizationPercentage: 50
