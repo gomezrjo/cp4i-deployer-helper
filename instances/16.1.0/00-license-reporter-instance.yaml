@@ -15,4 +15,3 @@ spec:
     useradmin:
       enabled: true
   storageClass: ${OCP_BLOCK_STORAGE}
-  StorageClass: ${OCP_BLOCK_STORAGE}

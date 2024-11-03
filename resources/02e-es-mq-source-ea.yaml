@@ -1,0 +1,31 @@
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaConnector
+metadata:
+  name: mq-ea-connector
+  namespace: tools
+  labels:
+    eventstreams.ibm.com/cluster: jgr-connect-cluster
+spec:
+  class: com.ibm.eventstreams.connect.mqsource.MQSourceConnector
+  tasksMax: 1
+  config:
+    # the Kafka topic to produce to
+    topic: MQ.COMMANDS
+
+    # the MQ queue to get messages from
+    mq.queue: COMMANDS.COPY
+
+    # connection details for the queue manager
+    mq.queue.manager: QMGRDEMO
+    mq.connection.name.list: qmgr-demo-ibm-mq(1414)
+    mq.channel.name: KAFKA.SVRCONN
+
+    # format of the messages to transfer
+    mq.message.body.jms: true
+    mq.record.builder: com.ibm.eventstreams.connect.mqsource.builders.JsonRecordBuilder
+    key.converter: org.apache.kafka.connect.storage.StringConverter
+    value.converter: org.apache.kafka.connect.json.JsonConverter
+
+    # whether to send the schema with the messages
+    key.converter.schemas.enable: false
+    value.converter.schemas.enable: false

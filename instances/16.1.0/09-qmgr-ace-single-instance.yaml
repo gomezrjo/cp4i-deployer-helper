@@ -40,6 +40,10 @@ spec:
           name: mq-demo-mqsc
           items:
             - mq-demo-resources.mqsc
+      - configMap:
+          name: ea-demo-mqsc
+          items:
+            - ea-demo-resources.mqsc
   version: ${MQ_VERSION}
   web:
     console:

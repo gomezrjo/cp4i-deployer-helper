@@ -25,6 +25,6 @@ spec:
   version: '12.0'
   barURL: 
     - >-
-      https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/SFLeadsX.bar
+      https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/${BAR_FILE}
   configurations:
     - github-barauth
