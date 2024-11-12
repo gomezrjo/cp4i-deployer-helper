@@ -11,7 +11,7 @@ spec:
     use: CloudPakForIntegrationNonProduction
   manager:
     authConfig:
-      authType: LOCAL
+      authType: ${EEM_AUTH_TYPE}
     storage:
       storageClassName: ${OCP_BLOCK_STORAGE}
       type: persistent-claim
