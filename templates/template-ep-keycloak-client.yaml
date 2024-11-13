@@ -1,0 +1,48 @@
+apiVersion: keycloak.integration.ibm.com/v1beta1
+kind: IntegrationKeycloakClient
+metadata:
+  name: ep-demo-ibm-ep-keycloak
+  namespace: tools
+spec:
+  client:
+    redirectUris:
+      - 'https://ep-demo-ibm-ep-rt-tools.apps.${OCP_FQDN}/callback'
+      - 'https://ep-demo-ibm-ep-rt-tools.apps.${OCP_FQDN}/logout/callback'
+    serviceAccountsEnabled: true
+    clientId: ibm-ep-tools-ep-demo
+    optionalClientScopes:
+      - offline_access
+    defaultClientScopes:
+      - profile
+      - openid
+      - email
+    implicitFlowEnabled: false
+    publicClient: false
+    standardFlowEnabled: true
+    protocolMappers:
+      - config:
+          access.token.claim: 'true'
+          claim.name: effectiveRoles
+          id.token.claim: 'true'
+          jsonType.label: String
+          multivalued: 'true'
+          userinfo.token.claim: 'true'
+          usermodel.clientRoleMapping.clientId: ${CP4I_KC_CLIENT_ID}
+        name: cloud-pak-level-roles
+        protocol: openid-connect
+        protocolMapper: oidc-usermodel-client-role-mapper
+      - config:
+          access.token.claim: 'true'
+          claim.name: effectiveRoles
+          id.token.claim: 'true'
+          jsonType.label: String
+          multivalued: 'true'
+          userinfo.token.claim: 'true'
+          usermodel.clientRoleMapping.clientId: ibm-ep-tools-ep-demo
+        name: ep-roles
+        protocol: openid-connect
+        protocolMapper: oidc-usermodel-client-role-mapper
+    directAccessGrantsEnabled: false
+  roles:
+    - name: user
+  scopeMappings: {}
