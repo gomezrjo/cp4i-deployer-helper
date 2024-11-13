@@ -12,7 +12,7 @@ spec:
     endpoint: 'ea-flink-demo-rest:8081'
   authoring:
     authConfig:
-      authType: LOCAL
+      authType: ${EP_AUTH_TYPE}
     storage:
       storageClassName: ${OCP_BLOCK_STORAGE}
       type: persistent-claim

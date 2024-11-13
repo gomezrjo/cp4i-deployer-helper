@@ -1,0 +1,18 @@
+{
+    "mappings": [
+        {
+            "id": "admin",
+            "roles": [
+                "admin",
+                "author",
+                "user"
+            ]
+        },
+        {
+            "id": "user",
+            "roles": [
+                "user"
+            ]
+        }
+    ]
+}
