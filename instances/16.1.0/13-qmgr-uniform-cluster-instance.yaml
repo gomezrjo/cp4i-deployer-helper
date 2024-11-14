@@ -1,0 +1,61 @@
+apiVersion: mq.ibm.com/v1beta1
+kind: QueueManager
+metadata:
+  annotations:
+    com.ibm.mq/write-defaults-spec: 'false'
+  name: uniform-cluster-${QMGR_NAME}
+spec:
+  license:
+    accept: true
+    license: L-JTPV-KYG8TF
+    use: NonProduction
+  pki:
+    keys:
+      - name: default
+        secret:
+          secretName: uniform-cluster-${QMGR_NAME}-tls-secret
+          items: 
+          - tls.key
+          - tls.crt
+  queueManager:
+    name: ${QMGR_NAME_MQ}
+    ini:
+      - configMap:
+          items:
+          - config.ini
+          name: mq-uniform-cluster-ini-cm
+    mqsc:
+      - configMap:
+          items:
+          - common_config.mqsc
+          name: mq-uniform-cluster-mqsc-cm
+      - configMap:
+          name: mq-uniform-cluster-${QMGR_NAME}-mqsc-cm
+          items:
+            - ${QMGR_NAME}-config.mqsc
+    resources:
+      limits:
+        cpu: 500m
+      requests:
+        cpu: 500m
+    storage:
+      queueManager:
+        type: persistent-claim
+      defaultClass: ${OCP_BLOCK_STORAGE}
+    availability:
+      type: NativeHA
+  template:
+    pod:
+      containers:
+        - env:
+            - name: MQSNOAUT
+              value: 'yes'
+          name: qmgr
+  version: ${MQ_VERSION}
+  web:
+    console:
+      authentication:
+        provider: integration-keycloak
+      authorization:
+        provider: integration-keycloak
+    enabled: true
