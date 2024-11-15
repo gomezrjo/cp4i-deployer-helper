@@ -3,7 +3,7 @@ kind: QueueManager
 metadata:
   annotations:
     com.ibm.mq/write-defaults-spec: 'false'
-  name: uniform-cluster-${QMGR_NAME}
+  name: ${QMGR_NAME}
 spec:
   license:
     accept: true
@@ -13,7 +13,7 @@ spec:
     keys:
       - name: default
         secret:
-          secretName: uniform-cluster-${QMGR_NAME}-tls-secret
+          secretName: ${QMGR_NAME}-tls-secret
           items: 
           - tls.key
           - tls.crt
@@ -30,9 +30,9 @@ spec:
           - common_config.mqsc
           name: mq-uniform-cluster-mqsc-cm
       - configMap:
-          name: mq-uniform-cluster-${QMGR_NAME}-mqsc-cm
+          name: mq-${QMGR_NAME}-mqsc-cm
           items:
-            - ${QMGR_NAME}-config.mqsc
+            - ${QMGR_NAME_SHORT}-config.mqsc
     resources:
       limits:
         cpu: 500m
