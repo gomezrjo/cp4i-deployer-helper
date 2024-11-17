@@ -1,0 +1,10 @@
+accounts:
+  salesforce:
+    - name: ${ACCOUNT_NAME}
+      credentials:
+        username: ${SF_USER}
+        password: ${SF_PWD}
+        clientIdentity: ${SF_CLIENT_ID}
+        clientSecret: ${SF_CLIENT_SECRET}
+      endpoint:
+        loginUrl: ${SF_LOGIN_URL}
