@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${INT_SRVR_NAME}-selfsigned-cert
+  namespace: ${INT_SRVR_NAMESPACE}
+spec:
+  commonName: ${INT_SRVR_NAME}-ca
+  dnsNames:
+    - ${INT_SRVR_NAME}-https-${INT_SRVR_NAMESPACE}.${OCP_CLUSTER_DOMAIN}
+    - ${INT_SRVR_NAME}-https-${INT_SRVR_NAMESPACE}.svc
+    - ${INT_SRVR_NAME}-https-${INT_SRVR_NAMESPACE}.svc.cluster.local
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+  secretName: ${INT_SRVR_NAME}-tls-secret
+  subject:
+    organizations:
+    - IBM

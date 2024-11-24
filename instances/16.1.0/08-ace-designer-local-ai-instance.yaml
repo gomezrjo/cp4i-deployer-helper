@@ -4,7 +4,6 @@ metadata:
   labels:
     backup.appconnect.ibm.com/component: designerauthoring
   name: ace-designer-ai
-  namespace: tools
 spec:
   authentication:
     integrationKeycloak:

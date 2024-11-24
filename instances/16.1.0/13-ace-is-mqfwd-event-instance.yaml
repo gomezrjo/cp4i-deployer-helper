@@ -2,7 +2,6 @@ apiVersion: appconnect.ibm.com/v1beta1
 kind: IntegrationRuntime
 metadata:
   name: jgr-mqfwd-event
-  namespace: tools
   labels:
     assembly.integration.ibm.com/tools.jgr-demo: 'true'
 spec:

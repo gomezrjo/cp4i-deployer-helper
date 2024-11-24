@@ -2,7 +2,6 @@ apiVersion: appconnect.ibm.com/v1beta1
 kind: IntegrationRuntime
 metadata:
   name: jgr-ace-fry-cp4i-latest
-  namespace: tools
 spec:
   license:
     accept: true

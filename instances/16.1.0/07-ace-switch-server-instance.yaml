@@ -4,7 +4,6 @@ metadata:
   labels:
     backup.appconnect.ibm.com/component: switchserver
   name: ace-switch-server
-  namespace: tools
 spec:
   license:
     accept: true

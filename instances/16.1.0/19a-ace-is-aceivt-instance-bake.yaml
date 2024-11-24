@@ -2,7 +2,6 @@ apiVersion: appconnect.ibm.com/v1beta1
 kind: IntegrationRuntime
 metadata:
   name: jgr-ace-bake-cp4i
-  namespace: tools
 spec:
   flowType:
     toolkitFlow: true
