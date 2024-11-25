@@ -4,7 +4,6 @@ metadata:
   labels:
     backup.integration.ibm.com/component: assetrepository
   name: asset-repo-ai
-  namespace: tools
 spec:
   designerAIFeatures:
     enabled: true

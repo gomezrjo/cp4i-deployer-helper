@@ -4,7 +4,6 @@ metadata:
   name: ia-test-product-ir
   labels:
     backup.integration.ibm.com/component: integrationassembly
-  namespace: tools
 spec:
   license:
     accept: true
