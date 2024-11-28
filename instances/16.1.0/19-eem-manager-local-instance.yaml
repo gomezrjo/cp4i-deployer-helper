@@ -2,7 +2,6 @@ apiVersion: events.ibm.com/v1beta1
 kind: EventEndpointManagement
 metadata:
   name: eem-demo-mgr
-  namespace: tools
 spec:
   license:
     accept: true
