@@ -4,7 +4,6 @@ metadata:
   annotations:
     com.ibm.mq/write-defaults-spec: 'false'
   name: qmgr-demo
-  namespace: tools
   labels:
     assembly.integration.ibm.com/tools.jgr-demo: 'true'
 spec:

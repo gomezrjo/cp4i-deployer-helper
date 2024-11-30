@@ -2,7 +2,6 @@ apiVersion: flink.apache.org/v1beta1
 kind: FlinkDeployment
 metadata:
   name: ea-flink-demo
-  namespace: tools
 spec:
   flinkConfiguration:
     license.use: EventAutomationNonProduction

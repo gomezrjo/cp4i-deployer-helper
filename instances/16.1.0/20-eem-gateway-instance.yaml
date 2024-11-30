@@ -2,7 +2,6 @@ apiVersion: events.ibm.com/v1beta1
 kind: EventGateway
 metadata:
   name: eem-demo-gw
-  namespace: tools
 spec:
   license:
     accept: true

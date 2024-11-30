@@ -6,26 +6,26 @@ spec:
   backups:
     pgbackrest:
       repos:
-        - name: repo1
-          volume:
-            volumeClaimSpec:
-              accessModes:
-                - ReadWriteOnce
-              resources:
-                requests:
-                  storage: 1Gi
+      - name: repo1
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
   databaseInitSQL:
     name: pgsqldemo-data-cm
     key: demo_data.sql
   instances:
-    - dataVolumeClaimSpec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 1Gi
-      name: ""
-      replicas: 1
+  - dataVolumeClaimSpec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+    name: ""
+    replicas: 1
   openshift: true
   patroni:
     leaderLeaseDurationSeconds: 30
@@ -43,10 +43,10 @@ spec:
       port: 5432
       replicas: 1
   users:
-    - name: demouser
-      databases:
-        - pgsqldemo
-      options: SUPERUSER
-    - name: pgadmin
-      databases:
-        - pgsqldemo
+  - name: demouser
+    databases:
+      - pgsqldemo
+    options: SUPERUSER
+  - name: pgadmin
+    databases:
+      - pgsqldemo

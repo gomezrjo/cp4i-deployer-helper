@@ -5,7 +5,7 @@ metadata:
   labels:
     assembly.integration.ibm.com/tools.jgr-demo: 'true'
 data:
-  mq-demo-resources.mqsc: |-
+  mq-demo-resources.mqsc: |
     *##########################################################
     * MQ Resources for CP4I Demo
     *##########################################################

@@ -2,7 +2,6 @@ apiVersion: eventstreams.ibm.com/v1beta2
 kind: EventStreams
 metadata:
   name: es-demo
-  namespace: tools
   labels:
     backup.eventstreams.ibm.com/component: eventstreams
     assembly.integration.ibm.com/tools.jgr-demo: 'true'

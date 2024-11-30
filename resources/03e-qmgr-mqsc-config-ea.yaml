@@ -2,7 +2,6 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: ea-demo-mqsc
-  namespace: tools
   labels:
     assembly.integration.ibm.com/tools.jgr-demo: 'true'
 data:

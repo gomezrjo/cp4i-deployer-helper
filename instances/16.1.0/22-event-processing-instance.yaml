@@ -2,7 +2,6 @@ apiVersion: events.ibm.com/v1beta1
 kind: EventProcessing
 metadata:
   name: ep-demo
-  namespace: tools
 spec:
   license:
     accept: true
