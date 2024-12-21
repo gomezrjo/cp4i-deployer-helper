@@ -1,0 +1,17 @@
+apiVersion: operator.ibm.com/v1alpha1
+kind: IBMLicenseServiceReporter
+metadata:
+  name: ibm-lsr-instance
+  namespace: ibm-licensing
+  labels:
+    app.kubernetes.io/created-by: ibm-license-service-reporter-operator
+    app.kubernetes.io/instance: ibmlicenseservicereporter-instance
+    app.kubernetes.io/name: ibmlicenseservicereporter
+    app.kubernetes.io/part-of: ibm-license-service-reporter-operator
+spec:
+  license:
+    accept: true
+  authentication:
+    useradmin:
+      enabled: true
+  storageClass: ${OCP_BLOCK_STORAGE}
