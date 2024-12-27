@@ -4,9 +4,9 @@ metadata:
   name: ibm-eventprocessing-catalog
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-eventprocessing-1.2.2
+  displayName: ibm-eventprocessing-1.2.3
   publisher: IBM
-  image: icr.io/cpopen/ibm-eventprocessing-operator-catalog@sha256:719eeae17645aff921e83640d463f83ad6490a9dc1762429f32b25d472003587
+  image: icr.io/cpopen/ibm-eventprocessing-operator-catalog@sha256:b5b3a3bf19392d287819eb83ccc030557888e64f63f42ac7c2c82a5886eccc3d
   sourceType: grpc
   updateStrategy:
     registryPoll:
