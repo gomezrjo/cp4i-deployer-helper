@@ -4,9 +4,9 @@ metadata:
   name: appconnect-operator-catalogsource
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-appconnect-12.6.0
+  displayName: ibm-appconnect-12.7.0
   publisher: IBM
-  image: icr.io/cpopen/appconnect-operator-catalog@sha256:e508029376dbb15d2b68bca1f585066ee7c6674c5783d95824b32c0118216ce3
+  image: icr.io/cpopen/appconnect-operator-catalog@sha256:2cb1e60080e3ee501ae690bf58681dd759a4939e38dc8754b9407a077b92ba3e
   sourceType: grpc
   updateStrategy:
     registryPoll:
