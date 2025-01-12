@@ -34,6 +34,11 @@ spec:
       defaultClass: ${OCP_BLOCK_STORAGE}
     availability:
       type: SingleInstance
+    ini:
+      - configMap:
+          name: mq-demo-ini
+          items:
+            - mq-demo-resources.ini
     mqsc:
       - configMap:
           name: mq-demo-mqsc

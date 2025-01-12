@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mq-demo-ini
+  labels:
+    assembly.integration.ibm.com/tools.jgr-demo: 'true'
+data:
+  mq-demo-resources.ini: |
+    TuningParameters:
+      ExpiryInterval=350
