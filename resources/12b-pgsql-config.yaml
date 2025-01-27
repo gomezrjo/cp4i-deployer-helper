@@ -27,3 +27,6 @@ data:
         INSERT INTO warehouses VALUES ('West',    'West Vil',   110000, '11031941444', 0);
         INSERT INTO warehouses VALUES ('East',    'Tunheb',     33500,  '13910006610', 1);
         INSERT INTO warehouses VALUES ('Central', 'Leicamport', 41000,  '93111071832', 0);
+
+        CREATE TABLE contacts (cts TIMESTAMP NOT NULL, cid VARCHAR(20) NOT NULL, fname VARCHAR(30) NOT NULL, lname VARCHAR(30) NOT NULL, email VARCHAR(30) NOT NULL, phone VARCHAR(20) NOT NULL, company VARCHAR(20) NOT NULL, comments VARCHAR(255) NOT NULL, PRIMARY KEY (cid) );
+        ALTER TABLE contacts REPLICA IDENTITY FULL;
