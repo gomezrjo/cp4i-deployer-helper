@@ -8,3 +8,7 @@ data:
   mq-demo-resources.ini: |
     TuningParameters:
       ExpiryInterval=350
+    Service:
+      Name=AuthorizationService
+      EntryPoints=14
+      SecurityPolicy=UserExternal
