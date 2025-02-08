@@ -46,9 +46,9 @@ spec:
   web:
     console:
       authentication:
-        provider: manual
+        provider: integration-keycloak
       authorization:
-        provider: manual
+        provider: integration-keycloak
     enabled: true
     manualConfig:
       configMap:
