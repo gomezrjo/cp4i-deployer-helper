@@ -66,7 +66,7 @@ spec:
       - name: datagen
         artifacts:
           - type: jar
-            url: https://github.com/IBM/kafka-connect-loosehangerjeans-source/releases/download/0.1.5/kafka-connect-loosehangerjeans-source-0.1.5-jar-with-dependencies.jar
+            url: https://github.com/IBM/kafka-connect-loosehangerjeans-source/releases/download/0.2.1/kafka-connect-loosehangerjeans-source-0.2.1-jar-with-dependencies.jar
           - type: maven
             artifact: apicurio-registry-serdes-avro-serde
             group: io.apicurio
