@@ -4,9 +4,9 @@ metadata:
   name: ibm-integration-platform-navigator-catalog
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-integration-platform-navigator-7.3.9
+  displayName: ibm-integration-platform-navigator-7.3.10
   publisher: IBM
-  image: icr.io/cpopen/ibm-integration-platform-navigator-catalog@sha256:41d5f326b3ef068b77a315093f95aaf1c88e217eb73a33b97e9dd6b2f4aee31e
+  image: icr.io/cpopen/ibm-integration-platform-navigator-catalog@sha256:ff760ed26d2debd9b2cbf7001bb6db6b7ca3ef55eedb34c5bdc4aa4008e82388
   sourceType: grpc
   updateStrategy:
     registryPoll:
