@@ -4,9 +4,9 @@ metadata:
   name: ibm-datapower-operator-catalog
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-datapower-operator-1.13.0
+  displayName: ibm-datapower-operator-1.13.1
   publisher: IBM
-  image: icr.io/cpopen/datapower-operator-catalog@sha256:43b94d0945f8134be0256fc01978dd400079576f9a56a9bc5e37e5813e9f89f8
+  image: icr.io/cpopen/datapower-operator-catalog@sha256:0c3c4a56054986fb7d381a6c10ec701606c412cfa6e9356454f3f4e96a862091
   sourceType: grpc
   updateStrategy:
     registryPoll:

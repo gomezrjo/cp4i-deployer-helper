@@ -4,7 +4,7 @@ metadata:
   name: ibm-eventautomation-flink
   namespace: openshift-operators
 spec:
-  channel: v1.2
+  channel: v1.3
   name: ibm-eventautomation-flink
   source: ibm-eventautomation-flink-catalog
   sourceNamespace: openshift-marketplace
