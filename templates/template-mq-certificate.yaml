@@ -4,7 +4,7 @@ metadata:
   name: ${QMGR_NAME}-selfsigned-cert
   namespace: ${QMGR_NAMESPACE}
 spec:
-  commonName: ${QMGR_NAME}-ca
+  commonName: ${QMGR_NAME}
   dnsNames:
     - ${QMGR_NAME}-ibm-mq.${QMGR_NAMESPACE}.svc
     - ${QMGR_NAME}-ibm-mq.${QMGR_NAMESPACE}.svc.cluster.local
