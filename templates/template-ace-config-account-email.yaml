@@ -1,0 +1,10 @@
+accounts:
+  email:
+    - name: ${ACCOUNT_NAME}
+      credentials:
+        username: ${MAILPIT_USER}
+        password: ${MAILPIT_PWD}
+      endpoint:
+        protocol: SMTP
+        endpointUrl: ${MAILPIT_URL}
+        isTlsEnabled: true
