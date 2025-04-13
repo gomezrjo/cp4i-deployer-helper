@@ -1,0 +1,14 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: dpuser-route
+  labels:
+    app.kubernetes.io/component: http
+spec:
+  host: "dpuser-cp4i-dp.${STACK_HOST}"
+  to:
+    kind: Service
+    name: dp-demo-datapower
+  port:
+    targetPort: user-port
+  wildcardPolicy: None

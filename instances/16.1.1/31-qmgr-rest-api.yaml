@@ -1,0 +1,55 @@
+apiVersion: mq.ibm.com/v1beta1
+kind: QueueManager
+metadata:
+  annotations:
+    com.ibm.mq/write-defaults-spec: 'false'
+  name: qmgr-rest-api
+spec:
+  license:
+    accept: true
+    license: L-QYVA-B365MB
+    use: NonProduction
+  pki:
+    keys:
+      - name: default
+        secret:
+          secretName: qmgr-rest-api-tls-secret
+          items:
+            - tls.key
+            - tls.crt
+  queueManager:
+    name: QMGRRESTAPI
+    resources:
+      limits:
+        cpu: 500m
+      requests:
+        cpu: 500m
+    route:
+      enabled: false
+    storage:
+      queueManager:
+        type: persistent-claim
+      defaultClass: ${OCP_BLOCK_STORAGE}
+    availability:
+      type: SingleInstance
+    ini:
+      - configMap:
+          name: mq-demo-ini
+          items:
+            - mq-demo-resources.ini
+    mqsc:
+      - configMap:
+          name: mq-demo-mqsc
+          items:
+            - mq-demo-resources.mqsc
+  version: ${MQ_VERSION}
+  web:
+    console:
+      authentication:
+        provider: integration-keycloak
+      authorization:
+        provider: integration-keycloak
+    enabled: true
+    manualConfig:
+      configMap:
+        name: mqwebconfig

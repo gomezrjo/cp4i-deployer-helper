@@ -3,7 +3,7 @@
     "api_version": "2.0.0",
     "name": "${ORG_NAME}",
     "title": "${ORG_NAME}",
-    "summary": "Andre Apic",
+    "summary": "Demo Consumer Organization",
     "state": "enabled",
     "owner_url": "${OWNER_URL}",
     "org_url": "${PORG_URL}",

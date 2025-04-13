@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mailpit
+  namespace: mailpit
+spec:
+  selector:
+    matchLabels:
+      app: mailpit
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: mailpit
+    spec:
+      containers:
+      - name: mailpit
+        image: axllent/mailpit
+        ports:
+        - containerPort: 8025
+        - containerPort: 1025
+        env:
+        - name: MP_SMTP_AUTH_ACCEPT_ANY
+          value: "true"
+        - name: MP_SMTP_AUTH_ALLOW_INSECURE
+          value: "true"
+        - name: MP_UI_AUTH
+          value: "mailpit-admin:${MAILPIT_ADMIN_PWD}"

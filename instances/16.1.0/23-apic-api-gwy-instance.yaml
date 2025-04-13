@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: "remote-api-gw"
   }
 spec:
-  version: 10.0.8.0
+  version: 10.0.8.2-ifix1
   profile: n1xc1.m8
   apicGatewayServiceV5CompatibilityMode: false
   mgmtPlatformEndpointCASecret:
@@ -33,6 +33,6 @@ spec:
   license:
     accept: true
     use: nonproduction
-    license: L-DZZQ-MGVN8V
+    license: L-HTFS-UAXYM3
   adminUser:
     secretName: admin-secret

@@ -1,0 +1,8 @@
+description: 'Send email using ACE integration'
+config_type: 'webhook'
+is_enabled: true
+webhook:
+  header_params: {}
+  method: 'POST'
+  target: '${DESTINATION_URL}'
+title: 'JGR ACE Destination'
