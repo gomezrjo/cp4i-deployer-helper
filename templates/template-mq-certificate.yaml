@@ -4,12 +4,11 @@ metadata:
   name: ${QMGR_NAME}-selfsigned-cert
   namespace: ${QMGR_NAMESPACE}
 spec:
-  commonName: ${QMGR_NAME}
+  commonName: ${QMGR_NAME}-ca
   dnsNames:
+    - ${QMGR_NAME}-ibm-mq-qm-${QMGR_NAMESPACE}.${OCP_CLUSTER_DOMAIN}
     - ${QMGR_NAME}-ibm-mq.${QMGR_NAMESPACE}.svc
     - ${QMGR_NAME}-ibm-mq.${QMGR_NAMESPACE}.svc.cluster.local
-    - ${QMGR_NAME}-ibm-mq-qm-${QMGR_NAMESPACE}.${OCP_CLUSTER_DOMAIN}
-    - ${QMGR_NAME}-ibm-mq-web-${QMGR_NAMESPACE}.${OCP_CLUSTER_DOMAIN}
   issuerRef:
     name: selfsigned-issuer
     kind: ClusterIssuer
