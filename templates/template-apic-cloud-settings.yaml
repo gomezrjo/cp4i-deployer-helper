@@ -1,2 +1,2 @@
-api_key_expires_in: 15552000
+api_key_expires_in: 604800
 api_key_multiple_uses: true

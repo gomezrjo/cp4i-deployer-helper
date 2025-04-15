@@ -5,7 +5,7 @@ metadata:
 spec:
   license:
     accept: true
-    license: L-AUKS-FKVXVL
+    license: L-KCVZ-JL5CRM
     use: EventAutomationNonProduction
   flink:
     endpoint: 'ea-flink-demo-rest:8081'

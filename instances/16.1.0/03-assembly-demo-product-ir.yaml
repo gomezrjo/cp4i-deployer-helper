@@ -40,8 +40,8 @@ spec:
                   type: NoOp
           share:
             apim:
-              credentialsSecret: ${APIC_CREDENTIALS}
-              providerOrg: ${APIC_PROVIDER_ORG}
+              credentialsSecret: apim-credentials
+              providerOrg: cp4i-demo-org
               catalog: sandbox
       - kind: IntegrationRuntime
         metadata:
