@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ${QMGR_LOCATION}-ca
+spec:
+  isCA: true
+  commonName: ${QMGR_LOCATION}-ca
+  subject:
+    organizations:
+      - IBM
+    organizationalUnits:
+      - Software
+  secretName: ${QMGR_LOCATION}-ca-secret
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: selfsigned-issuer
+    kind: Issuer
+    group: cert-manager.io

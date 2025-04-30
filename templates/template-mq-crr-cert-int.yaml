@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nhacrr-${QMGR_LOCATION}-int
+spec:
+  commonName: nhacrr-${QMGR_LOCATION}-int
+  secretName: nhacrr-${QMGR_LOCATION}-int-tls
+  isCA: false
+  dnsNames:
+    - exampleqm-ibm-mq.${QMGR_LOCATION}.svc
+    - exampleqm-ibm-mq.${QMGR_LOCATION}.svc.cluster.local
+  issuerRef:
+    name: ${QMGR_LOCATION}-ca-issuer
