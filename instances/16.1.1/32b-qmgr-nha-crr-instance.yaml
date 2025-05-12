@@ -46,7 +46,7 @@ spec:
     storage:
       queueManager:
         type: persistent-claim
-  version: 9.4.2.0-r2
+  version: ${MQ_VERSION}
   pki:
     keys:
       - name: default
