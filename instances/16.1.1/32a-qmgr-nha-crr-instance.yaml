@@ -35,12 +35,12 @@ spec:
                   secretName: nhacrr-rome-ext-tls
     mqsc:
     - configMap:
-        name: example-nativeha-configmap
+        name: example-nhacrr-configmap
         items:
         - example-tls.mqsc
     ini:
     - configMap:
-        name: example-nativeha-configmap
+        name: example-nhacrr-configmap
         items:
         - example-tls.ini
     storage:
@@ -56,3 +56,10 @@ spec:
             - tls.key
             - tls.crt
             - ca.crt
+  web:
+    console:
+      authentication:
+        provider: integration-keycloak
+      authorization:
+        provider: integration-keycloak
+    enabled: true
