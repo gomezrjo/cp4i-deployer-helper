@@ -1,0 +1,14 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: ${QMGR_NAME}-tls-route
+  namespace: ${QMGR_NAMESPACE}
+spec:
+  host: ${HOST_NAME}
+  to:
+    kind: Service
+    name: ${QMGR_NAME}-ibm-mq
+  port:
+    targetPort: 1414
+  tls:
+    termination: passthrough
