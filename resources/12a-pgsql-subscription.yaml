@@ -4,7 +4,7 @@ metadata:
   labels:
     operators.coreos.com/postgresql.openshift-operators: ''
   name: postgresql
-  namespace: openshift-operators
+  namespace: pgsql
 spec:
   channel: v5
   installPlanApproval: Automatic
