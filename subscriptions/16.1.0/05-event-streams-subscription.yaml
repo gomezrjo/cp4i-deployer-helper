@@ -4,7 +4,7 @@ metadata:
   name: ibm-eventstreams
   namespace: openshift-operators
 spec:
-  channel: v3.6
+  channel: v3.7
   name: ibm-eventstreams
   source: ibm-eventstreams-catalog
   sourceNamespace: openshift-marketplace
