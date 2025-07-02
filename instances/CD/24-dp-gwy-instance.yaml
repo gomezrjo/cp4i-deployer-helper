@@ -1,0 +1,28 @@
+apiVersion: datapower.ibm.com/v1beta3
+kind: DataPowerService
+metadata:
+  labels:
+    backup.datapower.ibm.com/component: datapowerservice
+  name: dp-demo
+spec:
+  license:
+    accept: true
+    license: L-VRYH-429UTT
+    use: nonproduction
+  replicas: 1
+  resources:
+    limits:
+      memory: 4Gi
+    requests:
+      cpu: 1
+      memory: 4Gi
+  users:
+    - accessLevel: privileged
+      name: admin
+      passwordSecret: admin-secret
+  version: 10.6-cd
+  domains:
+  - dpApp:
+       config:
+       - webui-config
+    name: default

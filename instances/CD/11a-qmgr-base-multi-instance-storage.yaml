@@ -1,0 +1,58 @@
+apiVersion: mq.ibm.com/v1beta1
+kind: QueueManager
+metadata:
+  annotations:
+    com.ibm.mq/write-defaults-spec: 'false'
+  name: qmgr-base-multi-inst
+spec:
+  annotations:
+    productName: "IBM MQ Container Multi Instance for Non-Production Environments"
+    productID: "af11b093f16a4a26806013712b860b60"
+    productChargedContainers: "All"
+    productMetric: "VIRTUAL_PROCESSOR_CORE"
+    productCloudpakRatio: "20:3"
+    cloudpakName: "IBM Cloud Pak for Integration"
+    cloudpakId: "c8b82d189e7545f0892db9ef2731b90d"
+  license:
+    accept: true
+    license: L-CYPF-CRPF3H
+    use: NonProduction
+  queueManager:
+    name: QMGRBMULTI
+    resources:
+      limits:
+        cpu: 500m
+      requests:
+        cpu: 500m
+    storage:
+      queueManager:
+        type: persistent-claim
+        class: ${OCP_BLOCK_STORAGE}
+      persistedData:
+        enabled: true
+        class: ${OCP_FILE_STORAGE}
+        type: persistent-claim
+      recoveryLogs:
+        enabled: true
+        class: ${OCP_FILE_STORAGE}
+        type: persistent-claim
+    availability:
+      type: MultiInstance
+  template:
+    pod:
+      containers:
+        - env:
+            - name: MQSNOAUT
+              value: 'yes'
+          name: qmgr
+  version: ${MQ_VERSION}
+  web:
+    console:
+      authentication:
+        provider: integration-keycloak
+      authorization:
+        provider: integration-keycloak
+    enabled: true
+  securityContext:
+    supplementalGroups:
+      - 65534

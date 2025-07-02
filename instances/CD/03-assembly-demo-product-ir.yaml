@@ -1,0 +1,62 @@
+apiVersion: integration.ibm.com/v1beta1
+kind: IntegrationAssembly
+metadata:
+  name: ia-test-product-ir
+  labels:
+    backup.integration.ibm.com/component: integrationassembly
+spec:
+  license:
+    accept: true
+    license: L-CYPF-CRPF3H
+    use: CloudPakForIntegrationNonProduction
+  version: 16.1.2
+  managedInstances:
+    list: []
+  managedIntegrations:
+    list:
+      - kind: Product
+        metadata:
+          name: jgr-ace-ivt-ia
+        spec:
+          state: Published
+          definition:
+            product: 1.0.0
+            info:
+              title: ACEIVTAPI
+              name: jgr-ace-ivt-api
+              version: '1.0.0'
+            plans:
+              default-plan:
+                rate-limits:
+                  default:
+                    value: 100/1hour
+                title: Default Plan
+                description: Default Plan
+                approval: false
+          apis:
+            integrationRuntimes:
+              - name: jgr-ace-ivt-ia
+                security:
+                  type: NoOp
+          share:
+            apim:
+              credentialsSecret: ${APIC_CREDENTIALS}
+              providerOrg: ${APIC_PROVIDER_ORG}
+              catalog: sandbox
+      - kind: IntegrationRuntime
+        metadata:
+          name: jgr-ace-ivt-ia
+        spec:
+          license:
+            accept: true
+            license: L-KPRV-AUG9NC
+            use: CloudPakForIntegrationNonProduction
+          version: '13.0'
+          barURL:
+            - >-
+              https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/jgr-cp4i-aceivt.bar
+          configurations:
+            - github-barauth
+  storage:
+    readWriteOnce:
+      class: ${OCP_BLOCK_STORAGE}
