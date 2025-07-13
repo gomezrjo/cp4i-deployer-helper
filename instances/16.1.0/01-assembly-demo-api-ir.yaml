@@ -44,6 +44,8 @@ spec:
             - ace-es-demo-scram-policy
             - ace-es-demo-scram-secid
             - es-cert.p12
+          routes:
+            disabled: false
   storage:
     readWriteOnce:
       class: ${OCP_BLOCK_STORAGE}

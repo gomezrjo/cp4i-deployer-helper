@@ -8,5 +8,5 @@ spec:
   license:
     accept: true
     license: L-CYPF-CRPF3H
-  replicas: 3
+  replicas: 1
   version: 16.1.2
