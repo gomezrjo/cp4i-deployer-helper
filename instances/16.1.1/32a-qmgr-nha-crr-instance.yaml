@@ -5,7 +5,7 @@ metadata:
 spec:
   license:
     accept: true
-    license: L-QYVA-B365MB
+    license: L-CYPF-CRPF3H
     use: NonProduction
   queueManager:
     name: EXAMPLEQM

@@ -57,6 +57,8 @@ spec:
               https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/CustomerDB.bar
           configurations:
             - github-barauth
+          routes:
+            disabled: false
   storage:
     readWriteOnce:
       class: ${OCP_BLOCK_STORAGE}

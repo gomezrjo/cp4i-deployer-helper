@@ -5,7 +5,7 @@ metadata:
 spec:
   license:
     accept: true
-    license: L-AUKS-FKVXVL
+    license: L-CYBH-K48BZQ
     use: EventAutomationNonProduction
   flink:
     endpoint: 'ea-flink-demo-rest:8081'
