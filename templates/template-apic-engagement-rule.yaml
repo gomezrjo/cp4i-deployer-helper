@@ -1,5 +1,5 @@
 type: 'per_query'
-title: 'JGR Demo Rule'
+title: '${RULE_NAME}'
 enabled: true
 data_source: 'apievents'
 schedule:
@@ -11,14 +11,14 @@ filters:
       status_code: '40'
 timeframe: '1m'
 triggers:
-  - title: 'My trigger'
+  - title: '${TRIGGER_NAME}'
     severity: 2
     condition:
       operator: 'gt'
       value: 1
     actions:
-      - title: 'My Action'
+      - title: '${ACTION_NAME}'
         destination_id: '${DESTINATION_ID}'
-        message: "{\n  \"email\": \"user@cp4.demo.net\",\n  \"severity\": 1,\n  \"subject\": \"APIs failing with 40x.\",\n  \"body\": \"Attention needed.\"\n}"
+        message: '${ACTION_MSG}'
         subject: 'test'
         throttle_enabled: false
