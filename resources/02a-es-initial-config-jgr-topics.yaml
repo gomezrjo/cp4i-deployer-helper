@@ -61,6 +61,18 @@ spec:
 apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaTopic
 metadata:
+  name: apic-engagement-topic
+  labels:
+    eventstreams.ibm.com/cluster: es-demo
+spec:
+  partitions: 1
+  replicas: 3
+  config:
+    retention.ms: '86400000'
+---
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: KafkaTopic
+metadata:
   name: customer-service-feedback
   labels:
     eventstreams.ibm.com/cluster: es-demo
