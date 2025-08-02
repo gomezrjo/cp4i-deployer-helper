@@ -7,7 +7,7 @@ spec:
     toolkitFlow: true
   license:
     accept: true
-    license: L-XRNH-47FJAW
+    license: L-KPRV-AUG9NC
     use: CloudPakForIntegrationNonProduction
   template:
     spec:
@@ -22,4 +22,4 @@ spec:
               cpu: 500m
               memory: 512Mi     
   replicas: 2
-  version: 12.0.12.4-r1
+  version: 13.0.2.2-r2
