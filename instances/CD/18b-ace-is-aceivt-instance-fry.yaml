@@ -19,7 +19,7 @@ spec:
               cpu: 500m
               memory: 512Mi      
   replicas: 1
-  version: '13.0.4.0-r1'
+  version: '13.0.3.0-r1'
   barURL: 
     - >-
       https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/jgr-cp4i-aceivt.bar
