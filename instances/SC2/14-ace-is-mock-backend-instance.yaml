@@ -1,12 +1,14 @@
 apiVersion: appconnect.ibm.com/v1beta1
 kind: IntegrationRuntime
 metadata:
-  name: jgr-ace-fry-cp4i-spec-ver
+  name: jgr-mock-backend
+  labels:
+    assembly.integration.ibm.com/tools.jgr-demo: 'true'
 spec:
   license:
     accept: true
     license: L-XRNH-47FJAW
-    use: CloudPakForIntegrationNonProductionFREE
+    use: CloudPakForIntegrationNonProduction
   template:
     spec:
       containers:
@@ -17,11 +19,12 @@ spec:
               memory: 512Mi
             requests:
               cpu: 500m
-              memory: 512Mi      
+              memory: 512Mi
   replicas: 1
-  version: '12.0.12-r4'
+  version: '12.0'
   barURL: 
     - >-
-      https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/jgr-cp4i-aceivt.bar
+      https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/jgr-cp4i-mock-backend.bar
   configurations:
     - github-barauth
+    - ace-qmgr-demo-policy

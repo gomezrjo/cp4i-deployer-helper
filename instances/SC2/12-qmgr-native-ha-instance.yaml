@@ -1,0 +1,54 @@
+apiVersion: mq.ibm.com/v1beta1
+kind: QueueManager
+metadata:
+  annotations:
+    com.ibm.mq/write-defaults-spec: 'false'
+  name: qmgr-native-ha
+spec:
+  license:
+    accept: true
+    license: L-JTPV-KYG8TF
+    use: NonProduction
+  pki:
+    keys:
+      - name: default
+        secret:
+          secretName: qmgr-native-ha-tls-secret
+          items:
+            - tls.key
+            - tls.crt
+            - ca.crt
+  queueManager:
+    name: QMGRNATIVEHA
+    resources:
+      limits:
+        cpu: 500m
+      requests:
+        cpu: 500m
+    storage:
+      queueManager:
+        type: persistent-claim
+      defaultClass: ${OCP_BLOCK_STORAGE}
+      defaultDeleteClaim: true
+    availability:
+      type: NativeHA
+      tls:
+        secretName: qmgr-native-ha-tls-secret
+    mqsc:
+    - configMap:
+        name: example-nativeha-configmap
+        items:
+        - example-tls.mqsc
+    ini:
+    - configMap:
+        name: example-nativeha-configmap
+        items:
+        - example-tls.ini
+  version: ${MQ_VERSION}
+  web:
+    console:
+      authentication:
+        provider: integration-keycloak
+      authorization:
+        provider: integration-keycloak
+    enabled: true
