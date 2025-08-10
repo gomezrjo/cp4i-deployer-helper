@@ -1,0 +1,45 @@
+apiVersion: mq.ibm.com/v1beta1
+kind: QueueManager
+metadata:
+  annotations:
+    com.ibm.mq/write-defaults-spec: 'false'
+  name: qmgr-base
+spec:
+  annotations:
+    productID: 151bec68564a4a47a14e6fa99266deff
+    productCloudpakRatio: '8:1'
+    productName: IBM MQ for Non-Production
+    productMetric: VIRTUAL_PROCESSOR_CORE
+  license:
+    accept: true
+    license: L-JTPV-KYG8TF
+    use: NonProduction
+  queueManager:
+    name: QMGRBASE
+    resources:
+      limits:
+        cpu: 500m
+      requests:
+        cpu: 500m
+    storage:
+      queueManager:
+        type: persistent-claim
+      defaultDeleteClaim: true
+      defaultClass: ${OCP_BLOCK_STORAGE}
+    availability:
+      type: SingleInstance
+  template:
+    pod:
+      containers:
+        - env:
+            - name: MQSNOAUT
+              value: 'yes'
+          name: qmgr
+  version: ${MQ_VERSION}
+  web:
+    console:
+      authentication:
+        provider: integration-keycloak
+      authorization:
+        provider: integration-keycloak
+    enabled: true

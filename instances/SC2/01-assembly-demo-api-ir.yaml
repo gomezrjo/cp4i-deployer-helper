@@ -1,0 +1,51 @@
+apiVersion: integration.ibm.com/v1beta1
+kind: IntegrationAssembly
+metadata:
+  name: ia-demo-api-ir
+  labels:
+    backup.integration.ibm.com/component: integrationassembly
+spec:
+  license:
+    accept: true
+    license: L-JTPV-KYG8TF
+    use: CloudPakForIntegrationNonProduction
+  version: 16.1.0
+  managedInstances:
+    list: []
+  managedIntegrations:
+    list:
+      - kind: API
+        metadata:
+          name: jgr-esaapi-ia
+        spec:
+          definition:
+            integrationRuntime:
+              name: jgr-esapi-scram
+            security:
+              type: ClientIDSecret
+          share:
+            apim:
+              credentialsSecret: ${APIC_CREDENTIALS}
+              providerOrg: ${APIC_PROVIDER_ORG}
+      - kind: IntegrationRuntime
+        metadata:
+          name: jgr-esapi-scram
+        spec:
+          license:
+            accept: true
+            license: L-XRNH-47FJAW
+            use: CloudPakForIntegrationNonProduction
+          version: '12.0'
+          barURL:
+            - >-
+              https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/jgr-cp4i-esapi-scram.bar
+          configurations:
+            - github-barauth
+            - ace-es-demo-scram-policy
+            - ace-es-demo-scram-secid
+            - es-cert.p12
+          routes:
+            disabled: false
+  storage:
+    readWriteOnce:
+      class: ${OCP_BLOCK_STORAGE}
