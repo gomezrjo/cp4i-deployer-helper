@@ -57,6 +57,8 @@ spec:
               https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/jgr-cp4i-aceivt.bar
           configurations:
             - github-barauth
+          routes:
+            disabled: false
   storage:
     readWriteOnce:
       class: ${OCP_BLOCK_STORAGE}

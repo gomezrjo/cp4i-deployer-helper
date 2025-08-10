@@ -1,0 +1,20 @@
+apiVersion: integration.ibm.com/v1beta1
+kind: AssetRepository
+metadata:
+  labels:
+    backup.integration.ibm.com/component: assetrepository
+  name: asset-repo-ai
+spec:
+  designerAIFeatures:
+    enabled: true
+  license:
+    accept: true
+    license: L-CYPF-CRPF3H
+  replicas: 1
+  singleReplicaOnly: true
+  storage:
+    assetDataVolume:
+      class: ${OCP_BLOCK_STORAGE}
+    couchVolume:
+      class: ${OCP_BLOCK_STORAGE}
+  version: '4.2'

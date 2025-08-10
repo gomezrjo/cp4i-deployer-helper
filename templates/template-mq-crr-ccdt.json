@@ -1,0 +1,25 @@
+{
+    "channel":
+    [
+        {
+            "name": "${QMGR_CHANNEL}",
+            "clientConnection":
+            {
+                "connection":
+                [
+                    {
+                        "host": "${QMGR_HOST}",
+                        "port": 443
+                    }
+                ],
+                "queueManager": "${QMGR_INT_NAME}"
+            },
+            "transmissionSecurity":
+            {
+              "cipherSpecification": "ANY_TLS13",
+              "certificateLabel": "${QMGR_CERT_LABEL}"
+            },
+            "type": "clientConnection"
+        }
+   ]
+}

@@ -1,0 +1,65 @@
+apiVersion: mq.ibm.com/v1beta1
+kind: QueueManager
+metadata:
+  name: exampleqm
+spec:
+  license:
+    accept: true
+    license: L-CYPF-CRPF3H
+    use: NonProduction
+  queueManager:
+    name: EXAMPLEQM
+    availability:
+      type: NativeHA
+      tls:
+        secretName:  nhacrr-london-int-tls
+      nativeHAGroups:
+        local:
+          name: London_group
+          role: Live
+          tls:
+            key:
+              items:
+                - tls.key
+                - tls.crt
+              secretName: nhacrr-london-ext-tls
+        remotes: 
+          - addresses:  
+              - 'exampleqm-ibm-mq-nhacrr-rome.${OCP_CLUSTER_DOMAIN}:443'
+            name: Rome_group
+            trust: 
+              - secret:   
+                  items:
+                    - ca.crt
+                    - tls.crt       
+                  secretName: nhacrr-rome-ext-tls
+    mqsc:
+    - configMap:
+        name: example-nhacrr-configmap
+        items:
+        - example-tls.mqsc
+    ini:
+    - configMap:
+        name: example-nhacrr-configmap
+        items:
+        - example-tls.ini
+    storage:
+      queueManager:
+        type: persistent-claim
+  version: ${MQ_VERSION}
+  pki:
+    keys:
+      - name: default
+        secret:
+          secretName: nhacrr-london-app-tls
+          items:
+            - tls.key
+            - tls.crt
+            - ca.crt
+  web:
+    console:
+      authentication:
+        provider: integration-keycloak
+      authorization:
+        provider: integration-keycloak
+    enabled: true

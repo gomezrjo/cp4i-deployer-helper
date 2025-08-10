@@ -1,0 +1,64 @@
+apiVersion: integration.ibm.com/v1beta1
+kind: IntegrationAssembly
+metadata:
+  name: ia-demo-product-ir
+  labels:
+    backup.integration.ibm.com/component: integrationassembly
+spec:
+  license:
+    accept: true
+    license: L-CYPF-CRPF3H
+    use: CloudPakForIntegrationNonProduction
+  version: 16.1.2
+  managedInstances:
+    list: []
+  managedIntegrations:
+    list:
+      - kind: Product
+        metadata:
+          name: jgr-customerdb-ia
+        spec:
+          state: Published
+          definition:
+            product: 1.0.0
+            info:
+              title: CustomerDB
+              name: jgr-customer-db
+              version: '1.0.0'
+            plans:
+              default-plan:
+                rate-limits:
+                  default:
+                    value: 100/1hour
+                title: Default Plan
+                description: Default Plan
+                approval: false
+          apis:
+            integrationRuntimes:
+              - name: jgr-customer-db-ir
+                security:
+                  type: ClientIDSecret
+          share:
+            apim:
+              credentialsSecret: ${APIC_CREDENTIALS}
+              providerOrg: ${APIC_PROVIDER_ORG}
+              catalog: demo
+      - kind: IntegrationRuntime
+        metadata:
+          name: jgr-customer-db-ir
+        spec:
+          license:
+            accept: true
+            license: L-KPRV-AUG9NC
+            use: CloudPakForIntegrationNonProduction
+          version: '13.0'
+          barURL:
+            - >-
+              https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/CustomerDB.bar
+          configurations:
+            - github-barauth
+          routes:
+            disabled: false
+  storage:
+    readWriteOnce:
+      class: ${OCP_BLOCK_STORAGE}
