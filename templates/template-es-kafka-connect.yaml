@@ -70,11 +70,11 @@ spec:
           - type: maven
             artifact: apicurio-registry-serdes-avro-serde
             group: io.apicurio
-            version: 2.6.5.Final
+            version: 2.6.6.Final
           - type: maven
             artifact: apicurio-registry-utils-converter
             group: io.apicurio
-            version: 2.6.5.Final
+            version: 2.6.6.Final
       - name: mq-source
         artifacts:
           - type: jar

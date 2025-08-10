@@ -33,6 +33,6 @@ spec:
   license:
     accept: true
     use: nonproduction
-    license: L-DZZQ-MGVN8V
+    license: L-HTFS-UAXYM3
   adminUser:
     secretName: admin-secret

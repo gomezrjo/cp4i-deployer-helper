@@ -1,0 +1,24 @@
+type: 'per_query'
+title: '${RULE_NAME}'
+enabled: true
+data_source: 'apievents'
+schedule:
+  schedule_type: 'interval'
+  period_interval: 1
+  period_unit: 'MINUTES'
+filters:
+  - contains:
+      status_code: '40'
+timeframe: '1m'
+triggers:
+  - title: '${TRIGGER_NAME}'
+    severity: 2
+    condition:
+      operator: 'gt'
+      value: 1
+    actions:
+      - title: '${ACTION_NAME}'
+        destination_id: '${DESTINATION_ID}'
+        message: '${ACTION_MSG}'
+        subject: 'test'
+        throttle_enabled: false
