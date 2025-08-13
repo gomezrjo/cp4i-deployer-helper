@@ -67,14 +67,8 @@ spec:
         artifacts:
           - type: jar
             url: https://github.com/IBM/kafka-connect-loosehangerjeans-source/releases/download/0.5.1/kafka-connect-loosehangerjeans-source-0.5.1-jar-with-dependencies.jar
-          - type: maven
-            artifact: apicurio-registry-serdes-avro-serde
-            group: io.apicurio
-            version: 2.6.6.Final
-          - type: maven
-            artifact: apicurio-registry-utils-converter
-            group: io.apicurio
-            version: 2.6.6.Final
+          - type: zip
+            url: 'https://repo1.maven.org/maven2/io/apicurio/apicurio-registry-distro-connect-converter/2.6.13.Final/apicurio-registry-distro-connect-converter-2.6.13.Final.zip'
       - name: mq-source
         artifacts:
           - type: jar
