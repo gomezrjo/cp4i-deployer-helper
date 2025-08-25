@@ -4,9 +4,9 @@ metadata:
   name: ibm-eventautomation-flink-catalog
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-eventautomation-flink-1.4.1
+  displayName: ibm-eventautomation-flink-1.4.2
   publisher: IBM
-  image: icr.io/cpopen/ibm-eventautomation-flink-operator-catalog@sha256:c264c23b5298f5a33586299bddeb4df9e67a762618b1466b2608dff875b7ab0b
+  image: icr.io/cpopen/ibm-eventautomation-flink-operator-catalog@sha256:95b950bd643618918797c6ff81e2b4cf395eb3d006adda815bbce3e39d584654
   sourceType: grpc
   updateStrategy:
     registryPoll:
