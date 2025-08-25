@@ -20,7 +20,6 @@ spec:
   restProducer: {}
   strimziOverrides:
     kafka:
-      replicas: 3
       authorization:
         type: simple
       config:
@@ -56,7 +55,7 @@ spec:
         valueFrom:
           configMapKeyRef:
             key: kafka-metrics-config.yaml
-            name: minimal-prod-metrics-config
+            name: eventstreams-metrics
     nodePools:
       - name: kafka
         replicas: 3
@@ -72,7 +71,7 @@ spec:
           - controller
         storage:
           type: persistent-claim
-          size: 2Gi
+          size: 3Gi
           class: ${OCP_BLOCK_STORAGE}
     entityOperator:
       topicOperator: {}
