@@ -1,0 +1,13 @@
+
+dn: uid=${STUDENT_NAME},ou=People,dc=ibm,dc=com
+changetype: add
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: top
+uid: ${STUDENT_NAME}
+displayname: ${STUDENT_NAME}
+sn: ${STUDENT_NAME}
+cn: ${STUDENT_NAME}
+mail: ${STUDENT_NAME}@ibm.com
+userpassword: ${STUDENT_PASSWORD}
