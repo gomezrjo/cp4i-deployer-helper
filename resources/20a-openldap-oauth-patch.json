@@ -1,0 +1,33 @@
+[
+    {
+        "op": "add",
+        "path": "/spec/identityProviders/-",
+        "value": {
+            "name": "Enterprise LDAP",
+            "mappingMethod": "claim",
+            "type": "LDAP",
+            "ldap": {
+                "attributes": {
+                    "id": [
+                        "dn"
+                    ],
+                    "email": [
+                        "mail"
+                    ],
+                    "name": [
+                        "cn"
+                    ],
+                    "preferredUsername": [
+                        "uid"
+                    ]
+                },
+                "bindDN": "cn=admin,dc=ibm,dc=com",
+                "bindPassword": {
+                    "name": "openldap-secret"
+                },
+                "insecure": true,
+                "url": "ldap://openldap.openldap.svc:389/ou=People,dc=ibm,dc=com?uid"
+            }
+        }
+    }
+]
