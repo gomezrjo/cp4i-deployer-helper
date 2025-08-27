@@ -1,0 +1,10 @@
+
+dn: cn=potadmins,ou=Groups,dc=ibm,dc=com
+changetype: add
+cn: potadmins
+owner: uid=potadmin,ou=People,dc=ibm,dc=com
+description: ICP Admins group
+objectclass: groupOfUniqueNames
+objectclass: top
+uniquemember: uid=proctor,ou=People,dc=ibm,dc=com
+uniquemember: uid=potadmin,ou=People,dc=ibm,dc=com
