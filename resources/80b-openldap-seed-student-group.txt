@@ -1,0 +1,9 @@
+
+dn: cn=potusers,ou=Groups,dc=ibm,dc=com
+changetype: add
+cn: potusers
+owner: uid=potuser,ou=People,dc=ibm,dc=com
+description: ICP Users group
+objectclass: groupOfUniqueNames
+objectclass: top
+uniquemember: uid=potuser,ou=People,dc=ibm,dc=com

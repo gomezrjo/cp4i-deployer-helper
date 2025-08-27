@@ -1,0 +1,52 @@
+# Add Groups OU
+dn: ou=Groups,dc=ibm,dc=com
+changetype: add
+objectclass: organizationalUnit
+ou: Groups
+
+# Add People OU
+dn: ou=People,dc=ibm,dc=com
+changetype: add
+objectclass: organizationalUnit
+ou: People
+
+# Add Admin Users
+dn: uid=proctor,ou=People,dc=ibm,dc=com
+changetype: add
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: top
+uid: proctor
+displayname: Proctor PoT
+sn: proctor
+cn: proctor
+mail: proctor@ibm.com
+userpassword: ${MASTER_PASSWORD}
+
+dn: uid=potadmin,ou=People,dc=ibm,dc=com
+changetype: add
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: top
+uid: potadmin
+displayname: potadmin
+sn: potadmin
+cn: potadmin
+mail: potadmin@ibm.com
+userpassword: ${ADMIN_PASSWORD}
+
+# Add Base User
+dn: uid=potuser,ou=People,dc=ibm,dc=com
+changetype: add
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+objectclass: person
+objectclass: top
+uid: potuser
+displayname: potuser
+sn: potuser
+cn: potuser
+mail: potuser@ibm.com
+userpassword: ${USER_PASSWORD}
