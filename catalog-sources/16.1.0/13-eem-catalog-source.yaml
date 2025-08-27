@@ -4,9 +4,9 @@ metadata:
   name: ibm-eventendpointmanagement-catalog
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-eventendpointmanagement-11.6.2
+  displayName: ibm-eventendpointmanagement-11.6.3
   publisher: IBM
-  image: icr.io/cpopen/ibm-eventendpointmanagement-operator-catalog@sha256:8fcac0bed1f24f5a33f5a062424a29adf39481af0fb7a2a02cbc56dd4f988b5f
+  image: icr.io/cpopen/ibm-eventendpointmanagement-operator-catalog@sha256:54462ed2f520be0c8d8b700b55c51c455936ef702676fdfbcb5cc77238810062
   sourceType: grpc
   updateStrategy:
     registryPoll:
