@@ -2,7 +2,6 @@ apiVersion: keycloak.integration.ibm.com/v1beta1
 kind: IntegrationKeycloakClient
 metadata:
   name: ep-demo-ibm-ep-keycloak
-  namespace: tools
 spec:
   client:
     redirectUris:
