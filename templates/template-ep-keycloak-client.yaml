@@ -5,10 +5,10 @@ metadata:
 spec:
   client:
     redirectUris:
-      - 'https://ep-demo-ibm-ep-rt-tools.apps.${OCP_FQDN}/callback'
-      - 'https://ep-demo-ibm-ep-rt-tools.apps.${OCP_FQDN}/logout/callback'
+      - 'https://${EP_NAME}-ibm-ep-rt-${EP_NS}.apps.${OCP_FQDN}/callback'
+      - 'https://${EP_NAME}-ibm-ep-rt-${EP_NS}.apps.${OCP_FQDN}/logout/callback'
     serviceAccountsEnabled: true
-    clientId: ibm-ep-tools-ep-demo
+    clientId: ibm-ep-${EP_NS}-${EP_NAME}
     optionalClientScopes:
       - offline_access
     defaultClientScopes:
@@ -37,7 +37,7 @@ spec:
           jsonType.label: String
           multivalued: 'true'
           userinfo.token.claim: 'true'
-          usermodel.clientRoleMapping.clientId: ibm-ep-tools-ep-demo
+          usermodel.clientRoleMapping.clientId: ibm-ep-${EP_NS}-${EP_NAME}
         name: ep-roles
         protocol: openid-connect
         protocolMapper: oidc-usermodel-client-role-mapper
