@@ -4,9 +4,9 @@ metadata:
   name: opencloud-operators
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-cp-common-services-4.6.17
+  displayName: ibm-cp-common-services-4.6.18
   publisher: IBM
-  image: icr.io/cpopen/ibm-common-service-catalog@sha256:701717273020d0c877f5f92df8229e9d01e4f7029fe63016ea50ab2cc7c5f7c8
+  image: icr.io/cpopen/ibm-common-service-catalog@sha256:72274ff45fe5a9779b246f54943db4aa583b3d615e01c1444363506b2778cee2
   sourceType: grpc
   updateStrategy:
     registryPoll:

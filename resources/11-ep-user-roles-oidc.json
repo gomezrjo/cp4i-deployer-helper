@@ -13,6 +13,20 @@
             "roles": [
                 "user"
             ]
+        },
+        {
+            "id": "eventprocessing-admin",
+            "roles": [
+                "admin",
+                "author",
+                "user"
+            ]
+        },
+        {
+            "id": "eventprocessing-viewer",
+            "roles": [
+                "user"
+            ]
         }
     ]
 }
