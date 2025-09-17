@@ -1,0 +1,98 @@
+{
+    "name": "openldap",
+    "providerId": "ldap",
+    "providerType": "org.keycloak.storage.UserStorageProvider",
+    "parentId": "cloudpak",
+    "config": {
+        "fullSyncPeriod": [
+            "-1"
+        ],
+        "pagination": [
+            "true"
+        ],
+        "connectionTrace": [
+            "false"
+        ],
+        "startTls": [
+            "false"
+        ],
+        "usersDn": [
+            "dc=ibm,dc=com"
+        ],
+        "connectionPooling": [
+            "true"
+        ],
+        "cachePolicy": [
+            "DEFAULT"
+        ],
+        "useKerberosForPasswordAuthentication": [
+            "false"
+        ],
+        "importEnabled": [
+            "true"
+        ],
+        "enabled": [
+            "true"
+        ],
+        "changedSyncPeriod": [
+            "-1"
+        ],
+        "bindDn": [
+            "cn=admin,dc=ibm,dc=com"
+        ],
+        "usernameLDAPAttribute": [
+            "uid"
+        ],
+        "bindCredential": [
+            "${BIND_PASSWORD}"
+        ],
+        "vendor": [
+            "other"
+        ],
+        "uuidLDAPAttribute": [
+            "entryUUID"
+        ],
+        "connectionUrl": [
+            "ldap://openldap.openldap.svc:389"
+        ],
+        "allowKerberosAuthentication": [
+            "false"
+        ],
+        "syncRegistrations": [
+            "true"
+        ],
+        "authType": [
+            "simple"
+        ],
+        "krbPrincipalAttribute": [
+            "krb5PrincipalName"
+        ],
+        "searchScope": [
+            "2"
+        ],
+        "useTruststoreSpi": [
+            "always"
+        ],
+        "usePasswordModifyExtendedOp": [
+            "false"
+        ],
+        "trustEmail": [
+            "false"
+        ],
+        "userObjectClasses": [
+            "inetOrgPerson, organizationalPerson"
+        ],
+        "removeInvalidUsersEnabled": [
+            "true"
+        ],
+        "rdnLDAPAttribute": [
+            "uid"
+        ],
+        "editMode": [
+            "READ_ONLY"
+        ],
+        "validatePasswordPolicy": [
+            "false"
+        ]
+    }
+}

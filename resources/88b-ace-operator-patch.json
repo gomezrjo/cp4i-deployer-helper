@@ -1,0 +1,32 @@
+[
+    {
+        "op": "replace",
+        "path": "/spec/install/spec/deployments/0/spec/template/spec/containers/0/resources/limits/ephemeral-storage",
+        "value": "1Gi"
+    },
+    {
+        "op": "replace",
+        "path": "/spec/install/spec/deployments/0/spec/template/spec/containers/0/resources/limits/memory",
+        "value": "2Gi"
+    },
+    {
+        "op": "add",
+        "path": "/spec/install/spec/deployments/0/spec/template/spec/containers/0/resources/limits/cpu",
+        "value": 1
+    },
+    {
+        "op": "replace",
+        "path": "/spec/install/spec/deployments/0/spec/template/spec/containers/0/resources/requests/ephemeral-storage",
+        "value": "1Gi"
+    },
+    {
+        "op": "replace",
+        "path": "/spec/install/spec/deployments/0/spec/template/spec/containers/0/resources/requests/memory",
+        "value": "2Gi"
+    },
+    {
+        "op": "replace",
+        "path": "/spec/install/spec/deployments/0/spec/template/spec/containers/0/resources/requests/cpu",
+        "value": 1
+    }
+]

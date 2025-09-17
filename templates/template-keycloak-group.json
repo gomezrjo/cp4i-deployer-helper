@@ -1,0 +1,13 @@
+{
+    "name": "${GROUP_NAME}",
+    "path": "/${GROUP_NAME}",
+    "subGroupCount": 0,
+    "subGroups": [],
+    "access": {
+        "view": true,
+        "viewMembers": true,
+        "manageMembers": true,
+        "manage": true,
+        "manageMembership": true
+    }
+}
