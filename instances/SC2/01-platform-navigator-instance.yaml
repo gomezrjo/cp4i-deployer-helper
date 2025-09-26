@@ -1,7 +1,7 @@
 apiVersion: integration.ibm.com/v1beta1
 kind: PlatformNavigator
 metadata:
-  name: cp4i-navigator
+  name: ${INST_NAME}
 spec:
   integrationAssistant:
     enabled: true

@@ -5,7 +5,7 @@ metadata:
     apiconnect-operator/backups-not-configured: 'true'
   labels:
     backup.apiconnect.ibm.com/component: apiconnectcluster
-  name: apim-demo
+  name: ${INST_NAME}
 spec:
   analytics:
     mtlsValidateClient: true

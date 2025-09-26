@@ -3,7 +3,7 @@ kind: DataPowerService
 metadata:
   labels:
     backup.datapower.ibm.com/component: datapowerservice
-  name: dp-demo
+  name: ${INST_NAME}
 spec:
   license:
     accept: true

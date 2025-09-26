@@ -3,7 +3,7 @@ kind: AssetRepository
 metadata:
   labels:
     backup.integration.ibm.com/component: assetrepository
-  name: asset-repo-ai
+  name: ${INST_NAME}
 spec:
   designerAIFeatures:
     enabled: true

@@ -5,10 +5,10 @@ metadata:
   labels:
     app.kubernetes.io/component: http
 spec:
-  host: "dpuser-cp4i-dp.${STACK_HOST}"
+  host: "dpuser-${NS_NAME}.${STACK_HOST}"
   to:
     kind: Service
-    name: dp-demo-datapower
+    name: ${INST_NAME}-datapower
   port:
     targetPort: user-port
   wildcardPolicy: None

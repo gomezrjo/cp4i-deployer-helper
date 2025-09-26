@@ -1,18 +1,18 @@
 apiVersion: gateway.apiconnect.ibm.com/v1beta1
 kind: GatewayCluster
 metadata:
-  name: remote-api-gw
+  name: ${INST_NAME}
   labels: {
     app.kubernetes.io/instance: "gateway",
     app.kubernetes.io/managed-by: "ibm-apiconnect",
-    app.kubernetes.io/name: "remote-api-gw"
+    app.kubernetes.io/name: "${INST_NAME}"
   }
 spec:
   version: 10.0.10.0
   profile: n1xc1.m8
   apicGatewayServiceV5CompatibilityMode: false
   mgmtPlatformEndpointCASecret:
-    secretName: apim-demo-ingress-ca
+    secretName: ${DINST_NAME}-ingress-ca
   gatewayEndpoint:
     annotations:
       cert-manager.io/issuer: ingress-issuer
