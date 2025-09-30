@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: "${INST_NAME}"
   }
 spec:
-  version: 10.0.10.0
+  version: ${INST_VER}
   profile: n1xc1.m8
   apicGatewayServiceV5CompatibilityMode: false
   mgmtPlatformEndpointCASecret:
@@ -33,6 +33,6 @@ spec:
   license:
     accept: true
     use: nonproduction
-    license: L-RAWZ-DSFFFV
+    license: ${INST_LIC}
   adminUser:
     secretName: admin-secret
