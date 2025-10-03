@@ -3,11 +3,11 @@ kind: QueueManager
 metadata:
   annotations:
     com.ibm.mq/write-defaults-spec: 'false'
-  name: qmgr-native-ha
+  name: ${INST_NAME}
 spec:
   license:
     accept: true
-    license: L-JTPV-KYG8TF
+    license: ${INST_LIC}
     use: NonProduction
   pki:
     keys:

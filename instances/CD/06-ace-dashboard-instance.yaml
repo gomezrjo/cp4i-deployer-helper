@@ -3,7 +3,7 @@ kind: Dashboard
 metadata:
   labels:
     backup.appconnect.ibm.com/component: dashboard
-  name: ace-dashboard
+  name: ${INST_NAME}
 spec:
   authentication:
     integrationKeycloak:
@@ -14,7 +14,7 @@ spec:
   displayMode: IntegrationRuntimes
   license:
     accept: true
-    license: L-KPRV-AUG9NC
+    license: ${INST_LIC}
     use: CloudPakForIntegrationNonProduction
   pod:
     containers:
@@ -37,6 +37,6 @@ spec:
     size: 5Gi
     type: persistent-claim
     class: ${OCP_FILE_STORAGE}
-  version: '13.0'
+  version: '${INST_VER}'
   api:
     enabled: true

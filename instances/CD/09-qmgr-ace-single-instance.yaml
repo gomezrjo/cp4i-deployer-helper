@@ -3,7 +3,7 @@ kind: QueueManager
 metadata:
   annotations:
     com.ibm.mq/write-defaults-spec: 'false'
-  name: qmgr-demo
+  name: ${INST_NAME}
   labels:
     assembly.integration.ibm.com/tools.jgr-demo: 'true'
 spec:
@@ -11,7 +11,7 @@ spec:
     productMetric: FREE
   license:
     accept: true
-    license: L-CYPF-CRPF3H
+    license: ${INST_LIC}
     use: NonProduction
   pki:
     keys:

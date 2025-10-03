@@ -5,19 +5,19 @@ metadata:
     apiconnect-operator/backups-not-configured: 'true'
   labels:
     backup.apiconnect.ibm.com/component: apiconnectcluster
-  name: apim-demo
+  name: ${INST_NAME}
 spec:
   analytics:
     mtlsValidateClient: true
   license:
     accept: true
-    license: L-RAWZ-DSFFFV
+    license: ${INST_LIC}
     metric: VIRTUAL_PROCESSOR_CORE
     use: nonproduction
   portal:
     mtlsValidateClient: true
   profile: n1xc7.m48
-  version: 10.0.10.0
+  version: ${INST_VER}
   storageClassName: ${OCP_BLOCK_STORAGE}
   management:
     billing:

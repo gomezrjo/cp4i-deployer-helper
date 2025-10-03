@@ -3,10 +3,10 @@ kind: Route
 metadata:
   name: dpwebui-route
 spec:
-  host: "dpwebui-cp4i-dp.${STACK_HOST}"
+  host: "dpwebui-${NS_NAME}.${STACK_HOST}"
   to:
     kind: Service
-    name: dp-demo-datapower
+    name: ${INST_NAME}-datapower
     weight: 100
   port:
     targetPort: webgui-port

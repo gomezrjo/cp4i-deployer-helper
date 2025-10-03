@@ -3,11 +3,11 @@ kind: DataPowerService
 metadata:
   labels:
     backup.datapower.ibm.com/component: datapowerservice
-  name: dp-demo
+  name: ${INST_NAME}
 spec:
   license:
     accept: true
-    license: L-EYGU-PVGRBC
+    license: ${INST_LIC}
     use: nonproduction
   replicas: 1
   resources:
@@ -20,7 +20,7 @@ spec:
     - accessLevel: privileged
       name: admin
       passwordSecret: admin-secret
-  version: 10.6-lts
+  version: ${INST_VER}
   domains:
   - dpApp:
        config:

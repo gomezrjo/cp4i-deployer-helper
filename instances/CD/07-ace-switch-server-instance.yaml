@@ -3,10 +3,10 @@ apiVersion: appconnect.ibm.com/v1beta1
 metadata:
   labels:
     backup.appconnect.ibm.com/component: switchserver
-  name: ace-switch-server
+  name: ${INST_NAME}
 spec:
   license:
     accept: true
-    license: L-KPRV-AUG9NC
+    license: ${INST_LIC}
     use: CloudPakForIntegrationNonProduction
-  version: '13.0'
+  version: '${INST_VER}'
