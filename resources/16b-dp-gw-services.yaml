@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: dp-demo-datapower
+  name: ${INST_NAME}-datapower
 spec:
   selector:
     app.kubernetes.io/component: datapower
-    app.kubernetes.io/instance: cp4i-dp-dp-demo
+    app.kubernetes.io/instance: ${NS_NAME}-${INST_NAME}
   ports:
   - protocol: TCP
     port: 2999

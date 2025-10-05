@@ -4,10 +4,7 @@ metadata:
   name: ibmmq-operator-catalogsource
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-mq-3.2.15
+  displayName: ibm-mq-3.2.16
   publisher: IBM
-  image: icr.io/cpopen/ibm-mq-operator-catalog@sha256:4dc49bbcd06058173e675745bd4b24a8ab696d9b39c152a49b9d96836f71cc3a
+  image: icr.io/cpopen/ibm-mq-operator-catalog@sha256:53f466da6b06e735de92bb8ef96dd180d93f99dc8ae9a466ce5c56ce0fb0a2b4
   sourceType: grpc
-  updateStrategy:
-    registryPoll:
-      interval: 30m0s
