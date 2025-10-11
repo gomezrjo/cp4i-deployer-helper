@@ -2,8 +2,8 @@ apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaUser
 metadata:
   labels:
-    app.kubernetes.io/instance: es-demo
-    eventstreams.ibm.com/cluster: es-demo
+    app.kubernetes.io/instance: ${INST_NAME}
+    eventstreams.ibm.com/cluster: ${INST_NAME}
   name: es-admin
 spec:
   authentication:
@@ -47,8 +47,8 @@ apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaUser
 metadata:
   labels:
-    app.kubernetes.io/instance: es-demo
-    eventstreams.ibm.com/cluster: es-demo
+    app.kubernetes.io/instance: ${INST_NAME}
+    eventstreams.ibm.com/cluster: ${INST_NAME}
   name: ace-user
 spec:
   authentication:
@@ -92,8 +92,8 @@ apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaUser
 metadata:
   labels:
-    app.kubernetes.io/instance: es-demo
-    eventstreams.ibm.com/cluster: es-demo
+    app.kubernetes.io/instance: ${INST_NAME}
+    eventstreams.ibm.com/cluster: ${INST_NAME}
   name: designer-user
 spec:
   authentication:
@@ -137,8 +137,8 @@ apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaUser
 metadata:
   labels:
-    app.kubernetes.io/instance: es-demo
-    eventstreams.ibm.com/cluster: es-demo
+    app.kubernetes.io/instance: ${INST_NAME}
+    eventstreams.ibm.com/cluster: ${INST_NAME}
   name: kafka-connect-user
 spec:
   authentication:
@@ -182,8 +182,8 @@ apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaUser
 metadata:
   labels:
-    app.kubernetes.io/instance: es-demo
-    eventstreams.ibm.com/cluster: es-demo
+    app.kubernetes.io/instance: ${INST_NAME}
+    eventstreams.ibm.com/cluster: ${INST_NAME}
   name: kafka-bridge-user
 spec:
   authentication:
@@ -227,8 +227,8 @@ apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaUser
 metadata:
   labels:
-    app.kubernetes.io/instance: es-demo
-    eventstreams.ibm.com/cluster: es-demo
+    app.kubernetes.io/instance: ${INST_NAME}
+    eventstreams.ibm.com/cluster: ${INST_NAME}
   name: eem-user
 spec:
   authentication:
@@ -272,8 +272,8 @@ apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaUser
 metadata:
   labels:
-    app.kubernetes.io/instance: es-demo
-    eventstreams.ibm.com/cluster: es-demo
+    app.kubernetes.io/instance: ${INST_NAME}
+    eventstreams.ibm.com/cluster: ${INST_NAME}
   name: ep-user
 spec:
   authentication:
@@ -317,8 +317,8 @@ apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaUser
 metadata:
   labels:
-    app.kubernetes.io/instance: es-demo
-    eventstreams.ibm.com/cluster: es-demo
+    app.kubernetes.io/instance: ${INST_NAME}
+    eventstreams.ibm.com/cluster: ${INST_NAME}
   name: apic-analytics-offload-user
 spec:
   authentication:

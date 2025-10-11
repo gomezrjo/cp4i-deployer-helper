@@ -3,8 +3,7 @@ kind: KafkaConnect
 metadata:
   annotations:
     eventstreams.ibm.com/use-connector-resources: 'true'
-  name: jgr-connect-cluster
-  namespace: tools
+  name: ${INST_NAME}
 spec:
   config:
     group.id: kafka-connect
@@ -25,9 +24,9 @@ spec:
   authentication:
     passwordSecret:
       password: password
-      secretName: kafka-connect-user
+      secretName: ${ES_USER}
     type: scram-sha-512
-    username: kafka-connect-user
+    username: ${ES_USER}
   template:
     buildConfig:
       pullSecret: ibm-entitlement-key
@@ -48,7 +47,7 @@ spec:
           productVersion: ${ES_VERSION}
           productID: 2a79e49111f44ec3acd89608e56138f5
           cloudpakName: IBM Cloud Pak for Integration
-          productChargedContainers: jgr-connect-cluster-connect
+          productChargedContainers: ${INST_NAME}-connect
           productCloudpakRatio: '2:1'
           productName: IBM Event Streams for Non Production
           eventstreams.production.type: CloudPakForIntegrationNonProduction
@@ -56,7 +55,7 @@ spec:
   tls:
     trustedCertificates:
       - certificate: ca.crt
-        secretName: es-demo-cluster-ca-cert
+        secretName: ${ES_INST_NAME}-cluster-ca-cert
   replicas: 1
   build:
     output:
