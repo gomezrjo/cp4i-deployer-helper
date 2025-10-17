@@ -16,7 +16,7 @@ spec:
     use: nonproduction
   portal:
     mtlsValidateClient: true
-  profile: n1xc7.m48
+  profile: ${INST_PROFILE}
   version: ${INST_VER}
   storageClassName: ${OCP_BLOCK_STORAGE}
   management:

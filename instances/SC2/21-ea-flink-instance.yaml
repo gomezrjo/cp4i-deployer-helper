@@ -1,11 +1,11 @@
 apiVersion: flink.apache.org/v1beta1
 kind: FlinkDeployment
 metadata:
-  name: ea-flink-demo
+  name: ${INST_NAME}
 spec:
   flinkConfiguration:
     license.use: EventAutomationNonProduction
-    license.license: L-CYBH-K48BZQ
+    license.license: ${INST_LIC}
     license.accept: 'true'
     execution.checkpointing.interval: '5000'
     state.backend.type: rocksdb

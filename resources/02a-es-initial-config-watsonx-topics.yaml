@@ -3,7 +3,7 @@ kind: KafkaTopic
 metadata:
   name: stock-prices-ibm
   labels:
-    eventstreams.ibm.com/cluster: es-demo
+    eventstreams.ibm.com/cluster: ${INST_NAME}
 spec:
   topicName: STOCK.PRICES.IBM
   partitions: 1
@@ -19,7 +19,7 @@ kind: KafkaTopic
 metadata:
   name: stock-prices-ibm-output
   labels:
-    eventstreams.ibm.com/cluster: es-demo
+    eventstreams.ibm.com/cluster: ${INST_NAME}
 spec:
   topicName: STOCK.PRICES.IBM.SUMMARIES
   partitions: 1
@@ -35,7 +35,7 @@ kind: KafkaTopic
 metadata:
   name: weather-ibm-hursley
   labels:
-    eventstreams.ibm.com/cluster: es-demo
+    eventstreams.ibm.com/cluster: ${INST_NAME}
 spec:
   topicName: WEATHER.IBM.HURSLEY
   partitions: 1
@@ -51,7 +51,7 @@ kind: KafkaTopic
 metadata:
   name: weather-ibm-hursley-output
   labels:
-    eventstreams.ibm.com/cluster: es-demo
+    eventstreams.ibm.com/cluster: ${INST_NAME}
 spec:
   topicName: WEATHER.IBM.HURSLEY.SUMMARIES
   partitions: 1

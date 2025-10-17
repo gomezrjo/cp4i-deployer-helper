@@ -3,7 +3,7 @@ kind: KafkaTopic
 metadata:
   name: cp4i-ivt-topic
   labels:
-    eventstreams.ibm.com/cluster: es-demo
+    eventstreams.ibm.com/cluster: ${INST_NAME}
 spec:
   partitions: 1
   replicas: 3
@@ -15,7 +15,7 @@ kind: KafkaTopic
 metadata:
   name: cp4i-es-demo-topic
   labels:
-    eventstreams.ibm.com/cluster: es-demo
+    eventstreams.ibm.com/cluster: ${INST_NAME}
 spec:
   partitions: 1
   replicas: 3
@@ -27,7 +27,7 @@ kind: KafkaTopic
 metadata:
   name: cp4i-mq-2-es-demo-topic
   labels:
-    eventstreams.ibm.com/cluster: es-demo
+    eventstreams.ibm.com/cluster: ${INST_NAME}
 spec:
   partitions: 1
   replicas: 3
@@ -39,7 +39,7 @@ kind: KafkaTopic
 metadata:
   name: cp4i-es-2-mq-demo-topic
   labels:
-    eventstreams.ibm.com/cluster: es-demo
+    eventstreams.ibm.com/cluster: ${INST_NAME}
 spec:
   partitions: 1
   replicas: 3
@@ -51,7 +51,7 @@ kind: KafkaTopic
 metadata:
   name: apic-analytics-offload-topic
   labels:
-    eventstreams.ibm.com/cluster: es-demo
+    eventstreams.ibm.com/cluster: ${INST_NAME}
 spec:
   partitions: 1
   replicas: 3
@@ -63,7 +63,7 @@ kind: KafkaTopic
 metadata:
   name: apic-engagement-topic
   labels:
-    eventstreams.ibm.com/cluster: es-demo
+    eventstreams.ibm.com/cluster: ${INST_NAME}
 spec:
   partitions: 1
   replicas: 3
@@ -75,7 +75,7 @@ kind: KafkaTopic
 metadata:
   name: customer-service-feedback
   labels:
-    eventstreams.ibm.com/cluster: es-demo
+    eventstreams.ibm.com/cluster: ${INST_NAME}
 spec:
   partitions: 1
   replicas: 3
@@ -87,7 +87,7 @@ kind: KafkaTopic
 metadata:
   name: service-at-risk
   labels:
-    eventstreams.ibm.com/cluster: es-demo
+    eventstreams.ibm.com/cluster: ${INST_NAME}
 spec:
   partitions: 1
   replicas: 3

@@ -1,0 +1,53 @@
+apiVersion: eventstreams.ibm.com/v1beta2
+kind: EventStreams
+metadata:
+  name: ${INST_NAME}
+  labels:
+    backup.eventstreams.ibm.com/component: eventstreams
+spec:
+  version: latest
+  license:
+    accept: true
+    license: ${INST_LIC}
+    use: ${INST_USE}
+  adminApi: {}
+  apicurioRegistry: {}
+  collector: {}
+  restProducer: {}
+  strimziOverrides:
+    kafka:
+      config:
+        log.cleaner.threads: 6
+        num.io.threads: 24
+        num.network.threads: 9
+        num.replica.fetchers: 3
+        offsets.topic.replication.factor: 3        
+        auto.create.topics.enable: true
+        default.replication.factor: 1
+        min.insync.replicas: 1
+      metricsConfig:
+        type: jmxPrometheusExporter
+        valueFrom:
+          configMapKeyRef:
+            key: kafka-metrics-config.yaml
+            name: eventstreams-metrics
+    nodePools:
+      - name: kafka
+        replicas: 3
+        roles:
+          - broker
+        storage:
+          type: persistent-claim
+          size: 50Gi
+          class: ${OCP_BLOCK_STORAGE}
+      - name: controller
+        replicas: 3
+        roles:
+          - controller
+        storage:
+          type: persistent-claim
+          size: 3Gi
+          class: ${OCP_BLOCK_STORAGE}
+    entityOperator:
+      topicOperator: {}
+      userOperator: {}

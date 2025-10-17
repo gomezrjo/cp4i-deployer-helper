@@ -56,7 +56,7 @@ spec:
     value.converter.apicurio.auth.username: kafka-connect-user
     value.converter.apicurio.auth.password: ${ES_USER_PWD}
 
-    value.converter.apicurio.registry.request.ssl.truststore.location: /opt/kafka/connect-certs/es-demo-cluster-ca-cert/ca.p12
+    value.converter.apicurio.registry.request.ssl.truststore.location: /mnt/cluster-ca-cert/ca.p12
     value.converter.apicurio.registry.request.ssl.truststore.type: PKCS12
     value.converter.apicurio.registry.request.ssl.truststore.password: ${ES_CERT_PWD}
 
@@ -107,7 +107,7 @@ spec:
     value.converter.apicurio.auth.username: kafka-connect-user
     value.converter.apicurio.auth.password: ${ES_USER_PWD}
 
-    value.converter.apicurio.registry.request.ssl.truststore.location: /opt/kafka/connect-certs/es-demo-cluster-ca-cert/ca.p12
+    value.converter.apicurio.registry.request.ssl.truststore.location: /mnt/cluster-ca-cert/ca.p12
     value.converter.apicurio.registry.request.ssl.truststore.type: PKCS12
     value.converter.apicurio.registry.request.ssl.truststore.password: ${ES_CERT_PWD}
 

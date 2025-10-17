@@ -1,11 +1,11 @@
 apiVersion: events.ibm.com/v1beta1
 kind: EventProcessing
 metadata:
-  name: ep-demo
+  name: ${INST_NAME}
 spec:
   license:
     accept: true
-    license: L-CYBH-K48BZQ
+    license: ${INST_LIC}
     use: EventAutomationNonProduction
   flink:
     endpoint: 'ea-flink-demo-rest:8081'
