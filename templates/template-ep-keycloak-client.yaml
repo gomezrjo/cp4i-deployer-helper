@@ -5,8 +5,8 @@ metadata:
 spec:
   client:
     redirectUris:
-      - 'https://${EP_NAME}-ibm-ep-rt-${EP_NS}.apps.${OCP_FQDN}/callback'
-      - 'https://${EP_NAME}-ibm-ep-rt-${EP_NS}.apps.${OCP_FQDN}/logout/callback'
+      - 'https://${EP_NAME}-ibm-ep-rt-${EP_NS}.${OCP_FQDN}/callback'
+      - 'https://${EP_NAME}-ibm-ep-rt-${EP_NS}.${OCP_FQDN}/logout/callback'
     serviceAccountsEnabled: true
     clientId: ibm-ep-${EP_NS}-${EP_NAME}
     optionalClientScopes:
