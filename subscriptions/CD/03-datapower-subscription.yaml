@@ -4,7 +4,7 @@ metadata:
   name: datapower-operator
   namespace: openshift-operators
 spec:
-  channel: v1.15
+  channel: v1.16
   name: datapower-operator
   source: ibm-datapower-operator-catalog
   sourceNamespace: openshift-marketplace
