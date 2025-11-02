@@ -36,4 +36,4 @@ spec:
       hpa:
         minReplicas: 1
         maxReplicas: 3
-        targetCPUUtilizationPercentage: 50
+        targetCPUUtilizationPercentage: 70
