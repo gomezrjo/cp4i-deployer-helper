@@ -28,9 +28,9 @@ spec:
         class: ${OCP_FILE_STORAGE}
   license:
     accept: true
-    license: L-KPRV-AUG9NC
+    license: ${INST_LIC}
     use: CloudPakForIntegrationNonProduction
   replicas: 1
   switchServer:
     name: ${SWITCHSRV_INSTANCE_NAME}
-  version: '13.0'
+  version: '${INST_VER}'
