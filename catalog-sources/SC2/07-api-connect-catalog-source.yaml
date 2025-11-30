@@ -4,7 +4,7 @@ metadata:
   name: ibm-apiconnect-catalog
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-apiconnect-5.6.0
+  displayName: ibm-apiconnect-5.7.0
   publisher: IBM
-  image: icr.io/cpopen/ibm-apiconnect-catalog@sha256:693b160a233a5970aa128db347bc4a8f620c4ac35be3b2a53ce64ed38729566e
+  image: icr.io/cpopen/ibm-apiconnect-catalog@sha256:1c89fe72b72d5c666e102f19aa4773ee23b8150e76941f5354efb253f61ee16e
   sourceType: grpc
