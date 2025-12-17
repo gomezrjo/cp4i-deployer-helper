@@ -4,7 +4,7 @@ metadata:
   name: ibm-eventendpointmanagement
   namespace: openshift-operators
 spec:
-  channel: v11.6
-  name: ibm-eventendpointmanagement 
+  channel: v11.7
+  name: ibm-eventendpointmanagement
   source: ibm-eventendpointmanagement-catalog
   sourceNamespace: openshift-marketplace
