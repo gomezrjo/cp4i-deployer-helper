@@ -1,0 +1,79 @@
+apiVersion: management.apiconnect.ibm.com/v1beta1
+kind: ManagementCluster
+metadata:
+  name: ${INST_NAME}
+  labels:
+    app.kubernetes.io/instance: management
+    app.kubernetes.io/managed-by: ibm-apiconnect
+    app.kubernetes.io/name: ${INST_NAME}
+  annotations:
+    apiconnect-operator/cp4i: "false"
+spec:
+  version: ${INST_VER}
+  profile: n1xc4.m16
+  portal:
+    admin:
+      secretName: portal-admin-client
+  analytics:
+    ingestion:
+      secretName: analytics-ingestion-client
+  gateway:
+    client:
+      secretName: gateway-client-client
+  devPortal:
+    admin:
+      secretName: devportal-admin-client
+  wmAPIGateway:
+    mgmt:
+      secretName: wmapigateway-mgmt-client
+  nanoGateway:
+    mgmt:
+      secretName: nano-gateway-mgmt-client
+  federatedAPIManagement:
+    admin:
+      secretName: federatedapimanagement-admin-client
+  cloudManagerEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: admin.${STACK_HOST}
+      secretName: cm-endpoint
+  apiManagerEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: manager.${STACK_HOST}
+      secretName: apim-endpoint
+  platformAPIEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: api.${STACK_HOST}
+      secretName: api-endpoint
+  consumerAPIEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: consumer.${STACK_HOST}
+      secretName: consumer-endpoint
+  consumerCatalogEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts: 
+    - name: consumer-catalog.${STACK_HOST}
+      secretName: consumer-catalog-endpoint
+  databaseVolumeClaimTemplate:
+    storageClassName: ${OCP_BLOCK_STORAGE}
+  microServiceSecurity: certManager
+  certManagerIssuer:
+    name: selfsigning-issuer
+    kind: Issuer
+  license:
+    accept: true
+    use: nonproduction
+    license: ${INST_LIC}
+  governance:
+    enabled: true
+  discovery:
+    enabled: true
+    proxyCollectorEnabled: true
