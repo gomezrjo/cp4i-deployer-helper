@@ -1,0 +1,9 @@
+{
+    "mail_server_url": "${MAILSVR_URL}",
+    "api_key_expires_in": 300,
+    "api_key_multiple_uses": true,
+    "email_sender": {
+        "name": "APIC Administrator",
+        "address": "admin@apiconnect.net"
+    }
+}
