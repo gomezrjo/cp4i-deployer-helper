@@ -1,0 +1,9 @@
+{
+  "type": "analytics_service",
+  "api_version": "2.0.0",
+  "name": "${APIC_A7S_NAME}",
+  "title": "${APIC_A7S_NAME}",
+  "endpoint": "${A7S_AI_URL}",
+  "ingestion_endpoint_tls_client_profile_url": "${A7S_TLS_CPRO_URL}",
+  "communication_from_apim_kind": "external"
+}
