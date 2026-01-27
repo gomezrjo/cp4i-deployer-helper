@@ -1,0 +1,12 @@
+{
+  "type": "user",
+  "api_version": "2.0.0",
+  "name": "${USER_NAME}",
+  "title": "${USER_NAME}",
+  "identity_provider": "default-idp-2",
+  "username": "${USER_NAME}",
+  "email": "${USER_EMAIL}",
+  "first_name": "${USER_FNAME}",
+  "last_name": "${USER_LNAME}",
+  "password": "${USER_PWD}"
+}
