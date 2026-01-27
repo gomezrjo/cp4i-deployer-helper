@@ -1,0 +1,52 @@
+apiVersion: gateway.apiconnect.ibm.com/v1beta1
+kind: GatewayCluster
+metadata:
+  name: ${INST_NAME}
+  labels:
+    app.kubernetes.io/instance: gateway
+    app.kubernetes.io/managed-by: ibm-apiconnect
+    app.kubernetes.io/name: ${INST_NAME}
+  annotations:
+    apiconnect-operator/cp4i: "false"
+spec:
+  version: ${INST_VER}
+  profile: n1xc4.m8
+  apicGatewayServiceV5CompatibilityMode: false
+  mgmtPlatformEndpointCASecret:
+    secretName: ingress-ca
+  mgmtPlatformEndpointSvcCASecret:
+    secretName: management-ca
+  gatewayEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: rgw.${STACK_HOST}
+      secretName: gwv6-endpoint
+  gatewayManagerEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: rgwd.${STACK_HOST}
+      secretName: gwv6-manager-endpoint
+  apicGatewayServiceTLS:
+    secretName: gateway-service
+  apicGatewayPeeringTLS:
+    secretName: gateway-peering
+  datapowerLogLevel: 3
+  license:
+    accept: true
+    use: nonproduction
+    license: ${INST_LIC}
+  tokenManagementService:
+    enabled: true
+    storage:
+      storageClassName: ${OCP_BLOCK_STORAGE}
+      volumeSize: 30Gi
+  adminUser:
+    secretName: admin-secret
+  mtlsValidateClient: true
+  # syslogConfig:
+  #   enabled: false # if true, provide below details
+  #   remoteHost: $DATAPOWER_SYSLOG_TCP_REMOTE_HOST # must be a string
+  #   remotePort: $DATAPOWER_SYSLOG_TCP_REMOTE_PORT # must be an int
+  #   secretName: $DATAPOWER_SYSLOG_TCP_TLS_SECRET # must be a string
