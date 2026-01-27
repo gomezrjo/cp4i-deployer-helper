@@ -1,0 +1,44 @@
+apiVersion: analytics.apiconnect.ibm.com/v1beta1
+kind: AnalyticsCluster
+metadata:
+  name: ${INST_NAME}
+  labels:
+    app.kubernetes.io/instance: analytics
+    app.kubernetes.io/managed-by: ibm-apiconnect
+    app.kubernetes.io/name: ${INST_NAME}
+annotations:
+    apiconnect-operator/cp4i: "false"
+spec:
+  devPortalMode: true
+  federatedAPIManagementMode: true
+  version: ${INST_VER}
+  license:
+    accept: true
+    use: nonproduction
+    license: ${INST_LIC}
+  profile: n1xc2.m16
+  mgmtPlatformEndpointCASecret:
+    secretName: ingress-ca
+  mgmtPlatformEndpointSvcCASecret:
+    secretName: management-ca
+  microServiceSecurity: certManager
+  certManagerIssuer:
+    name: selfsigning-issuer
+    kind: Issuer
+  ingestion:
+    endpoint:
+      annotations:
+        cert-manager.io/issuer: ingress-issuer
+      hosts: 
+      - name: ai.${STACK_HOST}
+        secretName: analytics-ai-endpoint
+    clientSubjectDN: CN=analytics-ingestion-client,O=cert-manager
+  storage:
+    type: shared
+    shared:
+      volumeClaimTemplate:
+        storageClassName: ${OCP_BLOCK_STORAGE}
+        volumeSize: 200Gi
+   #master: # uncomment this section if you set storage.type = dedicated.
+   #  volumeClaimTemplate:
+   #    storageClassName: $STORAGE_CLASS
