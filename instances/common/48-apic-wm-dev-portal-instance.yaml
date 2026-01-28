@@ -1,0 +1,48 @@
+apiVersion: devportal.apiconnect.ibm.com/v1beta1
+kind: DevPortalCluster
+metadata:
+  name: ${INST_NAME}
+spec:
+  adminClientSubjectDN: |
+    CN=devportal-admin-client,O=cert-manager
+    CN=wmapigateway-devportal-client,O=cert-manager
+  analyticsRef:
+    name: ${A7S_NAME}
+    namespace: ${DNS_NAME}
+  certManagerIssuer:
+    name: selfsigning-issuer
+    kind: Issuer
+  devportalAdminEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: api.devportal.${STACK_HOST}
+      secretName: devportal-admin
+    ingressClassName: nginx
+  devportalUIEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: devportal.${STACK_HOST}
+      secretName: devportal-web
+    ingressClassName: $INGRESS_CLASS
+  isStandalone: false
+  license:
+    accept: true
+    license: ${INST_LIC}
+    metric: PROCESSOR_VALUE_UNIT
+    use: nonproduction
+  mgmtConsumerEndpointCASecret:
+    secretName: ingress-ca
+  mgmtPlatformEndpointCASecret:
+    secretName: ingress-ca
+  microServiceSecurity: certManager
+  mtlsValidateClient: true
+  profile: n1xc2.m4
+  storage:
+    shared:
+      volumeClaimTemplate:
+        storageClassName: ${OCP_BLOCK_STORAGE}
+        volumeSize: 200Gi
+    type: shared
+  version: ${INST_VER}
