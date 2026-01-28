@@ -1,0 +1,44 @@
+apiVersion: wmapigateway.apiconnect.ibm.com/v1beta1
+kind: WMAPIGatewayCluster
+metadata:
+  name: ${INST_NAME}
+  labels:
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: ibm-apiconnect
+spec:
+  license:
+    accept: true
+    license: ${INST_LIC}
+    metric: PROCESSOR_VALUE_UNIT
+    use: nonproduction
+  certManagerIssuer:
+    name: selfsigning-issuer
+    kind: Issuer
+  uiEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+      - name: wmapigateway-ui.${STACK_HOST}
+        secretName: wmapigw-ui-tls-secret
+  mgmtEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+      - name: wmapigateway-mgmt.${STACK_HOST}
+        secretName: wmapigw-mgmt-tls-secret
+  gatewayEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+      - name: wmapigateway.${STACK_HOST}
+        secretName: wmapigw-tls-secret
+  storage:
+    volumeClaimTemplate:
+      storageClassName: ${OCP_BLOCK_STORAGE}
+      volumeSize: 1Gi
+  mgmtClientSubjectDN: |
+    CN=wmapigateway-mgmt-client,O=cert-manager
+    CN=devportal-wmapigateway-client,O=cert-manager
+  microServiceSecurity: certManager
+  profile: n1xc3.m6
+  version: ${INST_VER}
