@@ -1,0 +1,13 @@
+{
+  "type": "portal_service",
+  "portal_service_type": "${PTL_SVC_TYPE}",
+  "api_version": "2.0.0",
+  "name": "${APIC_SVC_NAME}",
+  "title": "${APIC_SVC_NAME}",
+  "web_endpoint_base": "${PTL_WEB_URL}",
+  "runtime_name": "${APIC_SVC_NAME}",
+  "runtime_id": "${APIC_SVC_ID}",
+  "endpoint": "${PTL_MGMT_URL}",
+  "endpoint_tls_client_profile_url": "${SVC_TLS_CPRO_URL}",
+  "integration_url": "${INT_URL}"
+}
