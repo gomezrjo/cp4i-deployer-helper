@@ -1,0 +1,24 @@
+{  
+    "api_cp_setting": {
+    "enabled": true,
+    "endpoint": {
+      "endpoint": "${FAM_MGMT_URL}",
+      "tls_client_profile_url": "${SVC_TLS_CPRO_URL}"
+    },
+    "credentials": {
+      "api_key": "",
+      "password": "${FAM_ADMIN_PWD}",
+      "username": "${FAM_ADMIN_USER}",
+      "instance_id": ""
+    },
+    "ui_endpoint": {
+      "endpoint": "${FAM_UI_URL}",
+      "tls_client_profile_url": "${SVC_TLS_CPRO_URL}"
+    },
+    "apic_runtime_id": "${APIC_MGMT_RUNTIME_NAME}",
+    "apic_runtime_name": "${APIC_MGMT_RUNTIME_NAME}",
+    "authenticationType": "mTLS",
+    "heartbeat_interval": 60,
+    "metrics_sync_interval": 120
+  }
+}
