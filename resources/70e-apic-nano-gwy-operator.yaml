@@ -221,7 +221,7 @@ spec:
       hostNetwork: false
       hostPID: false
       imagePullSecrets:
-        - name: <your-registry-secret-name>
+        - name: ibm-entitlement-key
       securityContext:
         runAsNonRoot: true
       serviceAccountName: datapower-nano-operator
