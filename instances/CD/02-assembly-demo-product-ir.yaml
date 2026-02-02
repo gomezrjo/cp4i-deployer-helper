@@ -7,7 +7,7 @@ metadata:
 spec:
   license:
     accept: true
-    license: L-CKFT-S6CHZW
+    license: L-CYPF-CRPF3H
     use: CloudPakForIntegrationNonProduction
   version: 16.1.2
   managedInstances:
@@ -49,7 +49,7 @@ spec:
         spec:
           license:
             accept: true
-            license: L-KPRV-AUG9NC
+            license: L-CKFT-S6CHZW
             use: CloudPakForIntegrationNonProduction
           version: '13.0'
           barURL:
