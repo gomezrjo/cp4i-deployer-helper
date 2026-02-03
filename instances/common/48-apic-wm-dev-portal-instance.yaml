@@ -25,7 +25,7 @@ spec:
     hosts:
     - name: devportal.${STACK_HOST}
       secretName: devportal-web
-    ingressClassName: $INGRESS_CLASS
+    ingressClassName: nginx
   isStandalone: false
   license:
     accept: true
@@ -39,10 +39,4 @@ spec:
   microServiceSecurity: certManager
   mtlsValidateClient: true
   profile: n1xc2.m4
-  storage:
-    shared:
-      volumeClaimTemplate:
-        storageClassName: ${OCP_BLOCK_STORAGE}
-        volumeSize: 200Gi
-    type: shared
   version: ${INST_VER}
