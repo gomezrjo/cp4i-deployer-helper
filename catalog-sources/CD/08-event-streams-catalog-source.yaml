@@ -4,7 +4,7 @@ metadata:
   name: ibm-eventstreams
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-eventstreams-12.2.0
+  displayName: ibm-eventstreams-12.2.1
   publisher: IBM
-  image: icr.io/cpopen/ibm-eventstreams-catalog@sha256:3f41b39c6fd7c3422f162aaec049505d34e0062b32fb05afd4a4b70ab3441f41
+  image: icr.io/cpopen/ibm-eventstreams-catalog@sha256:cf88fbca7b6c635fe453cc7579329848dd6cfc59122159759b5bf35f5ccd18e6
   sourceType: grpc
