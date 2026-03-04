@@ -12,7 +12,7 @@ spec:
     productMetric: VIRTUAL_PROCESSOR_CORE
   license:
     accept: true
-    license: L-JTPV-KYG8TF
+    license: ${INST_LIC}
     use: NonProduction
   queueManager:
     name: QMGRBASE
