@@ -1,0 +1,24 @@
+{
+  "type": "gateway_service",
+  "gateway_service_type": "${GTW_SVC_TYPE}",
+  "api_version": "2.0.0",
+  "name": "${APIC_SVC_NAME}",
+  "title": "${APIC_SVC_NAME}",
+  "runtime_name": "${APIC_SVC_NAME}",
+  "runtime_id": "${APIC_SVC_ID}",
+  "integration_url": "${INT_URL}",
+  "endpoint": "${GW_MGMT_URL}",
+  "api_endpoint_base": "${GW_URL}",
+  "tls_client_profile_url": "${SVC_TLS_CPRO_URL}",
+  "sni": [
+    {
+      "host": "*",
+      "tls_server_profile_url": "${SVC_TLS_SPRO_URL}"
+    }
+  ],
+  "analytics_service_url": "${A7SSVC_URL}",
+  "communication_kind": "external",
+  "communication_to_analytics_kind": "external",
+  "communication_to_analytics_with_jwt": false,
+  "ai_gateway_enabled": true
+}

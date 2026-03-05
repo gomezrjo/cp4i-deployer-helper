@@ -1,0 +1,33 @@
+kind: NanoGatewayCluster
+apiVersion: nanogateway.apiconnect.ibm.com/v1beta1
+metadata:
+  name: ${INST_NAME}
+spec:
+  certManagerIssuer:
+    kind: Issuer
+    name: selfsigning-issuer
+  gatewayDomain: nanogw.${STACK_HOST}
+  license:
+    accept: true
+    license: ${INST_LIC}
+    metric: PROCESSOR_VALUE_UNIT
+    use: nonproduction
+  mgmtClientSubjectDN: 'CN=nano-gateway-mgmt-client,O=cert-manager'
+  mgmtEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+      - name: apic-gateway-proxy.${STACK_HOST}
+        secretName: gateway-proxy-endpoint
+  microServiceSecurity: certManager
+  profile: n1xc2.m4
+  redis:
+    credential:
+      secretName: valkey-secret
+    hosts:
+      - valkey.tools.svc.cluster.local
+    mode: standalone
+    port: 6379
+    tls:
+      secretName: valkey-tls
+  version: ${INST_VER}

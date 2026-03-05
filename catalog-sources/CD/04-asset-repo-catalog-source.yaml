@@ -4,9 +4,9 @@ metadata:
   name: ibm-integration-asset-repository-catalog
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-integration-asset-repository-2.0.0-linux-amd64
+  displayName: ibm-integration-asset-repository-2.0.1-linux-amd64
   publisher: IBM
-  image: icr.io/cpopen/ibm-integration-asset-repository-catalog@sha256:04f5dcf92eb314958f880ef470fce597d901540619203c3f2bae9177ed92f724
+  image: icr.io/cpopen/ibm-integration-asset-repository-catalog@sha256:388e15247e3457db25b26db400baffaaa7bcfaa81ef5612ae0df3efc80cc2911
   sourceType: grpc
   grpcPodConfig:
     nodeSelector:

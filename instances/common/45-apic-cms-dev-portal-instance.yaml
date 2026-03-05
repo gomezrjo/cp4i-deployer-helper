@@ -1,0 +1,60 @@
+apiVersion: portal.apiconnect.ibm.com/v1beta1
+kind: PortalCluster
+metadata:
+  name: ${INST_NAME}
+  labels:
+    app.kubernetes.io/instance: portal
+    app.kubernetes.io/managed-by: ibm-apiconnect
+    app.kubernetes.io/name: ${INST_NAME}
+  annotations:
+    apiconnect-operator/cp4i: "false"
+spec:
+  version: ${INST_VER}
+  profile: n1xc2.m8
+  mgmtPlatformEndpointCASecret:
+    secretName: ingress-ca
+  mgmtConsumerEndpointCASecret:
+    secretName: ingress-ca
+  mgmtPlatformEndpointSvcCASecret:
+    secretName: management-ca
+  mgmtConsumerEndpointSvcCASecret:
+    secretName: management-ca
+  portalAdminEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: api.portal.${STACK_HOST}
+      secretName: portal-admin
+  portalUIEndpoint:
+    annotations:
+      cert-manager.io/issuer: ingress-issuer
+    hosts:
+    - name: portal.${STACK_HOST}
+      secretName: portal-web
+  databaseVolumeClaimTemplate:
+    storageClassName: ${OCP_BLOCK_STORAGE}
+    volumeSize: 200Gi
+  databaseLogsVolumeClaimTemplate:
+    storageClassName: ${OCP_BLOCK_STORAGE}
+    volumeSize: 12Gi
+  webVolumeClaimTemplate:
+    storageClassName: ${OCP_BLOCK_STORAGE}
+    volumeSize: 200Gi
+  backupVolumeClaimTemplate:
+    storageClassName: ${OCP_BLOCK_STORAGE}
+    volumeSize: 120Gi
+  adminVolumeClaimTemplate:
+    storageClassName: ${OCP_BLOCK_STORAGE}
+    volumeSize: 20Gi
+  certVolumeClaimTemplate:
+    storageClassName: ${OCP_BLOCK_STORAGE}
+    volumeSize: 4Gi
+  adminClientSubjectDN: CN=portal-admin-client,O=cert-manager
+  microServiceSecurity: certManager
+  certManagerIssuer:
+    name: selfsigning-issuer
+    kind: Issuer
+  license:
+    accept: true
+    use: nonproduction
+    license: ${INST_LIC}

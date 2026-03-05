@@ -7,7 +7,7 @@ metadata:
 spec:
   license:
     accept: true
-    license: L-CYPF-CRPF3H
+    license: ${INST_LIC}
     use: NonProduction
   queueManager:
     image: quay.io/jgomezr/mq-image-9.4.2.0-r1-jgrcp4i:1.0.0

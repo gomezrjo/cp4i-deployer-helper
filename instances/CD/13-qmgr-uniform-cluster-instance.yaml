@@ -7,7 +7,7 @@ metadata:
 spec:
   license:
     accept: true
-    license: L-CYPF-CRPF3H
+    license: ${INST_LIC}
     use: NonProduction
   pki:
     keys:
