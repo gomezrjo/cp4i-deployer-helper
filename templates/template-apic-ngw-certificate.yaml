@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nano-gateway-app
+spec:
+  commonName: nano-gateway-app
+  secretName: nano-gateway-app-tls
+  isCA: false
+  dnsNames:
+    - '${DP_NANO_GW_DNS}'
+  issuerRef:
+    name: ingress-issuer

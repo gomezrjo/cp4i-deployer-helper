@@ -1,10 +1,10 @@
 {
     "type": "tls_server_profile",
     "api_version": "2.0.0",
-    "name": "ea-watsonx-tls-server-profile",
+    "name": "datapower-nano-gateway-tls-server-profile",
     "version": "1.0.0",
-    "title": "EA WatsonX TLS server profile",
-    "summary": "EA TLS server profile for gateway services for WatsonX API execution",
+    "title": "DataPower Nano Gateway TLS server profile",
+    "summary": "DataPower Nano Gateway default TLS server profile",
     "protocols": [
         "tls_v1.2",
         "tls_v1.3"
