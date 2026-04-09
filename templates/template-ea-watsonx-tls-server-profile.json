@@ -39,5 +39,5 @@
     ],
     "mutual_authentication": "none",
     "limit_renegotiation": true,
-    "keystore_url": "${KEYSTORE_URL}",
+    "keystore_url": "${KEYSTORE_URL}"
 }
