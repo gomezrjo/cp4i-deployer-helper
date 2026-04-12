@@ -33,7 +33,7 @@ spec:
         spec:
           license:
             accept: true
-            license: L-CKFT-S6CHZW
+            license: L-CGSU-AUCFFB
             use: CloudPakForIntegrationNonProduction
           version: '13.0'
           barURL:

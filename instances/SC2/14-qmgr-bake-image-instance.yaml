@@ -10,7 +10,7 @@ spec:
     license: ${INST_LIC}
     use: NonProduction
   queueManager:
-    image: quay.io/jgomezr/mq-image-9.4.0.10-r1-jgrcp4i:1.0.0
+    image: quay.io/jgomezr/mq-image-9.4.0.20-r1-jgrcp4i:1.0.0
     name: QMGRBAKEIMG
     resources:
       limits:
