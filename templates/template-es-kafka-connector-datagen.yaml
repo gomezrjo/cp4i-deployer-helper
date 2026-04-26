@@ -3,7 +3,7 @@ kind: KafkaConnector
 metadata:
   name: kafka-datagen
   labels:
-    eventstreams.ibm.com/cluster: jgr-connect-cluster
+    eventstreams.ibm.com/cluster: ${CONNECT_INST_NAME}
 spec:
   class: com.ibm.eventautomation.demos.loosehangerjeans.DatagenSourceConnector
   tasksMax: 1
@@ -20,9 +20,8 @@ apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaConnector
 metadata:
   name: kafka-datagen-avro
-  namespace: tools
   labels:
-    eventstreams.ibm.com/cluster: jgr-connect-cluster
+    eventstreams.ibm.com/cluster: ${CONNECT_INST_NAME}
 spec:
   class: com.ibm.eventautomation.demos.loosehangerjeans.DatagenSourceConnector
   tasksMax: 1
@@ -73,9 +72,8 @@ apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaConnector
 metadata:
   name: kafka-datagen-reg
-  namespace: tools
   labels:
-    eventstreams.ibm.com/cluster: jgr-connect-cluster
+    eventstreams.ibm.com/cluster: ${CONNECT_INST_NAME}
 spec:
   class: com.ibm.eventautomation.demos.loosehangerjeans.DatagenSourceConnector
   tasksMax: 1
