@@ -2,7 +2,6 @@ apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaConnector
 metadata:
   name: kafka-datagen
-  namespace: tools
   labels:
     eventstreams.ibm.com/cluster: jgr-connect-cluster
 spec:

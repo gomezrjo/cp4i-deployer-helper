@@ -1,17 +1,16 @@
 apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaConnect
 metadata:
-  name: watsonx-demo-sources
-  namespace: tools
+  name: ${INST_NAME}
   annotations:
     eventstreams.ibm.com/use-connector-resources: 'true'
 spec:
   authentication:
     passwordSecret:
       password: password
-      secretName: kafka-connect-user
+      secretName: ${ES_USER}
     type: scram-sha-512
-    username: kafka-connect-user
+    username: ${ES_USER}
   bootstrapServers: ${ES_BOOTSTRAP_SERVER}
   build:
     output:
@@ -64,7 +63,7 @@ spec:
           productVersion: ${ES_VERSION}
           productID: 2a79e49111f44ec3acd89608e56138f5
           cloudpakName: IBM Cloud Pak for Integration
-          productChargedContainers: watsonx-demo-sources-connect
+          productChargedContainers: ${INST_NAME}-connect
           productCloudpakRatio: '2:1'
           productName: IBM Event Streams for Non Production
           eventstreams.production.type: CloudPakForIntegrationNonProduction
@@ -72,4 +71,4 @@ spec:
   tls:
     trustedCertificates:
       - certificate: ca.crt
-        secretName: es-demo-cluster-ca-cert
+        secretName: ${ES_INST_NAME}-cluster-ca-cert
