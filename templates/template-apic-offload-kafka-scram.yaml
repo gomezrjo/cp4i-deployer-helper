@@ -13,7 +13,7 @@ spec:
                 ssl_truststore_type => "JKS"
                 security_protocol => "SASL_SSL"
                 sasl_mechanism => "SCRAM-SHA-512"
-                sasl_jaas_config => "org.apache.kafka.common.security.scram.ScramLoginModule required username='apic-analytics-offload-user' password='${ES_USER_PWD}';"
+                sasl_jaas_config => "org.apache.kafka.common.security.scram.ScramLoginModule required username='${ES_USER}' password='${ES_USER_PWD}';"
           }
-        secretName: apim-demo-offload-a7s-certificate
-        passwordSecretName: apim-demo-offload-a7s-password
+        secretName: ${APIC_INST_NAME}-offload-a7s-certificate
+        passwordSecretName: ${APIC_INST_NAME}-offload-a7s-password

@@ -1,16 +1,15 @@
 apiVersion: eventstreams.ibm.com/v1beta2
 kind: KafkaBridge
 metadata:
-  name: jgr-es-demo-bridge
-  namespace: tools
+  name: ${INST_NAME}
   labels:
-    eventstreams.ibm.com/cluster: es-demo
+    eventstreams.ibm.com/cluster: ${ES_INST_NAME}
 spec:
   authentication:
     type: scram-sha-512
-    username: kafka-bridge-user
+    username: ${ES_USER}
     passwordSecret:
-      secretName: kafka-bridge-user
+      secretName: ${ES_USER}
       password: password
   bootstrapServers: ${ES_BOOTSTRAP_SERVER}
   http:
@@ -19,7 +18,7 @@ spec:
   tls:
     trustedCertificates:
       - certificate: ca.crt
-        secretName: es-demo-cluster-ca-cert
+        secretName: ${ES_INST_NAME}-cluster-ca-cert
   template:
     bridgeContainer:
       securityContext:
