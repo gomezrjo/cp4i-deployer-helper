@@ -4,7 +4,7 @@ metadata:
   name: ibm-licensing-operator-app
   namespace: ibm-licensing
 spec:
-  channel: v${SUB_VER}${SUB_EXT}
+  channel: v4.2
   installPlanApproval: Automatic
   name: ibm-licensing-operator-app
   source: ibm-licensing-catalog

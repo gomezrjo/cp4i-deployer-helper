@@ -4,7 +4,7 @@ metadata:
   name: ibm-license-service-reporter-operator
   namespace: ibm-licensing
 spec:
-  channel: v${SUB_VER}${SUB_EXT}
+  channel: v4.2
   installPlanApproval: Automatic
   name: ibm-license-service-reporter-operator
   source: ibm-license-service-reporter-operator-catalog
