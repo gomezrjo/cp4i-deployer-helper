@@ -4,7 +4,7 @@ metadata:
   name: ibm-appconnect
   namespace: openshift-operators
 spec:
-  channel: v13.0
+  channel: v${SUB_VER}${SUB_EXT}
   name: ibm-appconnect
   source: appconnect-operator-catalogsource
   sourceNamespace: openshift-marketplace

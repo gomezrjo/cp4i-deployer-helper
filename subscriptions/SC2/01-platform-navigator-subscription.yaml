@@ -4,7 +4,7 @@ metadata:
   name: ibm-integration-platform-navigator
   namespace: openshift-operators
 spec:
-  channel: v7.3-sc2
+  channel: v${SUB_VER}${SUB_EXT}
   name: ibm-integration-platform-navigator
   source: ibm-integration-platform-navigator-catalog
   sourceNamespace: openshift-marketplace
