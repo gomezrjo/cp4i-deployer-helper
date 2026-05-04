@@ -4,7 +4,7 @@ metadata:
   name: ibm-integration-asset-repository
   namespace: openshift-operators
 spec:
-  channel: v1.7-sc2
+  channel: v${SUB_VER}${SUB_EXT}
   name: ibm-integration-asset-repository
   source: ibm-integration-asset-repository-catalog
   sourceNamespace: openshift-marketplace

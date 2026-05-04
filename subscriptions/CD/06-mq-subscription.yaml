@@ -4,7 +4,7 @@ metadata:
   name: ibm-mq
   namespace: openshift-operators
 spec:
-  channel: v3.9
+  channel: v${SUB_VER}${SUB_EXT}
   name: ibm-mq
   source: ibmmq-operator-catalogsource
   sourceNamespace: openshift-marketplace
