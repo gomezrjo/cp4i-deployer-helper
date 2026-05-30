@@ -1,0 +1,19 @@
+apiVersion: operator.ibm.com/v3
+kind: CommonService
+metadata:
+  name: common-service
+  namespace: ibm-common-services
+spec:
+  ## The section below needs adding ##
+  services:
+    - name: keycloak-operator
+      resources:
+        - apiVersion: k8s.keycloak.org/v2alpha1
+          data:
+            spec:
+              env:
+                - name: KC_SPI_LOGIN_PROTOCOL__OPENID_CONNECT__ALLOW_USERINFO_WITH_LIGHTWEIGHT_ACCESS_TOKEN
+                  value: 'true'
+          force: true
+          kind: Keycloak
+          name: cs-keycloak
