@@ -24,7 +24,7 @@ spec:
       defaultDeleteClaim: true
     availability:
       type: SingleInstance
-  version: ${MQ_VERSION}
+  version: 9.4.5.0-r2
   web:
     console:
       authentication:
