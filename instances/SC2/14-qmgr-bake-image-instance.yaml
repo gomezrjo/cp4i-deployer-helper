@@ -25,7 +25,7 @@ spec:
     availability:
       type: SingleInstance
     logFormat: JSON
-  version: ${MQ_VERSION}
+  version: 9.4.0.20-r1
   web:
     console:
       authentication:
