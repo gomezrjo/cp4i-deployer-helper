@@ -9,6 +9,7 @@ metadata:
 annotations:
     apiconnect-operator/cp4i: "false"
 spec:
+  apiAgentMode: true
   devPortalMode: true
   federatedAPIManagementMode: true
   version: ${INST_VER}
