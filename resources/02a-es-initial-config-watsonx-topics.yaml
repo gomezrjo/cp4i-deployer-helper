@@ -1,4 +1,4 @@
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaTopic
 metadata:
   name: stock-prices-ibm
@@ -14,7 +14,7 @@ spec:
 
 ---
 
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaTopic
 metadata:
   name: stock-prices-ibm-output
@@ -30,7 +30,7 @@ spec:
 
 ---
 
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaTopic
 metadata:
   name: weather-ibm-hursley
@@ -46,7 +46,7 @@ spec:
 
 ---
 
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaTopic
 metadata:
   name: weather-ibm-hursley-output

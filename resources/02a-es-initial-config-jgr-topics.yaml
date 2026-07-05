@@ -1,4 +1,4 @@
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaTopic
 metadata:
   name: cp4i-ivt-topic
@@ -10,7 +10,7 @@ spec:
   config:
     retention.ms: '86400000'
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaTopic
 metadata:
   name: cp4i-es-demo-topic
@@ -22,7 +22,7 @@ spec:
   config:
     retention.ms: '86400000'
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaTopic
 metadata:
   name: cp4i-mq-2-es-demo-topic
@@ -34,7 +34,7 @@ spec:
   config:
     retention.ms: '86400000'
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaTopic
 metadata:
   name: cp4i-es-2-mq-demo-topic
@@ -46,7 +46,7 @@ spec:
   config:
     retention.ms: '86400000'
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaTopic
 metadata:
   name: apic-analytics-offload-topic
@@ -58,7 +58,7 @@ spec:
   config:
     retention.ms: '86400000'
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaTopic
 metadata:
   name: apic-engagement-topic
@@ -70,7 +70,7 @@ spec:
   config:
     retention.ms: '86400000'
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaTopic
 metadata:
   name: customer-service-feedback
@@ -82,7 +82,7 @@ spec:
   config:
     retention.ms: '86400000'
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaTopic
 metadata:
   name: service-at-risk

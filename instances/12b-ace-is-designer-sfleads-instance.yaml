@@ -1,13 +1,13 @@
 apiVersion: appconnect.ibm.com/v1beta1
 kind: IntegrationRuntime
 metadata:
-  name: jgr-mock-backend
+  name: ${INST_NAME}
   labels:
     assembly.integration.ibm.com/tools.jgr-demo: 'true'
 spec:
   license:
     accept: true
-    license: L-RJGW-BUAA2R
+    license: ${INST_LIC}
     use: CloudPakForIntegrationNonProduction
   template:
     spec:
@@ -21,10 +21,9 @@ spec:
               cpu: 500m
               memory: 512Mi
   replicas: 1
-  version: '13.0'
+  version: '${INST_VER}'
   barURL: 
     - >-
-      https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/jgr-cp4i-mock-backend.bar
+      https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/${BAR_FILE}
   configurations:
     - github-barauth
-    - ace-qmgr-demo-policy

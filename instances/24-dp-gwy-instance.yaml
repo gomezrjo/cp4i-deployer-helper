@@ -1,0 +1,28 @@
+apiVersion: datapower.ibm.com/v1beta3
+kind: DataPowerService
+metadata:
+  labels:
+    backup.datapower.ibm.com/component: datapowerservice
+  name: ${INST_NAME}
+spec:
+  license:
+    accept: true
+    license: ${INST_LIC}
+    use: nonproduction
+  replicas: 1
+  resources:
+    limits:
+      memory: 4Gi
+    requests:
+      cpu: 1
+      memory: 4Gi
+  users:
+    - accessLevel: privileged
+      name: admin
+      passwordSecret: admin-secret
+  version: ${INST_VER}
+  domains:
+  - dpApp:
+       config:
+       - webui-config
+    name: default
