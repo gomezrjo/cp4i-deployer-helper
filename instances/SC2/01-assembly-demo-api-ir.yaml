@@ -7,7 +7,7 @@ metadata:
 spec:
   license:
     accept: true
-    license: L-JTPV-KYG8TF
+    license: L-VEMB-RABZSN
     use: CloudPakForIntegrationNonProduction
   version: 16.1.0
   managedInstances:
@@ -33,9 +33,9 @@ spec:
         spec:
           license:
             accept: true
-            license: L-XRNH-47FJAW
+            license: L-RJGW-BUAA2R
             use: CloudPakForIntegrationNonProduction
-          version: '12.0'
+          version: '13.0'
           barURL:
             - >-
               https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/jgr-cp4i-esapi-scram.bar

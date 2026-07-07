@@ -1,0 +1,12 @@
+apiVersion: integration.ibm.com/v1beta1
+kind: PlatformNavigator
+metadata:
+  name: ${INST_NAME}
+spec:
+  integrationAssistant:
+    enabled: true
+  license:
+    accept: true
+    license: ${INST_LIC}
+  replicas: ${INST_REP}
+  version: ${INST_VER}

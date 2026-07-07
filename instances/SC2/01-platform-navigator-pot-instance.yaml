@@ -7,6 +7,6 @@ spec:
     enabled: true
   license:
     accept: true
-    license: L-JTPV-KYG8TF
+    license: L-VEMB-RABZSN
   replicas: 3
   version: 16.1.0

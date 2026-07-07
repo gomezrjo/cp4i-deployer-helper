@@ -1,4 +1,4 @@
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaUser
 metadata:
   labels:
@@ -43,7 +43,7 @@ spec:
           type: group
     type: simple
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaUser
 metadata:
   labels:
@@ -88,7 +88,7 @@ spec:
           type: transactionalId
     type: simple
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaUser
 metadata:
   labels:
@@ -133,7 +133,7 @@ spec:
           type: transactionalId
     type: simple
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaUser
 metadata:
   labels:
@@ -178,7 +178,7 @@ spec:
           type: transactionalId
     type: simple
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaUser
 metadata:
   labels:
@@ -223,7 +223,7 @@ spec:
           type: transactionalId
     type: simple
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaUser
 metadata:
   labels:
@@ -268,7 +268,7 @@ spec:
           type: transactionalId
     type: simple
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaUser
 metadata:
   labels:
@@ -313,7 +313,7 @@ spec:
           type: transactionalId
     type: simple
 ---
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaUser
 metadata:
   labels:

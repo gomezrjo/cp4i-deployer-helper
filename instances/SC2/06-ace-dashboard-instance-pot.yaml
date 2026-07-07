@@ -14,7 +14,7 @@ spec:
   displayMode: IntegrationRuntimes
   license:
     accept: true
-    license: L-XRNH-47FJAW
+    license: L-RJGW-BUAA2R
     use: CloudPakForIntegrationNonProduction
   pod:
     containers:
@@ -37,6 +37,6 @@ spec:
     size: 5Gi
     type: persistent-claim
     class: ${OCP_FILE_STORAGE}
-  version: '12.0'
+  version: '13.0'
   api:
     enabled: true

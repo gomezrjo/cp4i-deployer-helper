@@ -1,0 +1,32 @@
+apiVersion: appconnect.ibm.com/v1beta1
+kind: IntegrationRuntime
+metadata:
+  name: ${INST_NAME}
+  labels:
+    assembly.integration.ibm.com/tools.jgr-demo: 'true'
+spec:
+  license:
+    accept: true
+    license: ${INST_LIC}
+    use: CloudPakForIntegrationNonProduction
+  template:
+    spec:
+      containers:
+        - name: runtime
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 512Mi
+  replicas: 1
+  version: '${INST_VER}'
+  barURL: 
+    - >-
+      https://github.com/gomezrjo/cp4idemo/raw/main/barfiles/jgr-cp4i-mqpgsql-backend.bar
+  configurations:
+    - github-barauth
+    - ace-qmgr-demo-policy
+    - ace-pgsql-odbc-ini
+    - ace-pgsql-db-secid

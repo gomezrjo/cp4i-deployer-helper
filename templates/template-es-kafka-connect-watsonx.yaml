@@ -1,4 +1,4 @@
-apiVersion: eventstreams.ibm.com/v1beta2
+apiVersion: eventstreams.ibm.com/v1
 kind: KafkaConnect
 metadata:
   name: ${INST_NAME}
@@ -27,14 +27,14 @@ spec:
           - type: jar
             url: 'https://github.com/dalelane/kafka-connect-stockprice-source/releases/download/v0.0.3/kafka-connect-stockprice-source-connector.jar'
         name: stockprices
+  groupId: watsonx-demo-connect
+  configStorageTopic: watsonx-demo-configs
+  offsetStorageTopic: watsonx-demo-offsets
+  statusStorageTopic: watsonx-demo-status
   config:
     client.id: watsonx-demo-sources
     config.providers: file
     config.providers.file.class: org.apache.kafka.common.config.provider.DirectoryConfigProvider
-    config.storage.topic: watsonx-demo-configs
-    group.id: watsonx-demo-connect
-    offset.storage.topic: watsonx-demo-offsets
-    status.storage.topic: watsonx-demo-status
   replicas: 1
   resources:
     limits:
