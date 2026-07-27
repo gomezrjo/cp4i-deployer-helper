@@ -1,0 +1,12 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: e2e-monitoring-e2em-traces
+subjects:
+  - kind: ServiceAccount
+    name: ${E2EM_SVC_ACCT}
+    namespace: ${E2EM_NAMESPACE}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: e2e-monitoring-e2em-traces
