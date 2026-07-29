@@ -1,0 +1,42 @@
+apiVersion: integration.ibm.com/v1beta1
+kind: Monitoring
+metadata:
+  name: ${INST_NAME}
+spec:
+  collector:
+    replicas: 2
+    resources:
+      limits:
+        cpu: 700m
+        memory: 3Gi
+      requests:
+        cpu: 700m
+        memory: 3Gi
+  datastore:
+    replicas: 3
+    resources:
+      limits:
+        cpu: '1'
+        memory: 3Gi
+      requests:
+        cpu: '1'
+        memory: 3Gi
+    storage:
+      class: ${OCP_BLOCK_STORAGE}
+      data:
+        size: 16Gi
+      deployment:
+        size: 4Gi
+  license:
+    accept: true
+    license: ${INST_LIC}
+  ui:
+    replicas: 1
+    resources:
+      limits:
+        cpu: 600m
+        memory: 3Gi
+      requests:
+        cpu: 600m
+        memory: 3Gi
+  version: '${INST_VER}'
