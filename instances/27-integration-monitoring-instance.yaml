@@ -12,6 +12,9 @@ spec:
       requests:
         cpu: 700m
         memory: 3Gi
+  configurations:
+    ruleViolation:
+      schedule: '*/5 * * * *'
   datastore:
     replicas: 3
     resources:

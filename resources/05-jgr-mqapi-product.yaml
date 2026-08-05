@@ -11,7 +11,7 @@ plans:
     approval: false
     rate-limits:
       default:
-        value: 5/1minute
+        value: 60/1minute
         hard-limit: true
     apis:
       jgrmqapi1.2.0: {}
@@ -21,7 +21,7 @@ plans:
     approval: true
     rate-limits:
       Default rate-limit:
-        value: 600/1hour
+        value: 600/1minute
         hard-limit: false
     assembly-rate-limits:
       graphql-field-cost:
