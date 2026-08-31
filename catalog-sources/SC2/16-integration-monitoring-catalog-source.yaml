@@ -4,9 +4,9 @@ metadata:
   name: ibm-integration-monitoring-catalog
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-integration-monitoring-1.0.1-linux-amd64
+  displayName: ibm-integration-monitoring-1.0.0-linux-amd64
   publisher: IBM
-  image: icr.io/cpopen/ibm-integration-monitoring-catalog@sha256:1ffea7e1b1255d4a2fb3d81c652204e4e1857c682da0e4df07364a25e243427f
+  image: icr.io/cpopen/ibm-integration-monitoring-catalog@sha256:c86caa61f7138f83617b0e0ab93b330183b0997ef7b7042fd18053e31b821d8d
   sourceType: grpc
   grpcPodConfig:
     nodeSelector:
