@@ -1,14 +1,14 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-    name: ${INST_NAME}
+    name: jgr-apic-engagement
 spec:
   to:
     kind: Service
-    name: ${INST_NAME}-bridge-service
+    name: jgr-apic-engagement-ir
     weight: 100
   port:
-    targetPort: rest-api
+    targetPort: http
   tls:
     termination: edge
   wildcardPolicy: None

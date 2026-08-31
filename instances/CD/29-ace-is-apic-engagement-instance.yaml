@@ -19,6 +19,8 @@ spec:
               cpu: 500m
               memory: 512Mi
   replicas: 2
+  routes:
+    disabled: true
   version: '13.0'
   barURL: 
     - >-
