@@ -25,7 +25,7 @@ spec:
     credential:
       secretName: valkey-secret
     hosts:
-      - valkey.tools.svc.cluster.local
+      - ${VALKEY_INST_NAME}.${VALKEY_NAMESPACE}.svc.cluster.local
     mode: standalone
     port: 6379
     tls:
