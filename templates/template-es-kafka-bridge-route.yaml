@@ -9,4 +9,6 @@ spec:
     weight: 100
   port:
     targetPort: rest-api
+  tls:
+    termination: edge
   wildcardPolicy: None
