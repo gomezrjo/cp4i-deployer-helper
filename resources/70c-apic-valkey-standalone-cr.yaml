@@ -3,12 +3,12 @@
 apiVersion: valkey.datapower.ibm.com/v1beta2
 kind: Valkey
 metadata:
-  name:  valkey
+  name:  ${INST_NAME}
   labels:
-    app.kubernetes.io/name: valkey
+    app.kubernetes.io/name: ${INST_NAME}
     helm.sh/chart: valkey-1.0.0
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/instance: valkey
+    app.kubernetes.io/instance: ${INST_NAME}
     app.kubernetes.io/version: 1.0.0
     app.kubernetes.io/component: middleware
   annotations:
