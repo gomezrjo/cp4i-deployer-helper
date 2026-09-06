@@ -77,6 +77,8 @@ spec:
   discovery:
     enabled: true
     proxyCollectorEnabled: true
+    tablespaceDbVolumeClaimTemplate:
+      storageClassName: ${OCP_BLOCK_STORAGE}
   template:
     - containers:
         - env:
@@ -84,3 +86,9 @@ spec:
               value: 'true'
           name: api-studio
       name: api-studio
+  messageQueueVolumeClaimTemplate:
+    storageClassName: ${OCP_BLOCK_STORAGE}
+  dbArchiveVolumeClaimTemplate:
+    storageClassName: ${OCP_BLOCK_STORAGE}
+  dbBackupVolumeClaimTemplate:
+    storageClassName: ${OCP_BLOCK_STORAGE}

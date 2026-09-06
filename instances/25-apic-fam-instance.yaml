@@ -1,0 +1,26 @@
+apiVersion: federatedapimanagement.apiconnect.ibm.com/v1beta1
+kind: FederatedAPIManagementCluster
+metadata:
+  annotations:
+    apiconnect-operator/cp4i: 'true'
+  labels:
+    backup.apiconnect.ibm.com/component: federatedapimanagementcluster
+  name: ${INST_NAME}
+spec:
+  analyticsRef:
+    name: ${DINST_NAME}-a7s
+  certManagerIssuer:
+    kind: Issuer
+    name: ${DINST_NAME}-self-signed
+  license:
+    accept: true
+    license: ${INST_LIC}
+    use: nonproduction
+  profile: ${INST_PROFILE}
+  version: ${INST_VER}
+  adminEndpoint:
+    annotations:
+      cert-manager.io/issuer: ${DINST_NAME}-ingress-issuer
+  uiEndpoint:
+    annotations:
+      cert-manager.io/issuer: ${DINST_NAME}-ingress-issuer

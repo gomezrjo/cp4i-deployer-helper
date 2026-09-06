@@ -8,6 +8,9 @@ metadata:
   name: ${INST_NAME}
 spec:
   analytics:
+    apiAgentMode: true
+    devPortalMode: true
+    federatedAPIManagementMode: true
     mtlsValidateClient: true
   license:
     accept: true
@@ -23,5 +26,7 @@ spec:
     discovery:
       enabled: true
       proxyCollectorEnabled: true
+      tablespaceDbVolumeClaimTemplate:
+        storageClassName: ${OCP_BLOCK_STORAGE}
     governance:
       enabled: true

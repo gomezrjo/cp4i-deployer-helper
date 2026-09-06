@@ -34,6 +34,9 @@ spec:
       - name: ai.${STACK_HOST}
         secretName: analytics-ai-endpoint
     clientSubjectDN: CN=analytics-ingestion-client,O=cert-manager
+    queue:
+      volumeClaimTemplate:
+        storageClassName: ${OCP_BLOCK_STORAGE}
   storage:
     type: shared
     shared:

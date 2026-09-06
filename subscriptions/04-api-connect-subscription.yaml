@@ -4,7 +4,7 @@ metadata:
   name: ibm-apiconnect
   namespace: openshift-operators
 spec:
-  channel: v${SUB_VER}${SUB_EXT}
+  channel: ${SUB_VER}
   name: ibm-apiconnect
   source: ibm-apiconnect-catalog
   sourceNamespace: openshift-marketplace

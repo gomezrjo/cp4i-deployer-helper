@@ -4,7 +4,7 @@ metadata:
   name: ibm-common-service-operator
   namespace: openshift-operators
 spec:
-  channel: v${SUB_VER}${SUB_EXT}
+  channel: ${SUB_VER}
   installPlanApproval: Automatic
   name: ibm-common-service-operator
   source: opencloud-operators
