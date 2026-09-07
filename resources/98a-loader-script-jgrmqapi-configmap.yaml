@@ -1,0 +1,269 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jgr-contacts-loader-script
+  namespace: jgrmqapi
+  labels:
+    app: jgr-contacts-loader
+data:
+  load_contacts.sh: |
+    #!/bin/bash
+
+    ############################################################
+    # load_contacts.sh — synthetic loader for JGRMQAPI /contacts
+    #
+    # Generates synthetic contact records and POSTs them to the
+    # JGRMQAPI /contacts endpoint via IBM API Connect.
+    #
+    # Configuration (all via env vars / ConfigMap):
+    #   ENDPOINT_URL        — full URL incl. /contacts path
+    #   API_CLIENT_IDS      — comma-separated client IDs (required);
+    #                         one is chosen at random each iteration
+    #                         to simulate multiple consumers.
+    #                         Falls back to API_CLIENT_ID if set.
+    #   METADATA_CODE       — value for metadata.code field
+    #   INTERVAL_BUSINESS   — sleep seconds 08:00-17:59 (def 5)
+    #   INTERVAL_EVENING    — sleep seconds 18:00-22:59 (def 15)
+    #   INTERVAL_OVERNIGHT  — sleep seconds 23:00-07:59 (def 60)
+    #   TLS_INSECURE        — set to "true" to skip cert verify
+    #   FAILURE_PERCENT     — 0-100, percentage of calls that are
+    #                         deliberately sent without the client ID
+    #                         so the gateway returns a real 4xx
+    #                         (default: 10)
+    ############################################################
+
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+    YELLOW='\033[1;33m'
+    CYAN='\033[0;36m'
+    NC='\033[0m'
+
+    # ---------------------------------------------------------------
+    # Helpers
+    # ---------------------------------------------------------------
+    generate_random_string() {
+        local length=${1:-8}
+        LC_ALL=C tr -dc 'a-zA-Z0-9' </dev/urandom | fold -w "$length" | head -n 1
+    }
+
+    generate_random_number() {
+        local min=${1:-1}
+        local max=${2:-999}
+        echo $((min + RANDOM % (max - min + 1)))
+    }
+
+    generate_uuid() {
+        if command -v uuidgen &>/dev/null; then
+            uuidgen | tr '[:upper:]' '[:lower:]'
+        else
+            printf '%08x-%04x-%04x-%04x-%012x' \
+                $((RANDOM * RANDOM)) $RANDOM $RANDOM $RANDOM $((RANDOM * RANDOM * RANDOM))
+        fi
+    }
+
+    generate_timestamp() {
+        date -u +"%Y-%m-%dT%H:%M:%SZ"
+    }
+
+    # ---------------------------------------------------------------
+    # Synthetic contact data — maps directly to jgr-data schema:
+    #   id, fname, lname, email, phone, company, comments
+    # ---------------------------------------------------------------
+    generate_contact_payload() {
+        local first_names=("James" "Maria" "David" "Sarah" "Robert" "Emily" "Michael" "Lisa" "John" "Anna"
+                           "Carlos" "Elena" "Wei"   "Priya" "Omar"  "Fatima" "Lucas" "Yuki" "Ivan" "Amara")
+        local last_names=("Smith"    "Johnson"   "Williams" "Brown"    "Jones"
+                          "Garcia"   "Miller"    "Davis"    "Rodriguez""Martinez"
+                          "Chen"     "Patel"     "Kim"      "Nguyen"   "Ali"
+                          "Ferreira" "Tanaka"    "Mueller"  "Okafor"   "Dubois")
+        local companies=("Acme Corp"       "Globex Inc"      "Initech LLC"
+                         "Umbrella Ltd"    "Soylent Co"      "Vandelay Industries"
+                         "Stark Solutions" "Wayne Enterprises" "Oscorp Technologies"
+                         "Massive Dynamic" "Buy N Large"     "Cyberdyne Systems"
+                         "Weyland Corp"    "InGen Ltd"       "Tyrell Corp")
+        local comment_templates=(
+            "Interested in product demo"
+            "Requesting pricing information"
+            "Follow-up from trade show"
+            "Referral from existing customer"
+            "Downloaded whitepaper"
+            "Attended webinar"
+            "Submitted support inquiry"
+            "Newsletter subscriber upgrade"
+            "Partnership inquiry"
+            "Trial account request")
+
+        local fname=${first_names[$RANDOM % ${#first_names[@]}]}
+        local lname=${last_names[$RANDOM % ${#last_names[@]}]}
+        local company=${companies[$RANDOM % ${#companies[@]}]}
+        local comment=${comment_templates[$RANDOM % ${#comment_templates[@]}]}
+        local id=$(generate_uuid)
+        local email
+        email=$(echo "${fname}.${lname}@$(echo "$company" | tr '[:upper:]' '[:lower:]' | tr -d ' ' | tr -d '.' | cut -c1-12).example.com")
+        local phone
+        phone=$(printf "+1-%03d-%03d-%04d" \
+            $((RANDOM % 800 + 100)) \
+            $((RANDOM % 900 + 100)) \
+            $((RANDOM % 10000)))
+
+        # metadata.code — use env var or default to "LOAD"
+        local code="${METADATA_CODE:-LOAD}"
+
+        cat <<EOF
+    {
+      "metadata": {
+        "code": "$code"
+      },
+      "payload": {
+        "id":       "$id",
+        "fname":    "$fname",
+        "lname":    "$lname",
+        "email":    "$email",
+        "phone":    "$phone",
+        "company":  "$company",
+        "comments": "$comment"
+      }
+    }
+    EOF
+    }
+
+    # ---------------------------------------------------------------
+    # Time-of-day interval selection
+    # ---------------------------------------------------------------
+    INTERVAL_BUSINESS="${INTERVAL_BUSINESS:-5}"
+    INTERVAL_EVENING="${INTERVAL_EVENING:-15}"
+    INTERVAL_OVERNIGHT="${INTERVAL_OVERNIGHT:-60}"
+
+    get_interval() {
+        local hour
+        hour=$(date +%H)
+        if   [ "$hour" -ge 8  ] && [ "$hour" -le 17 ]; then echo "$INTERVAL_BUSINESS"
+        elif [ "$hour" -ge 18 ] && [ "$hour" -le 22 ]; then echo "$INTERVAL_EVENING"
+        else                                                  echo "$INTERVAL_OVERNIGHT"
+        fi
+    }
+
+    # ---------------------------------------------------------------
+    # Validate required config
+    # ---------------------------------------------------------------
+    ENDPOINT_URL="${ENDPOINT_URL:-}"
+    TLS_INSECURE="${TLS_INSECURE:-false}"
+    FAILURE_PERCENT="${FAILURE_PERCENT:-10}"
+    ITERATION=0
+
+    if [ -z "$ENDPOINT_URL" ]; then
+        echo -e "${RED}✗ ENDPOINT_URL is not set. Set it in the ConfigMap and restart the pod.${NC}"
+        exit 1
+    fi
+
+    # ---------------------------------------------------------------
+    # Build the client ID array.
+    # API_CLIENT_IDS (comma-separated) takes priority; falls back to
+    # the legacy API_CLIENT_ID single-value variable.
+    # ---------------------------------------------------------------
+    RAW_IDS="${API_CLIENT_IDS:-${API_CLIENT_ID:-}}"
+    if [ -z "$RAW_IDS" ]; then
+        echo -e "${RED}✗ API_CLIENT_IDS is not set. Provide at least one client ID in the ConfigMap.${NC}"
+        exit 1
+    fi
+
+    # Split on commas into a bash array, trimming whitespace from each entry
+    IFS=',' read -ra CLIENT_ID_ARRAY <<< "$RAW_IDS"
+    TRIMMED_ARRAY=()
+    for entry in "${CLIENT_ID_ARRAY[@]}"; do
+        trimmed="${entry#"${entry%%[![:space:]]*}"}"   # ltrim
+        trimmed="${trimmed%"${trimmed##*[![:space:]]}"}" # rtrim
+        [ -n "$trimmed" ] && TRIMMED_ARRAY+=("$trimmed")
+    done
+    CLIENT_ID_ARRAY=("${TRIMMED_ARRAY[@]}")
+    CLIENT_ID_COUNT=${#CLIENT_ID_ARRAY[@]}
+
+    if [ "$CLIENT_ID_COUNT" -eq 0 ]; then
+        echo -e "${RED}✗ API_CLIENT_IDS contains no valid entries after parsing.${NC}"
+        exit 1
+    fi
+
+    # Build curl TLS flag
+    CURL_TLS_FLAG=""
+    if [ "$TLS_INSECURE" = "true" ]; then
+        CURL_TLS_FLAG="-k"
+        echo -e "${YELLOW}⚠ TLS certificate verification is DISABLED (TLS_INSECURE=true)${NC}"
+    fi
+
+    # ---------------------------------------------------------------
+    # Main loop
+    # ---------------------------------------------------------------
+    echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${CYAN} JGRMQAPI Contact Loader — synthetic data loop${NC}"
+    echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo "  Endpoint           : $ENDPOINT_URL"
+    echo "  Consumers          : $CLIENT_ID_COUNT client ID(s)"
+    for i in "${!CLIENT_ID_ARRAY[@]}"; do
+        echo "    [$((i+1))] ${CLIENT_ID_ARRAY[$i]}"
+    done
+    echo "  Metadata code      : ${METADATA_CODE:-LOAD}"
+    echo "  Failure percentage : ${FAILURE_PERCENT}%"
+    echo "  Interval business  : ${INTERVAL_BUSINESS}s  (08:00–17:59)"
+    echo "  Interval evening   : ${INTERVAL_EVENING}s  (18:00–22:59)"
+    echo "  Interval overnight : ${INTERVAL_OVERNIGHT}s (23:00–07:59)"
+    echo ""
+
+    while true; do
+        ITERATION=$((ITERATION + 1))
+        LOOP_INTERVAL=$(get_interval)
+        PAYLOAD=$(generate_contact_payload)
+        TIMESTAMP=$(generate_timestamp)
+
+        # ---------------------------------------------------------------
+        # Determine whether this iteration should be a failure.
+        # A random number 1-100 is drawn; if it falls within the failure
+        # percentage the request is sent WITHOUT the X-IBM-Client-Id header
+        # so the gateway returns a real 401/400 — producing authentic error
+        # traffic in API Connect analytics.
+        # ---------------------------------------------------------------
+        ROLL=$((RANDOM % 100 + 1))
+        if [ "$ROLL" -le "$FAILURE_PERCENT" ]; then
+            INJECT_FAILURE=true
+        else
+            INJECT_FAILURE=false
+        fi
+
+        # Pick a random client ID from the array for this iteration
+        SELECTED_CLIENT_ID="${CLIENT_ID_ARRAY[$((RANDOM % CLIENT_ID_COUNT))]}"
+
+        if [ "$INJECT_FAILURE" = "true" ]; then
+            echo "--- Iteration $ITERATION @ $TIMESTAMP [interval: ${LOOP_INTERVAL}s] [SIMULATED FAILURE] ---"
+        else
+            echo "--- Iteration $ITERATION @ $TIMESTAMP [interval: ${LOOP_INTERVAL}s] [consumer: ${SELECTED_CLIENT_ID}] ---"
+        fi
+        echo "Payload: $PAYLOAD"
+
+        if [ "$INJECT_FAILURE" = "true" ]; then
+            # Omit the X-IBM-Client-Id header → gateway rejects with 401
+            RESPONSE=$(curl -s -w "\n%{http_code}" $CURL_TLS_FLAG \
+                -X POST "$ENDPOINT_URL" \
+                -H "Content-Type: application/json" \
+                -H "Accept: application/json" \
+                -d "$PAYLOAD")
+        else
+            RESPONSE=$(curl -s -w "\n%{http_code}" $CURL_TLS_FLAG \
+                -X POST "$ENDPOINT_URL" \
+                -H "Content-Type: application/json" \
+                -H "Accept: application/json" \
+                -H "X-IBM-Client-Id: $SELECTED_CLIENT_ID" \
+                -d "$PAYLOAD")
+        fi
+
+        HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+        RESPONSE_BODY=$(echo "$RESPONSE" | sed '$d')
+
+        if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
+            echo -e "${GREEN}✓ HTTP $HTTP_CODE${NC}"
+        else
+            echo -e "${RED}✗ HTTP $HTTP_CODE${NC}"
+        fi
+
+        echo "Response: $RESPONSE_BODY"
+        echo ""
+        sleep "$LOOP_INTERVAL"
+    done

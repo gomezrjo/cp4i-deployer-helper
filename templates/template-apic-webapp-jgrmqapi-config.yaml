@@ -1,0 +1,42 @@
+---
+# ──────────────────────────────────────────────────────────────────────────────
+# ConfigMap – runtime configuration for the JGRMQAPI web app
+# Edit API_BASE_URL and optionally set API_CLIENT_ID before applying.
+# ──────────────────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jgrmqapi-web-config
+  labels:
+    app: jgrmqapi-web
+data:
+  # Base URL of the JGRMQAPI gateway (no trailing slash, no /contacts path).
+  # Optional — if set it pre-fills the form and is used as the default when the
+  # field is left blank. The user can override it at any time by typing a new URL.
+  # If left empty the form field is required and must be filled in manually.
+  API_BASE_URL: "${API_BASE_URL}"
+
+  # Optional default client ID – if set, the UI shows "(set via env)" as a hint.
+  # Leave empty to require the user to enter it in the form every time.
+  API_CLIENT_ID: "${API_CLIENT_ID}"
+
+  # Set to "0" to disable TLS certificate verification (useful for TechZone
+  # environments with self-signed certs). Remove or set to "1" for production.
+  NODE_TLS_REJECT_UNAUTHORIZED: "0"
+
+  PORT: "8080"
+
+  # ---------------------------------------------------------------
+  # Optional default values for the web form payload fields.
+  # When set, the form fields are pre-filled with these values.
+  # The user can edit or clear any field before submitting.
+  # Leave empty to show the field blank.
+  # ---------------------------------------------------------------
+  DEFAULT_CODE:     "LOAD"
+  DEFAULT_ID:       "1234567890"
+  DEFAULT_FNAME:    "Peter"
+  DEFAULT_LNAME:    "Parket"
+  DEFAULT_EMAIL:    "spiderman@thedailybugle.com"
+  DEFAULT_PHONE:    "+1-212-000-0000"
+  DEFAULT_COMPANY:  "The Daily Bugle"
+  DEFAULT_COMMENTS: "Marvel Comics"
