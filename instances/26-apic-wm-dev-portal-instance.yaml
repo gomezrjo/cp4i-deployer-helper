@@ -1,0 +1,30 @@
+apiVersion: devportal.apiconnect.ibm.com/v1beta1
+kind: DevPortalCluster
+metadata:
+  name: ${INST_NAME}
+spec:
+  analyticsRef:
+    name: ${DINST_NAME}-a7s
+  certManagerIssuer:
+    kind: Issuer
+    name: ${DINST_NAME}-self-signed
+  isStandalone: false
+  license:
+    accept: true
+    license: ${INST_LIC}
+    metric: PROCESSOR_VALUE_UNIT
+    use: nonproduction
+  profile: ${INST_PROFILE}
+  version: ${INST_VER}
+  devportalAdminEndpoint:
+    annotations:
+      cert-manager.io/issuer: ${DINST_NAME}-ingress-issuer
+    ingressClassName: nginx
+  devportalUIEndpoint:
+    annotations:
+      cert-manager.io/issuer: ${DINST_NAME}-ingress-issuer
+    ingressClassName: nginx
+  mgmtConsumerEndpointCASecret:
+    secretName: ${DINST_NAME}-ingress-ca
+  mgmtPlatformEndpointCASecret:
+    secretName: ${DINST_NAME}-ingress-ca
