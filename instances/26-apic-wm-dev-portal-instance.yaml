@@ -12,7 +12,7 @@ spec:
   license:
     accept: true
     license: ${INST_LIC}
-    metric: PROCESSOR_VALUE_UNIT
+    metric: VIRTUAL_PROCESSOR_CORE
     use: nonproduction
   profile: ${INST_PROFILE}
   version: ${INST_VER}
