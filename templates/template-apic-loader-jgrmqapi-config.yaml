@@ -1,0 +1,41 @@
+---
+# ──────────────────────────────────────────────────────────────────────────────
+# ConfigMap – runtime configuration for the JGRMQAPI contact loader
+# ──────────────────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jgr-contacts-loader-config
+  namespace: jgrmqapi
+  labels:
+    app: jgr-contacts-loader
+data:
+  # Full URL including the /contacts path segment
+  ENDPOINT_URL: "${ENDPOINT_URL}"
+
+  # IBM API Connect client IDs — comma-separated list of client IDs to simulate
+  # multiple consumers. One is picked at random for each successful call.
+  # Example: "id-aaa111,id-bbb222,id-ccc333"
+  # For a single consumer just provide one value (no comma needed).
+  # Kept as API_CLIENT_ID for backwards compatibility with a single value.
+  API_CLIENT_IDS: "${API_CLIENT_IDS}"
+
+  # Value placed in metadata.code for every generated record
+  METADATA_CODE: "TEST"
+
+  # ---------------------------------------------------------------
+  # Loop interval per time-of-day band (seconds)
+  # ---------------------------------------------------------------
+  INTERVAL_BUSINESS:  "5"    # 08:00–17:59
+  INTERVAL_EVENING:   "15"   # 18:00–22:59
+  INTERVAL_OVERNIGHT: "60"   # 23:00–07:59
+
+  # Set to "true" to skip TLS certificate verification.
+  # Required for TechZone environments with self-signed certs.
+  TLS_INSECURE: "true"
+
+  # Percentage of calls (0-100) that are deliberately sent without the
+  # X-IBM-Client-Id header, causing the gateway to return a real 4xx.
+  # Produces authentic error traffic in API Connect analytics.
+  # Set to "0" to disable failure injection entirely.
+  FAILURE_PERCENT: "1"

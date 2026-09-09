@@ -1,0 +1,38 @@
+---
+# ──────────────────────────────────────────────────────────────────────────────
+# Service – ClusterIP for the JGRMQAPI web pod
+# ──────────────────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: jgrmqapi-web
+  labels:
+    app: jgrmqapi-web
+spec:
+  selector:
+    app: jgrmqapi-web
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  type: ClusterIP
+---
+# ──────────────────────────────────────────────────────────────────────────────
+# Route – exposes the web app externally via the OCP router
+# ──────────────────────────────────────────────────────────────────────────────
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: jgrmqapi-web
+  labels:
+    app: jgrmqapi-web
+spec:
+  to:
+    kind: Service
+    name: jgrmqapi-web
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

@@ -1,0 +1,67 @@
+---
+# ──────────────────────────────────────────────────────────────────────────────
+# Deployment – JGRMQAPI contact loader (single pod, continuous curl loop)
+# ──────────────────────────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jgr-contacts-loader
+  namespace: jgrmqapi
+  labels:
+    app: jgr-contacts-loader
+  annotations:
+    description: "Continuously POSTs synthetic contact records to the JGRMQAPI /contacts endpoint"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jgr-contacts-loader
+  template:
+    metadata:
+      labels:
+        app: jgr-contacts-loader
+    spec:
+      containers:
+        - name: loader
+          image: registry.access.redhat.com/ubi9/ubi-minimal:latest
+          command: ["/bin/bash", "/scripts/load_contacts.sh"]
+
+          envFrom:
+            - configMapRef:
+                name: jgr-contacts-loader-config
+
+          volumeMounts:
+            - name: script-volume
+              mountPath: /scripts
+              readOnly: true
+
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+
+          livenessProbe:
+            exec:
+              command: ["pgrep", "-f", "load_contacts.sh"]
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            failureThreshold: 3
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            capabilities:
+              drop: ["ALL"]
+            seccompProfile:
+              type: RuntimeDefault
+
+      volumes:
+        - name: script-volume
+          configMap:
+            name: jgr-contacts-loader-script
+            defaultMode: 0755
+
+      restartPolicy: Always
