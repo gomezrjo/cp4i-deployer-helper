@@ -1,0 +1,2051 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    productVersion: 12.1.1.2-1637
+  labels:
+    control-plane: ibm-apiconnect
+  name: default
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ibm-apiconnect
+  namespace: ${NS_NAME}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ibm-apiconnect
+  namespace: ${NS_NAME}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - bindings
+  - componentstatuses
+  - limitranges
+  - nodes
+  - pods/attach
+  - pods/log
+  - pods/portforward
+  - pods/proxy
+  - podtemplates
+  - resourcequotas
+  - services/proxy
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - endpoints
+  - events
+  - persistentvolumeclaims
+  - pods
+  - replicationcontrollers
+  - secrets
+  - serviceaccounts
+  - services
+  - services/finalizers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods/exec
+  verbs:
+  - create
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  - apps
+  resources:
+  - replicasets
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  - batch
+  resources:
+  - cronjobs
+  - jobs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - analytics.apiconnect.ibm.com
+  resources:
+  - analyticsbackups
+  - analyticsbackups/finalizers
+  - analyticsbackups/status
+  - analyticsclusters
+  - analyticsclusters/finalizers
+  - analyticsclusters/status
+  - analyticsrestores
+  - analyticsrestores/finalizers
+  - analyticsrestores/status
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apiconnect.ibm.com
+  resources:
+  - apiconnectclusters
+  - apiconnectclusters/finalizers
+  - apiconnectclusters/status
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - statefulsets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apps
+  resourceNames:
+  - ibm-apiconnect
+  resources:
+  - deployments/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - autoscaling
+  resources:
+  - horizontalpodautoscalers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cert-manager.io
+  resources:
+  - certificaterequests
+  - certificates
+  - issuers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - cp4i.ibm.com
+  resources:
+  - cp4iservicesbindings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - crunchydata.com
+  resources:
+  - pgbackups
+  - pgclusters
+  - pgpolicies
+  - pgreplicas
+  - pgtasks
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - datapower.ibm.com
+  resources:
+  - datapowermonitors
+  - datapowerservices
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - devportal.apiconnect.ibm.com
+  resources:
+  - devportalclusters
+  - devportalclusters/finalizers
+  - devportalclusters/status
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - events.k8s.io
+  resources:
+  - events
+  verbs:
+  - create
+- apiGroups:
+  - federatedapimanagement.apiconnect.ibm.com
+  resources:
+  - federatedapimanagementclusters
+  - federatedapimanagementclusters/finalizers
+  - federatedapimanagementclusters/status
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gateway.apiconnect.ibm.com
+  resources:
+  - gatewayclusters
+  - gatewayclusters/finalizers
+  - gatewayclusters/status
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gateways
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - keycloak.integration.ibm.com
+  resources:
+  - integrationkeycloakclients
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - management.apiconnect.ibm.com
+  resources:
+  - managementbackups
+  - managementbackups/finalizers
+  - managementbackups/status
+  - managementclusters
+  - managementclusters/finalizers
+  - managementclusters/status
+  - managementdbupgrades
+  - managementdbupgrades/status
+  - managementrestores
+  - managementrestores/finalizers
+  - managementrestores/status
+  - managementsecretrotations
+  - managementsecretrotations/status
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - management.apiconnect.ibm.com
+  resources:
+  - managementsecretrotations/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - monitoring.coreos.com
+  resources:
+  - servicemonitors
+  verbs:
+  - create
+  - get
+- apiGroups:
+  - nano.datapower.ibm.com
+  resources:
+  - managements
+  - runtimeconfigs
+  - tlsclientprofiles
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  - networkpolicies
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - oidc.security.ibm.com
+  resources:
+  - clients
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - operator.ibm.com
+  resources:
+  - operandrequests
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - operators.coreos.com
+  resources:
+  - catalogsources
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - portal.apiconnect.ibm.com
+  resources:
+  - portalbackups
+  - portalbackups/finalizers
+  - portalbackups/status
+  - portalclusters
+  - portalclusters/finalizers
+  - portalclusters/status
+  - portalrestores
+  - portalrestores/finalizers
+  - portalrestores/status
+  - portalsecretrotations
+  - portalsecretrotations/status
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - postgresql.k8s.enterprisedb.io
+  resources:
+  - backups
+  - clusters
+  - poolers
+  - scheduledbackups
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - rolebindings
+  - roles
+  verbs:
+  - bind
+  - create
+  - delete
+  - escalate
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - route.openshift.io
+  resources:
+  - routes
+  - routes/custom-host
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - wmapigateway.apiconnect.ibm.com
+  resources:
+  - wmapigatewaybackups
+  - wmapigatewaybackups/finalizers
+  - wmapigatewaybackups/status
+  - wmapigatewayclusters
+  - wmapigatewayrestores
+  - wmapigatewayrestores/finalizers
+  - wmapigatewayrestores/status
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ibm-apiconnect-leader-election-role
+  namespace: ${NS_NAME}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ibm-apiconnect
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - componentstatuses
+  - namespaces
+  - nodes
+  - persistentvolumes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps/status
+  - secrets/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - pods/exec
+  verbs:
+  - delete
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - pods/status
+  verbs:
+  - get
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - mutatingwebhookconfigurations
+  - validatingwebhookconfigurations
+  verbs:
+  - list
+  - patch
+- apiGroups:
+  - analytics.apiconnect.ibm.com
+  resources:
+  - analyticssecretrotations
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - analytics.apiconnect.ibm.com
+  resources:
+  - analyticssecretrotations/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - analytics.apiconnect.ibm.com
+  resources:
+  - analyticssecretrotations/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - get
+  - list
+  - update
+  - watch
+- apiGroups:
+  - cert-manager.io
+  resources:
+  - clusterissuers
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - config.openshift.io
+  resources:
+  - clusteroperators
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+  - get
+  - update
+- apiGroups:
+  - devportal.apiconnect.ibm.com
+  resources:
+  - devportalclusters
+  - devportalclusters/finalizers
+  - devportalclusters/status
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - federatedapimanagement.apiconnect.ibm.com
+  resources:
+  - federatedapimanagementclusters
+  - federatedapimanagementclusters/finalizers
+  - federatedapimanagementclusters/status
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - backendtlspolicies
+  - gatewayclasses
+  - gateways
+  - httproutes
+  - tlsroutes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - monitoring.coreos.com
+  resources:
+  - podmonitors
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - watch
+- apiGroups:
+  - nanogateway.apiconnect.ibm.com
+  resources:
+  - nanogatewayclusters
+  - nanogatewayclusters/finalizers
+  - nanogatewayclusters/status
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingressclasses
+  verbs:
+  - get
+  - list
+- apiGroups:
+  - operators.coreos.com
+  resources:
+  - operatorconditions
+  - operators
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - postgresql.k8s.enterprisedb.io
+  resources:
+  - backups
+  - clusters
+  - databases
+  - poolers
+  - publications
+  - scheduledbackups
+  - subscriptions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - postgresql.k8s.enterprisedb.io
+  resources:
+  - backups/status
+  - databases/status
+  - publications/status
+  - scheduledbackups/status
+  - subscriptions/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - postgresql.k8s.enterprisedb.io
+  resources:
+  - clusterimagecatalogs
+  - imagecatalogs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - postgresql.k8s.enterprisedb.io
+  resources:
+  - clusters/finalizers
+  - poolers/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - postgresql.k8s.enterprisedb.io
+  resources:
+  - clusters/status
+  - failoverquorums/status
+  - poolers/status
+  verbs:
+  - get
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - postgresql.k8s.enterprisedb.io
+  resources:
+  - failoverquorums
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - watch
+- apiGroups:
+  - rbac.authorization.k8s.io
+  resources:
+  - clusterrolebindings
+  - clusterroles
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - snapshot.storage.k8s.io
+  resources:
+  - volumesnapshots
+  verbs:
+  - create
+  - get
+  - list
+  - patch
+  - watch
+- apiGroups:
+  - storage.k8s.io
+  resources:
+  - storageclasses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - wmapigateway.apiconnect.ibm.com
+  resources:
+  - wmapigatewayclusters
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - wmapigateway.apiconnect.ibm.com
+  resources:
+  - wmapigatewayclusters/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - wmapigateway.apiconnect.ibm.com
+  resources:
+  - wmapigatewayclusters/status
+  verbs:
+  - get
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ibm-apiconnect-metrics-reader
+rules:
+- nonResourceURLs:
+  - /metrics
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ibm-apiconnect-proxy-role
+rules:
+- apiGroups:
+  - authentication.k8s.io
+  resources:
+  - tokenreviews
+  verbs:
+  - create
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - subjectaccessreviews
+  verbs:
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ibm-apiconnect-webhook-delete-role
+rules:
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - mutatingwebhookconfigurations
+  - validatingwebhookconfigurations
+  verbs:
+  - get
+  - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ibm-apiconnect-webhook-update-role
+rules:
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - mutatingwebhookconfigurations
+  - validatingwebhookconfigurations
+  verbs:
+  - get
+  - update
+  - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ibm-apiconnect
+  namespace: ${NS_NAME}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: ibm-apiconnect
+subjects:
+- kind: ServiceAccount
+  name: ibm-apiconnect
+  namespace: ${NS_NAME}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: ibm-apiconnect-leader-election-rolebinding
+  namespace: ${NS_NAME}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: ibm-apiconnect-leader-election-role
+subjects:
+- kind: ServiceAccount
+  name: ibm-apiconnect
+  namespace: ${NS_NAME}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ibm-apiconnect-default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ibm-apiconnect
+subjects:
+- kind: ServiceAccount
+  name: ibm-apiconnect
+  namespace: ${NS_NAME}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ibm-apiconnect-proxy-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ibm-apiconnect-proxy-role
+subjects:
+- kind: ServiceAccount
+  name: ibm-apiconnect
+  namespace: ${NS_NAME}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ibm-apiconnect-webhook-delete-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ibm-apiconnect-webhook-delete-role
+subjects:
+- kind: ServiceAccount
+  name: ibm-apiconnect
+  namespace: ${NS_NAME}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ibm-apiconnect-webhook-update-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ibm-apiconnect-webhook-update-role
+subjects:
+- kind: ServiceAccount
+  name: ibm-apiconnect
+  namespace: ${NS_NAME}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ibm-apiconnect-metrics-service
+  namespace: ${NS_NAME}
+spec:
+  ports:
+  - name: https
+    port: 8443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app.kubernetes.io/component: apiconnect-operator
+    app.kubernetes.io/name: ibm-apiconnect
+    name: ibm-apiconnect
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ibm-apiconnect-webhook-service
+  namespace: ${NS_NAME}
+spec:
+  ports:
+  - port: 443
+    protocol: TCP
+    targetPort: 9443
+  selector:
+    app.kubernetes.io/component: apiconnect-operator
+    app.kubernetes.io/name: ibm-apiconnect
+    name: ibm-apiconnect
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql-operator-webhook-service
+  namespace: ${NS_NAME}
+spec:
+  ports:
+  - port: 443
+    targetPort: 9443
+  selector:
+    app.kubernetes.io/name: cloud-native-postgresql
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    cloudpakId: c8b82d189e7545f0892db9ef2731b90d
+    cloudpakName: IBM Cloud Pak for Integration
+    productID: 2c717d4ecc924aa5ac345015b55492eb
+    productMetric: FREE
+    productName: IBM API Connect Enterprise
+    productVersion: 12.1.1.2-1637
+  name: ibm-apiconnect
+  namespace: ${NS_NAME}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: apiconnect-operator
+      app.kubernetes.io/name: ibm-apiconnect
+      name: ibm-apiconnect
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        cloudpakId: c8b82d189e7545f0892db9ef2731b90d
+        cloudpakName: IBM Cloud Pak for Integration
+        kubectl.kubernetes.io/default-container: ibm-apiconnect
+        productID: 2c717d4ecc924aa5ac345015b55492eb
+        productMetric: FREE
+        productName: IBM API Connect Enterprise
+        productVersion: 12.1.1.2-1637
+      labels:
+        app.kubernetes.io/component: apiconnect-operator
+        app.kubernetes.io/instance: ibm-apiconnect
+        app.kubernetes.io/managed-by: ibm-apiconnect
+        app.kubernetes.io/name: ibm-apiconnect
+        name: ibm-apiconnect
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
+                - s390x
+                - ppc64le
+      containers:
+      - args:
+        - --enable-leader-election
+        env:
+        - name: WATCH_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_UID
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.uid
+        - name: APPLIANCE
+          value: "false"
+        - name: IMAGE_REGISTRY
+          value: icr.io/cpopen
+        - name: ENABLE_PPROF
+          value: "false"
+        - name: FIPS_ENABLED
+          value: "false"
+        - name: OPERATOR_MODE
+          value: "idig"
+        image: icr.io/cpopen/ibm-apiconnect-operator@sha256:f026e8024f32366a6830040ea48a17547b5d4354302234dfd767be22b0cfce06
+        name: ibm-apiconnect
+        ports:
+        - containerPort: 9443
+          name: webhook-server
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+          requests:
+            cpu: 75m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+        volumeMounts:
+        - mountPath: /tmp/k8s-webhook-server/serving-certs
+          name: cert
+          readOnly: true
+        - mountPath: /extern-versions
+          name: extern-versions
+      imagePullSecrets:
+      - name:  ibm-entitlement-key
+      initContainers:
+      - args:
+        - webhook-init
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: MUTATING_WEBHOOK
+          value: ibm-apiconnect-mutating-webhook-configuration
+        - name: VALIDATING_WEBHOOK
+          value: ibm-apiconnect-validating-webhook-configuration
+        - name: FIPS_ENABLED
+          value: "false"
+        - name: OPERATOR_MODE
+          value: "idig"
+        image: icr.io/cpopen/ibm-apiconnect-operator@sha256:f026e8024f32366a6830040ea48a17547b5d4354302234dfd767be22b0cfce06
+        name: webhook
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+          requests:
+            cpu: 75m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: false
+        volumeMounts:
+        - mountPath: /tmp/k8s-webhook-server/serving-certs
+          name: cert
+          readOnly: false
+      - args:
+        - webhook-delete
+        env:
+        - name: WATCH_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_UID
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.uid
+        - name: FIPS_ENABLED
+          value: "false"
+        - name: OPERATOR_MODE
+          value: "idig"
+        image: icr.io/cpopen/ibm-apiconnect-operator@sha256:f026e8024f32366a6830040ea48a17547b5d4354302234dfd767be22b0cfce06
+        name: webhook-delete
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+          requests:
+            cpu: 75m
+            memory: 128Mi
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: ibm-apiconnect
+      terminationGracePeriodSeconds: 10
+      volumes:
+      - emptyDir: {}
+        name: cert
+      - emptyDir: {}
+        name: extern-versions
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: ibm-apiconnect-mutating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-devportal-apiconnect-ibm-com-v1beta1-devportalcluster
+  failurePolicy: Fail
+  name: mdevportalcluster.kb.io
+  rules:
+  - apiGroups:
+    - devportal.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - devportalclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-federatedapimanagement-apiconnect-ibm-com-v1beta1-federatedapimanagementcluster
+  failurePolicy: Fail
+  name: mfederatedapimanagementcluster.kb.io
+  rules:
+  - apiGroups:
+    - federatedapimanagement.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - federatedapimanagementclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-analytics-apiconnect-ibm-com-v1beta1-analyticsbackup
+  failurePolicy: Fail
+  name: manalyticsbackup.kb.io
+  rules:
+  - apiGroups:
+    - analytics.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - analyticsbackups
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-analytics-apiconnect-ibm-com-v1beta1-analyticscluster
+  failurePolicy: Fail
+  name: manalyticscluster.kb.io
+  rules:
+  - apiGroups:
+    - analytics.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - analyticsclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-gateway-apiconnect-ibm-com-v1beta1-gatewaycluster
+  failurePolicy: Fail
+  name: mgatewaycluster.kb.io
+  rules:
+  - apiGroups:
+    - gateway.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - gatewayclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-management-apiconnect-ibm-com-v1beta1-managementcluster
+  failurePolicy: Fail
+  name: mmanagementcluster.kb.io
+  rules:
+  - apiGroups:
+    - management.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - managementclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-management-apiconnect-ibm-com-v1beta1-managementdbupgrade
+  failurePolicy: Fail
+  name: mmanagementdbupgrade.kb.io
+  rules:
+  - apiGroups:
+    - management.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - managementdbupgrades
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-management-apiconnect-ibm-com-v1beta1-managementrestore
+  failurePolicy: Fail
+  name: mmanagementrestore.kb.io
+  rules:
+  - apiGroups:
+    - management.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - managementrestores
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-portal-apiconnect-ibm-com-v1beta1-portalcluster
+  failurePolicy: Fail
+  name: mportalcluster.kb.io
+  rules:
+  - apiGroups:
+    - portal.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - portalclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-apiconnect-ibm-com-v1beta1-apiconnectcluster
+  failurePolicy: Fail
+  name: mapiconnectcluster.kb.io
+  rules:
+  - apiGroups:
+    - apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - apiconnectclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-nanogateway-apiconnect-ibm-com-v1beta1-nanogatewaycluster
+  failurePolicy: Fail
+  name: mnanogatewaycluster.kb.io
+  rules:
+  - apiGroups:
+    - nanogateway.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - nanogatewayclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-wmapigateway-apiconnect-ibm-com-v1beta1-wmapigatewaycluster
+  failurePolicy: Fail
+  name: mwmapigatewaycluster.kb.io
+  rules:
+  - apiGroups:
+    - wmapigateway.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - wmapigatewayclusters
+  sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: postgresql-operator-mutating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: postgresql-operator-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-postgresql-k8s-enterprisedb-io-v1-backup
+  failurePolicy: Fail
+  name: mbackup.k8s.enterprisedb.io
+  rules:
+  - apiGroups:
+    - postgresql.k8s.enterprisedb.io
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - backups
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: postgresql-operator-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-postgresql-k8s-enterprisedb-io-v1-cluster
+  failurePolicy: Fail
+  name: mcluster.k8s.enterprisedb.io
+  rules:
+  - apiGroups:
+    - postgresql.k8s.enterprisedb.io
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - clusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: postgresql-operator-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-postgresql-k8s-enterprisedb-io-v1-database
+  failurePolicy: Fail
+  name: mdatabase.k8s.enterprisedb.io
+  rules:
+  - apiGroups:
+    - postgresql.k8s.enterprisedb.io
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - databases
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: postgresql-operator-webhook-service
+      namespace: ${NS_NAME}
+      path: /mutate-postgresql-k8s-enterprisedb-io-v1-scheduledbackup
+  failurePolicy: Fail
+  name: mscheduledbackup.k8s.enterprisedb.io
+  rules:
+  - apiGroups:
+    - postgresql.k8s.enterprisedb.io
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - scheduledbackups
+  sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: ibm-apiconnect-validating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-devportal-apiconnect-ibm-com-v1beta1-devportalcluster
+  failurePolicy: Fail
+  name: vdevportalcluster.kb.io
+  rules:
+  - apiGroups:
+    - devportal.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - devportalclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-federatedapimanagement-apiconnect-ibm-com-v1beta1-federatedapimanagementcluster
+  failurePolicy: Fail
+  name: vfederatedapimanagementcluster.kb.io
+  rules:
+  - apiGroups:
+    - federatedapimanagement.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - federatedapimanagementclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-analytics-apiconnect-ibm-com-v1beta1-analyticsbackup
+  failurePolicy: Fail
+  name: vanalyticsbackup.kb.io
+  rules:
+  - apiGroups:
+    - analytics.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - analyticsbackups
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-analytics-apiconnect-ibm-com-v1beta1-analyticscluster
+  failurePolicy: Fail
+  name: vanalyticscluster.kb.io
+  rules:
+  - apiGroups:
+    - analytics.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - analyticsclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-analytics-apiconnect-ibm-com-v1beta1-analyticsrestore
+  failurePolicy: Fail
+  name: vanalyticsrestore.kb.io
+  rules:
+  - apiGroups:
+    - analytics.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - analyticsrestores
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-analytics-apiconnect-ibm-com-v1beta1-analyticssecretrotation
+  failurePolicy: Fail
+  name: vanalyticssecretrotation.kb.io
+  rules:
+  - apiGroups:
+    - analytics.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - analyticssecretrotations
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-gateway-apiconnect-ibm-com-v1beta1-gatewaycluster
+  failurePolicy: Fail
+  name: vgatewaycluster.kb.io
+  rules:
+  - apiGroups:
+    - gateway.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - gatewayclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-management-apiconnect-ibm-com-v1beta1-managementcluster
+  failurePolicy: Fail
+  name: vmanagementcluster.kb.io
+  rules:
+  - apiGroups:
+    - management.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - managementclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-management-apiconnect-ibm-com-v1beta1-managementdbupgrade
+  failurePolicy: Fail
+  name: vmanagementdbupgrade.kb.io
+  rules:
+  - apiGroups:
+    - management.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - managementdbupgrades
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-management-apiconnect-ibm-com-v1beta1-managementrestore
+  failurePolicy: Fail
+  name: vmanagementrestore.kb.io
+  rules:
+  - apiGroups:
+    - management.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - managementrestores
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-portal-apiconnect-ibm-com-v1beta1-portalbackup
+  failurePolicy: Fail
+  name: vportalbackup.kb.io
+  rules:
+  - apiGroups:
+    - portal.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - portalbackups
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-portal-apiconnect-ibm-com-v1beta1-portalcluster
+  failurePolicy: Fail
+  name: vportalcluster.kb.io
+  rules:
+  - apiGroups:
+    - portal.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - portalclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-portal-apiconnect-ibm-com-v1beta1-portalrestore
+  failurePolicy: Fail
+  name: vportalrestore.kb.io
+  rules:
+  - apiGroups:
+    - portal.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - portalrestores
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-portal-apiconnect-ibm-com-v1beta1-portalsecretrotation
+  failurePolicy: Fail
+  name: vportalsecretrotation.kb.io
+  rules:
+  - apiGroups:
+    - portal.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - portalsecretrotations
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-apiconnect-ibm-com-v1beta1-apiconnectcluster
+  failurePolicy: Fail
+  name: vapiconnectcluster.kb.io
+  rules:
+  - apiGroups:
+    - apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - apiconnectclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-nanogateway-apiconnect-ibm-com-v1beta1-nanogatewaycluster
+  failurePolicy: Fail
+  name: vnanogatewaycluster.kb.io
+  rules:
+  - apiGroups:
+    - nanogateway.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - nanogatewayclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-wmapigateway-apiconnect-ibm-com-v1beta1-wmapigatewaybackup
+  failurePolicy: Fail
+  name: vwmapigatewaybackup.kb.io
+  rules:
+  - apiGroups:
+    - wmapigateway.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - wmapigatewaybackups
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-wmapigateway-apiconnect-ibm-com-v1beta1-wmapigatewaycluster
+  failurePolicy: Fail
+  name: vwmapigatewaycluster.kb.io
+  rules:
+  - apiGroups:
+    - wmapigateway.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - wmapigatewayclusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: ibm-apiconnect-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-wmapigateway-apiconnect-ibm-com-v1beta1-wmapigatewayrestore
+  failurePolicy: Fail
+  name: vwmapigatewayrestore.kb.io
+  rules:
+  - apiGroups:
+    - wmapigateway.apiconnect.ibm.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - wmapigatewayrestores
+  sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: postgresql-operator-validating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: postgresql-operator-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-postgresql-k8s-enterprisedb-io-v1-backup
+  failurePolicy: Fail
+  name: vbackup.k8s.enterprisedb.io
+  rules:
+  - apiGroups:
+    - postgresql.k8s.enterprisedb.io
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - backups
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: postgresql-operator-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-postgresql-k8s-enterprisedb-io-v1-cluster
+  failurePolicy: Fail
+  name: vcluster.k8s.enterprisedb.io
+  rules:
+  - apiGroups:
+    - postgresql.k8s.enterprisedb.io
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - clusters
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: postgresql-operator-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-postgresql-k8s-enterprisedb-io-v1-database
+  failurePolicy: Fail
+  name: vdatabase.k8s.enterprisedb.io
+  rules:
+  - apiGroups:
+    - postgresql.k8s.enterprisedb.io
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - databases
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: postgresql-operator-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-postgresql-k8s-enterprisedb-io-v1-pooler
+  failurePolicy: Fail
+  name: vpooler.k8s.enterprisedb.io
+  rules:
+  - apiGroups:
+    - postgresql.k8s.enterprisedb.io
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - poolers
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: postgresql-operator-webhook-service
+      namespace: ${NS_NAME}
+      path: /validate-postgresql-k8s-enterprisedb-io-v1-scheduledbackup
+  failurePolicy: Fail
+  name: vscheduledbackup.k8s.enterprisedb.io
+  rules:
+  - apiGroups:
+    - postgresql.k8s.enterprisedb.io
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - scheduledbackups
+  sideEffects: None
