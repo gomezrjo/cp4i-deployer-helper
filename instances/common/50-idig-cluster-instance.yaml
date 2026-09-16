@@ -1,0 +1,24 @@
+apiVersion: datapowerinteractgateway.ibm.com/v1beta1
+kind: DatapowerInteractGatewayCluster
+metadata:
+  name: ${INST_NAME}
+spec:
+  imagePullSecrets:
+    - idig-registry-secret
+    - ibm-entitlement-key
+  imageRegistry: ${IDIG_IMG_REGISTRY}
+  version: 12.1.1.2
+  profile: dev
+  license:
+    accept: true
+    use: nonproduction
+    license: "L-PAZT-LQ5TZL"
+  enableAnalytics: true
+  enableDevPortal: true
+  domain: ${STACK_HOST}
+  tenantName: "acme"
+  groupName: "sandbox"
+  watsonxSecret: "watsonx-credentials"
+  storageClassName: ${OCP_BLOCK_STORAGE}
+  nanoGateway:
+    gatewayDomain: nanogw.${STACK_HOST}
