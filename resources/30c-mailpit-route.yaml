@@ -10,4 +10,6 @@ spec:
     weight: 100
   port:
     targetPort: 8025
+  tls:
+    termination: edge
   wildcardPolicy: None
