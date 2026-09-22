@@ -79,8 +79,8 @@ spec:
       - name: mq-source
         artifacts:
           - type: jar
-            url: https://github.com/ibm-messaging/kafka-connect-mq-source/releases/download/v2.8.1/kafka-connect-mq-source-2.8.1-jar-with-dependencies.jar
+            url: https://github.com/ibm-messaging/kafka-connect-mq-source/releases/download/v3.0.0/kafka-connect-mq-source-3.0.0-jar-with-dependencies.jar
       - name: mq-sink
         artifacts:
           - type: jar
-            url: https://github.com/ibm-messaging/kafka-connect-mq-sink/releases/download/v2.3.0/kafka-connect-mq-sink-2.3.0-jar-with-dependencies.jar
+            url: https://github.com/ibm-messaging/kafka-connect-mq-sink/releases/download/v3.1.0/kafka-connect-mq-sink-3.1.0-jar-with-dependencies.jar
