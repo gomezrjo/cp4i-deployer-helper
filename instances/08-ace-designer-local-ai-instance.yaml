@@ -1,0 +1,36 @@
+apiVersion: appconnect.ibm.com/v1beta1
+kind: DesignerAuthoring
+metadata:
+  labels:
+    backup.appconnect.ibm.com/component: designerauthoring
+  name: ${INST_NAME}
+spec:
+  authentication:
+    integrationKeycloak:
+      enabled: true
+  authorization:
+    integrationKeycloak:
+      enabled: true
+  couchdb:
+    replicas: 1
+    storage:
+      size: 10Gi
+      type: persistent-claim
+      class: ${OCP_BLOCK_STORAGE}
+  designerFlowsOperationMode: local
+  designerMappingAssist:
+    enabled: true
+    incrementalLearning:
+      schedule: Every 15 days
+      useIncrementalLearning: true
+      storage:
+        type: persistent-claim
+        class: ${OCP_FILE_STORAGE}
+  license:
+    accept: true
+    license: ${INST_LIC}
+    use: CloudPakForIntegrationNonProduction
+  replicas: 1
+  switchServer:
+    name: ace-switch-server
+  version: '${INST_VER}'
