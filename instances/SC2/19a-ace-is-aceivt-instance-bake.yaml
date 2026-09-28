@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: runtime
-          image:  quay.io/jgomezr/ace-13.0.5.0-r1-jgrcp4i-aceivt:1.0.0
+          image:  quay.io/jgomezr/ace-13.0.5.1-r1-jgrcp4i-aceivt:1.0.0
           resources:
             limits:
               cpu: 500m
@@ -22,4 +22,4 @@ spec:
               cpu: 500m
               memory: 512Mi     
   replicas: 2
-  version: 13.0.5.0-r1
+  version: 13.0.5.1-r1
