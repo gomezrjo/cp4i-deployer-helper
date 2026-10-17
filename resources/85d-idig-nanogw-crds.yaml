@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: apis.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -430,7 +430,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: apisets.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -881,7 +881,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: assemblies.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -1098,7 +1098,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: autoscaleconfigs.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -1235,6 +1235,7 @@ spec:
                       targets
                     enum:
                     - Runtime
+                    - IdigRuntime
                     type: string
                   labelSelectors:
                     description: Specify how the AutoScaleConfig discovers resources
@@ -1403,8 +1404,2673 @@ spec:
 apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
+  name: idigruntimeconfigs.idig.datapower.ibm.com
+spec:
+  group: idig.datapower.ibm.com
+  names:
+    categories:
+    - idig
+    kind: IdigRuntimeConfig
+    plural: idigruntimeconfigs
+    shortNames:
+    - irtc
+    singular: idigruntimeconfig
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - description: container image
+      jsonPath: .spec.image
+      name: Image
+      type: string
+    - description: age of resource
+      jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Auto-generated derived type for IdigRuntimeConfigSpec via `CustomResource`
+        properties:
+          spec:
+            description: |-
+              `IdigRuntimeConfig` custom resource — `idig.datapower.ibm.com/v1alpha1`.
+
+              Holds the container image, resource limits, environment variables, and all other runtime-container configuration for IDIG-managed runtimes. Referenced by `IdigRuntime` via `spec.runtimeConfigRef`.
+
+              To add new configuration fields, see the extension guide in `idig-common/src/models/runtime/idig_runtime_config.rs`.
+            properties:
+              annotations:
+                additionalProperties:
+                  type: string
+                type: object
+              env:
+                items:
+                  description: EnvVar represents an environment variable present in
+                    a Container.
+                  properties:
+                    name:
+                      description: Name of the environment variable. Must be a C_IDENTIFIER.
+                      type: string
+                    value:
+                      description: 'Variable references $(VAR_NAME) are expanded using
+                        the previously defined environment variables in the container
+                        and any service environment variables. If a variable cannot
+                        be resolved, the reference in the input string will be unchanged.
+                        Double $$ are reduced to a single $, which allows for escaping
+                        the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the
+                        string literal "$(VAR_NAME)". Escaped references will never
+                        be expanded, regardless of whether the variable exists or
+                        not. Defaults to "".'
+                      type: string
+                    valueFrom:
+                      description: Source for the environment variable's value. Cannot
+                        be used if value is not empty.
+                      properties:
+                        configMapKeyRef:
+                          description: Selects a key of a ConfigMap.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: 'Name of the referent. This field is effectively
+                                required, but due to backwards compatibility is allowed
+                                to be empty. Instances of this type with an empty
+                                value here are almost certainly wrong. More info:
+                                https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                              type: string
+                            optional:
+                              description: Specify whether the ConfigMap or its key
+                                must be defined
+                              type: boolean
+                          required:
+                          - key
+                          - name
+                          type: object
+                        fieldRef:
+                          description: 'Selects a field of the pod: supports metadata.name,
+                            metadata.namespace, `metadata.labels[''<KEY>'']`, `metadata.annotations[''<KEY>'']`,
+                            spec.nodeName, spec.serviceAccountName, status.hostIP,
+                            status.podIP, status.podIPs.'
+                          properties:
+                            apiVersion:
+                              description: Version of the schema the FieldPath is
+                                written in terms of, defaults to "v1".
+                              type: string
+                            fieldPath:
+                              description: Path of the field to select in the specified
+                                API version.
+                              type: string
+                          required:
+                          - fieldPath
+                          type: object
+                        resourceFieldRef:
+                          description: 'Selects a resource of the container: only
+                            resources limits and requests (limits.cpu, limits.memory,
+                            limits.ephemeral-storage, requests.cpu, requests.memory
+                            and requests.ephemeral-storage) are currently supported.'
+                          properties:
+                            containerName:
+                              description: 'Container name: required for volumes,
+                                optional for env vars'
+                              type: string
+                            divisor:
+                              description: Specifies the output format of the exposed
+                                resources, defaults to "1"
+                              type: string
+                            resource:
+                              description: 'Required: resource to select'
+                              type: string
+                          required:
+                          - resource
+                          type: object
+                        secretKeyRef:
+                          description: Selects a key of a secret in the pod's namespace
+                          properties:
+                            key:
+                              description: The key of the secret to select from.  Must
+                                be a valid secret key.
+                              type: string
+                            name:
+                              description: 'Name of the referent. This field is effectively
+                                required, but due to backwards compatibility is allowed
+                                to be empty. Instances of this type with an empty
+                                value here are almost certainly wrong. More info:
+                                https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                              type: string
+                            optional:
+                              description: Specify whether the Secret or its key must
+                                be defined
+                              type: boolean
+                          required:
+                          - key
+                          - name
+                          type: object
+                      type: object
+                  required:
+                  - name
+                  type: object
+                nullable: true
+                type: array
+              hostAliases:
+                items:
+                  description: HostAlias holds the mapping between IP and hostnames
+                    that will be injected as an entry in the pod's hosts file.
+                  properties:
+                    hostnames:
+                      description: Hostnames for the above IP address.
+                      items:
+                        type: string
+                      type: array
+                    ip:
+                      description: IP address of the host file entry.
+                      type: string
+                  required:
+                  - ip
+                  type: object
+                nullable: true
+                type: array
+              image:
+                type: string
+              imagePullPolicy:
+                enum:
+                - IfNotPresent
+                - Always
+                - Never
+                nullable: true
+                type: string
+              imagePullSecrets:
+                items:
+                  description: LocalObjectReference contains enough information to
+                    let you locate the referenced object inside the same namespace.
+                  properties:
+                    name:
+                      description: 'Name of the referent. This field is effectively
+                        required, but due to backwards compatibility is allowed to
+                        be empty. Instances of this type with an empty value here
+                        are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                      type: string
+                  required:
+                  - name
+                  type: object
+                nullable: true
+                type: array
+              labels:
+                additionalProperties:
+                  type: string
+                type: object
+              logLevel:
+                default:
+                  all: error
+                properties:
+                  all:
+                    description: Sets the global logging level
+                    enum:
+                    - trace
+                    - debug
+                    - info
+                    - warn
+                    - error
+                    - "off"
+                    type: string
+                required:
+                - all
+                type: object
+              openTelemetry:
+                description: Configuration for OpenTelemetry in microservices.
+                nullable: true
+                properties:
+                  additionalSpans:
+                    description: Add more granular spans for transactions. By default,
+                      only required spans per OpenTelemetry specification are produced
+                      (e.g., http).
+                    enum:
+                    - globalFlow
+                    - assemblyPolicy
+                    - globalPolicy
+                    - userDefinedPolicy
+                    nullable: true
+                    type: string
+                  attributes:
+                    additionalProperties:
+                      type: string
+                    description: Additional attributes to be set on each span.
+                    nullable: true
+                    type: object
+                  batching:
+                    description: Batching configuration to use when exporting.
+                    nullable: true
+                    properties:
+                      batchSize:
+                        description: Maximum number of spans to process in a single
+                          batch.
+                        format: uint
+                        minimum: 0
+                        type: integer
+                      interval:
+                        description: Interval between two consecutive exports.
+                        type: string
+                      queueSize:
+                        description: Maximum queue size to buffer spans for delayed
+                          processing.
+                        format: uint
+                        minimum: 0
+                        type: integer
+                      threads:
+                        description: Maximum concurrent exports to perform.
+                        format: uint
+                        minimum: 0
+                        type: integer
+                      timeout:
+                        description: Maximum time allowed to complete the export.
+                        type: string
+                    required:
+                    - batchSize
+                    - interval
+                    - queueSize
+                    - threads
+                    - timeout
+                    type: object
+                  endpoints:
+                    description: List of endpoints to send telemetry data to.
+                    items:
+                      properties:
+                        protocol:
+                          description: Protocol used in export.
+                          enum:
+                          - grpc
+                          - http/protobuf
+                          - http/json
+                          type: string
+                        signals:
+                          description: Signals to send to this endpoint. Defaults
+                            to traces and logs.
+                          nullable: true
+                          properties:
+                            logs:
+                              description: Send OpenTelemetry Logs signal
+                              type: boolean
+                            metrics:
+                              description: Send OpenTelemetry Metrics signal
+                              type: boolean
+                            traces:
+                              description: Send OpenTelemetry Traces signal
+                              type: boolean
+                          required:
+                          - logs
+                          - metrics
+                          - traces
+                          type: object
+                        tlsClientProfile:
+                          description: Optional TlsClientProfile for use when connecting
+                            to endpoint.
+                          nullable: true
+                          type: string
+                        url:
+                          description: URL to OTLP collector endpoint.
+                          type: string
+                      required:
+                      - protocol
+                      - url
+                      type: object
+                    minItems: 1
+                    type: array
+                  headers:
+                    additionalProperties:
+                      type: string
+                    description: Additional headers to be sent in export request.
+                    nullable: true
+                    type: object
+                  sampling:
+                    description: Sampling of spans to apply when collecting spans
+                      for export.
+                    nullable: true
+                    properties:
+                      parentBased:
+                        description: Use parent based sampling when available
+                        type: boolean
+                      ratio:
+                        description: Ratio to apply when using RatioBased sampler
+                        format: double
+                        nullable: true
+                        type: number
+                      samplerType:
+                        description: Built-in sampler type to use when parent sampling
+                          is not in effect
+                        enum:
+                        - AlwaysOn
+                        - AlwaysOff
+                        - RatioBased
+                        type: string
+                    required:
+                    - parentBased
+                    - samplerType
+                    type: object
+                required:
+                - endpoints
+                type: object
+              protocols:
+                description: Optionally configure protocol settings applied to all
+                  Gateway-managed listeners.
+                nullable: true
+                properties:
+                  http:
+                    description: Optionally configure HTTP-layer settings for all
+                      HTTP/HTTPS listeners.
+                    nullable: true
+                    properties:
+                      version:
+                        description: Optionally restrict HTTP version to support.
+                          If unset (default), accept any version.
+                        enum:
+                        - HTTP/1
+                        - HTTP/2
+                        nullable: true
+                        type: string
+                    type: object
+                type: object
+              replicas:
+                format: int32
+                nullable: true
+                type: integer
+              resources:
+                description: Optionally configure container resources (CPU & memory)
+                nullable: true
+                properties:
+                  limits:
+                    description: Resource limits
+                    properties:
+                      cpu:
+                        description: CPU expressed using Kubernetes resource quantity
+                          syntax
+                        type: string
+                      memory:
+                        description: Memory expressed using Kubernetes resource quantity
+                          syntax
+                        type: string
+                    required:
+                    - cpu
+                    - memory
+                    type: object
+                  requests:
+                    description: Resource requests
+                    properties:
+                      cpu:
+                        description: CPU expressed using Kubernetes resource quantity
+                          syntax
+                        type: string
+                      memory:
+                        description: Memory expressed using Kubernetes resource quantity
+                          syntax
+                        type: string
+                    required:
+                    - cpu
+                    - memory
+                    type: object
+                required:
+                - limits
+                - requests
+                type: object
+                x-kubernetes-validations:
+                - message: CPU request must be at least 10m
+                  rule: quantity(self.requests.cpu).compareTo(quantity("10m")) >=
+                    0
+                - message: memory request must be at least 20Mi
+                  rule: quantity(self.requests.memory).compareTo(quantity("20Mi"))
+                    >= 0
+                - message: CPU limit must be greater than or equal to CPU request
+                  rule: quantity(self.limits.cpu).compareTo(quantity(self.requests.cpu))
+                    >= 0
+                - message: memory limit must be greater than or equal to memory request
+                  rule: quantity(self.limits.memory).compareTo(quantity(self.requests.memory))
+                    >= 0
+              serviceName:
+                nullable: true
+                type: string
+              tlsServerProfile:
+                description: 'DEPRECATED: configure TLS in Gateway listeners instead'
+                nullable: true
+                type: string
+            required:
+            - image
+            type: object
+          status:
+            description: Status for `IdigRuntimeConfig`.
+            nullable: true
+            properties:
+              conditions:
+                items:
+                  description: Condition contains details for one aspect of the current
+                    state of this API Resource.
+                  properties:
+                    lastTransitionTime:
+                      description: lastTransitionTime is the last time the condition
+                        transitioned from one status to another. This should be when
+                        the underlying condition changed.  If that is not known, then
+                        using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: message is a human readable message indicating
+                        details about the transition. This may be an empty string.
+                      type: string
+                    observedGeneration:
+                      description: observedGeneration represents the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.conditions[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: reason contains a programmatic identifier indicating
+                        the reason for the condition's last transition. Producers
+                        of specific condition types may define expected values and
+                        meanings for this field, and whether the values are considered
+                        a guaranteed API. The value should be a CamelCase string.
+                        This field may not be empty.
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                nullable: true
+                type: array
+              parents:
+                items:
+                  description: TypedLocalObjectReference contains enough information
+                    to let you locate the typed referenced object inside the same
+                    namespace.
+                  properties:
+                    apiGroup:
+                      description: APIGroup is the group for the resource being referenced.
+                        If APIGroup is not specified, the specified Kind must be in
+                        the core API group. For any other third-party types, APIGroup
+                        is required.
+                      type: string
+                    kind:
+                      description: Kind is the type of resource being referenced
+                      type: string
+                    name:
+                      description: Name is the name of resource being referenced
+                      type: string
+                  required:
+                  - kind
+                  - name
+                  type: object
+                nullable: true
+                type: array
+            type: object
+        required:
+        - spec
+        title: IdigRuntimeConfigValidated
+        type: object
+        x-kubernetes-validations:
+        - message: metadata.name must be 32 characters or less
+          rule: self.metadata.name.size() <= 32
+    served: true
+    storage: true
+    subresources:
+      status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: idigruntimes.idig.datapower.ibm.com
+spec:
+  group: idig.datapower.ibm.com
+  names:
+    categories:
+    - idig
+    kind: IdigRuntime
+    plural: idigruntimes
+    shortNames:
+    - irt
+    singular: idigruntime
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - description: name of associated Deployment
+      jsonPath: .status.deployment.name
+      name: Deployment
+      type: string
+    - description: referenced IdigRuntimeConfig
+      jsonPath: .spec.runtimeConfigRef
+      name: Config
+      type: string
+    - description: total number of replicas
+      jsonPath: .spec.replicas
+      name: Replicas
+      type: number
+    - description: number of ready replicas
+      jsonPath: .status.deployment.readyReplicas
+      name: Ready
+      type: number
+    - description: number of updated replicas
+      jsonPath: .status.deployment.updatedReplicas
+      name: Up-to-date
+      priority: 1
+      type: number
+    - description: number of unavailable replicas
+      jsonPath: .status.deployment.unavailableReplicas
+      name: Unavailable
+      priority: 1
+      type: number
+    - description: age of resource
+      jsonPath: .metadata.creationTimestamp
+      name: Age
+      type: date
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Auto-generated derived type for IdigRuntimeSpec via `CustomResource`
+        properties:
+          spec:
+            description: |-
+              `IdigRuntime` custom resource — `idig.datapower.ibm.com/v1alpha1`.
+
+              Describes an IDIG gateway runtime instance. References an `IdigRuntimeConfig` CR via `spec.runtimeConfigRef` to obtain container image and config.
+            properties:
+              annotations:
+                additionalProperties:
+                  type: string
+                description: |-
+                  Specify annotations to apply to the Runtime Deployment and Pods.
+
+                  IDIG Operator controls the value of `idig.datapower.ibm.com/hash` annotation. All other annotations specified by the user will be propagated as-is to the managed Deployment and Pods.
+                type: object
+              blockService:
+                nullable: true
+                properties:
+                  database:
+                    description: Name of database configuration to use; must be defined
+                      in components.
+                    maxLength: 32
+                    minLength: 1
+                    type: string
+                  defaultMode:
+                    default: denyAll
+                    description: Default behavior if no valid remote config is available
+                    enum:
+                    - allowAll
+                    - denyAll
+                    type: string
+                  retryIntervalSeconds:
+                    description: Retry interval in seconds, kicks in if TTL exceeded
+                      but failure encountered when fetching the new config
+                    format: uint64
+                    maximum: 86400
+                    minimum: 1
+                    nullable: true
+                    type: integer
+                  ttlSeconds:
+                    description: TTL in seconds for the cached block config
+                    format: uint64
+                    maximum: 86400
+                    minimum: 1
+                    nullable: true
+                    type: integer
+                required:
+                - database
+                type: object
+                x-kubernetes-validations:
+                - message: retryIntervalSeconds must not be greater than ttlSeconds
+                  rule: '!has(self.retryIntervalSeconds) || !has(self.ttlSeconds)
+                    || self.retryIntervalSeconds <= self.ttlSeconds'
+              cacheService:
+                nullable: true
+                properties:
+                  database:
+                    description: Name of database configuration to use; must be defined
+                      in components.
+                    maxLength: 32
+                    minLength: 1
+                    type: string
+                required:
+                - database
+                type: object
+              components:
+                nullable: true
+                properties:
+                  countLimits:
+                    additionalProperties:
+                      items:
+                        properties:
+                          autoDecrement:
+                            default: true
+                            description: If true (default), the count limit is automatically
+                              decremented at the end of the transaction by the amount
+                              it was incremented during the transaction. If false,
+                              the count is only decremented by a Decrement operation.
+                            type: boolean
+                          dynamicValue:
+                            description: JSONata expression to be added to the limit
+                              key; evaluates to a string
+                            nullable: true
+                            type: string
+                          max:
+                            description: Max allowed for this count limit. A value
+                              of 0 means "unlimited" (any number of calls are allowed).
+                            format: int64
+                            minimum: 0
+                            type: integer
+                          weightExpr:
+                            description: JSONata expression for the weight of a call
+                              (i.e., the amount by which the count is incremented
+                              or decremented). Must evaluate to a positive integer.
+                              If not set, the weight defaults to 1.
+                            nullable: true
+                            type: string
+                        required:
+                        - max
+                        type: object
+                      type: array
+                    type: object
+                  databases:
+                    additionalProperties:
+                      oneOf:
+                      - required:
+                        - singlePrimary
+                      - required:
+                        - cluster
+                      - required:
+                        - localOnly
+                      properties:
+                        cluster:
+                          properties:
+                            credential:
+                              description: Optional; name of Secret containing user
+                                credential for authentication with database. If a
+                                Secret is provided, it must contain `username` field.
+                                Optionally, it may also contain `password` field.
+                              nullable: true
+                              type: string
+                            endpoints:
+                              description: Database endpoints; each entry must be
+                                either `redis://` or `rediss://` scheme.
+                              items:
+                                type: string
+                              minItems: 1
+                              type: array
+                            keyPrefix:
+                              description: Optional; custom prefix for all Redis keys
+                                to use. If not set, `dpn` will be used.
+                              nullable: true
+                              type: string
+                            tls:
+                              description: Optional; TLS configuration, relevant for
+                                `rediss://` scheme endpoints.
+                              nullable: true
+                              properties:
+                                secret:
+                                  description: Name of Secret containing `tls.key`,
+                                    `tls.crt`, and optionally `ca.crt`.
+                                  type: string
+                              required:
+                              - secret
+                              type: object
+                          required:
+                          - endpoints
+                          type: object
+                        localOnly:
+                          properties:
+                            maxCapacity:
+                              default: 1024
+                              format: uint64
+                              maximum: 65536
+                              minimum: 256
+                              type: integer
+                          type: object
+                        singlePrimary:
+                          properties:
+                            credential:
+                              description: Optional; name of Secret containing user
+                                credential for authentication with database. If a
+                                Secret is provided, it must contain `username` field.
+                                Optionally, it may also contain `password` field.
+                              nullable: true
+                              type: string
+                            endpoint:
+                              description: Database endpoint; must be either `redis://`
+                                or `rediss://` scheme.
+                              type: string
+                            keyPrefix:
+                              description: Optional; custom prefix for all Redis keys
+                                to use. If not set, `dpn` will be used.
+                              nullable: true
+                              type: string
+                            tls:
+                              description: Optional; TLS configuration, relevant for
+                                `rediss://` scheme endpoint.
+                              nullable: true
+                              properties:
+                                secret:
+                                  description: Name of Secret containing `tls.key`,
+                                    `tls.crt`, and optionally `ca.crt`.
+                                  type: string
+                              required:
+                              - secret
+                              type: object
+                          required:
+                          - endpoint
+                          type: object
+                      type: object
+                    type: object
+                    x-kubernetes-validations:
+                    - message: database names cannot be empty and must not exceed
+                        32 characters in length
+                      rule: self.all(name, name.size() > 1 && name.size() <= 32)
+                    - message: database names must consist of alphanumeric characters
+                        or '-', must start and end with an alphanumeric character,
+                        and must not exceed 32 characters in length
+                      rule: self.all(name, name.matches('^[0-9a-zA-Z]$|^[0-9a-zA-Z][0-9a-zA-Z-]{0,30}[0-9a-zA-Z]$'))
+                  rateLimits:
+                    additionalProperties:
+                      items:
+                        properties:
+                          dynamicValue:
+                            description: JSONata expression for string to be added
+                              to the limit key.
+                            nullable: true
+                            type: string
+                          exceedAction:
+                            description: 'Action to take when rate limit is exceeded.
+                              Applies only to rate limit operations that return a
+                              `LimitExceeded` error: Consume, Check.'
+                            enum:
+                            - return429
+                            - return500
+                            - continue
+                            type: string
+                          intervalLen:
+                            description: Interval length
+                            format: int32
+                            minimum: 1
+                            type: integer
+                          intervalOffset:
+                            description: 'Cause interval to start at an offset other
+                              than the default. Valid values: 0 (default) = no change,
+                              -1 = interval will start at an arbitrary offset.'
+                            format: int32
+                            maximum: 0
+                            minimum: -1
+                            type: integer
+                          intervalUnit:
+                            description: Interval units
+                            enum:
+                            - second
+                            - minute
+                            - hour
+                            - day
+                            type: string
+                          max:
+                            description: Max allowed for this rate limit during each
+                              interval. A value of 0 means "unlimited" (any number
+                              of calls are allowed).
+                            format: int64
+                            minimum: 0
+                            type: integer
+                          weightExpr:
+                            description: JSONata expression for the weight of a call
+                              (i.e., the amount by which the remaining count is consumed
+                              or replenished). Must evaluate to a positive integer.
+                              If not set, the weight defaults to 1.
+                            nullable: true
+                            type: string
+                        required:
+                        - intervalLen
+                        - intervalUnit
+                        - max
+                        type: object
+                      type: array
+                    type: object
+                type: object
+              distributedVariableService:
+                nullable: true
+                properties:
+                  database:
+                    description: Name of database configuration to use; must be defined
+                      in components.
+                    maxLength: 32
+                    minLength: 1
+                    type: string
+                required:
+                - database
+                type: object
+              env:
+                items:
+                  description: EnvVar represents an environment variable present in
+                    a Container.
+                  properties:
+                    name:
+                      description: Name of the environment variable. Must be a C_IDENTIFIER.
+                      type: string
+                    value:
+                      description: 'Variable references $(VAR_NAME) are expanded using
+                        the previously defined environment variables in the container
+                        and any service environment variables. If a variable cannot
+                        be resolved, the reference in the input string will be unchanged.
+                        Double $$ are reduced to a single $, which allows for escaping
+                        the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the
+                        string literal "$(VAR_NAME)". Escaped references will never
+                        be expanded, regardless of whether the variable exists or
+                        not. Defaults to "".'
+                      type: string
+                    valueFrom:
+                      description: Source for the environment variable's value. Cannot
+                        be used if value is not empty.
+                      properties:
+                        configMapKeyRef:
+                          description: Selects a key of a ConfigMap.
+                          properties:
+                            key:
+                              description: The key to select.
+                              type: string
+                            name:
+                              description: 'Name of the referent. This field is effectively
+                                required, but due to backwards compatibility is allowed
+                                to be empty. Instances of this type with an empty
+                                value here are almost certainly wrong. More info:
+                                https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                              type: string
+                            optional:
+                              description: Specify whether the ConfigMap or its key
+                                must be defined
+                              type: boolean
+                          required:
+                          - key
+                          - name
+                          type: object
+                        fieldRef:
+                          description: 'Selects a field of the pod: supports metadata.name,
+                            metadata.namespace, `metadata.labels[''<KEY>'']`, `metadata.annotations[''<KEY>'']`,
+                            spec.nodeName, spec.serviceAccountName, status.hostIP,
+                            status.podIP, status.podIPs.'
+                          properties:
+                            apiVersion:
+                              description: Version of the schema the FieldPath is
+                                written in terms of, defaults to "v1".
+                              type: string
+                            fieldPath:
+                              description: Path of the field to select in the specified
+                                API version.
+                              type: string
+                          required:
+                          - fieldPath
+                          type: object
+                        resourceFieldRef:
+                          description: 'Selects a resource of the container: only
+                            resources limits and requests (limits.cpu, limits.memory,
+                            limits.ephemeral-storage, requests.cpu, requests.memory
+                            and requests.ephemeral-storage) are currently supported.'
+                          properties:
+                            containerName:
+                              description: 'Container name: required for volumes,
+                                optional for env vars'
+                              type: string
+                            divisor:
+                              description: Specifies the output format of the exposed
+                                resources, defaults to "1"
+                              type: string
+                            resource:
+                              description: 'Required: resource to select'
+                              type: string
+                          required:
+                          - resource
+                          type: object
+                        secretKeyRef:
+                          description: Selects a key of a secret in the pod's namespace
+                          properties:
+                            key:
+                              description: The key of the secret to select from.  Must
+                                be a valid secret key.
+                              type: string
+                            name:
+                              description: 'Name of the referent. This field is effectively
+                                required, but due to backwards compatibility is allowed
+                                to be empty. Instances of this type with an empty
+                                value here are almost certainly wrong. More info:
+                                https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                              type: string
+                            optional:
+                              description: Specify whether the Secret or its key must
+                                be defined
+                              type: boolean
+                          required:
+                          - key
+                          - name
+                          type: object
+                      type: object
+                  required:
+                  - name
+                  type: object
+                nullable: true
+                type: array
+              healthProbe:
+                default:
+                  enabled: true
+                  port: 3001
+                description: Configures Runtime's health probe service, the default
+                  endpoint for liveness and readiness probes
+                properties:
+                  enabled:
+                    default: true
+                    description: Enables Runtime's health probe service and endpoint
+                    type: boolean
+                  port:
+                    default: 3001
+                    description: Sets the port for the health probe endpoint
+                    format: uint16
+                    minimum: 0
+                    type: integer
+                type: object
+              hostAliases:
+                items:
+                  description: HostAlias holds the mapping between IP and hostnames
+                    that will be injected as an entry in the pod's hosts file.
+                  properties:
+                    hostnames:
+                      description: Hostnames for the above IP address.
+                      items:
+                        type: string
+                      type: array
+                    ip:
+                      description: IP address of the host file entry.
+                      type: string
+                  required:
+                  - ip
+                  type: object
+                nullable: true
+                type: array
+              image:
+                type: string
+              imagePullPolicy:
+                enum:
+                - IfNotPresent
+                - Always
+                - Never
+                nullable: true
+                type: string
+              imagePullSecrets:
+                items:
+                  description: LocalObjectReference contains enough information to
+                    let you locate the referenced object inside the same namespace.
+                  properties:
+                    name:
+                      description: 'Name of the referent. This field is effectively
+                        required, but due to backwards compatibility is allowed to
+                        be empty. Instances of this type with an empty value here
+                        are almost certainly wrong. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names'
+                      type: string
+                  required:
+                  - name
+                  type: object
+                nullable: true
+                type: array
+              jwt:
+                nullable: true
+                properties:
+                  cache:
+                    nullable: true
+                    properties:
+                      maxRecords:
+                        default: 1000
+                        format: uint64
+                        maximum: 1000
+                        minimum: 10
+                        type: integer
+                    type: object
+                type: object
+              labels:
+                additionalProperties:
+                  type: string
+                description: |-
+                  Specify labels to apply to the Runtime Deployment and Pods.
+
+                  IDIG Operator controls the values of `app.kubernetes.io/name`, `app.kubernetes.io/instance` and `idig.datapower.ibm.com/component` labels. All other labels specified by the user will be propagated as-is to the managed Deployment and Pods.
+                type: object
+              listeners:
+                description: Optionally define one or more listeners
+                items:
+                  description: Defines a single listener for the Runtime
+                  properties:
+                    defaultTlsServerProfile:
+                      description: 'DEPRECATED: use protocol instead; invalid when
+                        protocol is specified. Optionally configure a default TlsServerProfile
+                        to use to secure this listener. If an SNI mapping is specified,
+                        the default TlsServerProfile will be used for connections
+                        that do not match an SNI entry. If no SNI mapping is specified,
+                        the default TlsServerProfile will be used for all TLS connections.
+                        If no SNI mapping is specified and no default TlsServerProfile
+                        is specified, the listener will not use TLS'
+                      nullable: true
+                      type: string
+                    name:
+                      description: Name of the listener. This name will also be used
+                        for the port name in the managed Service, and thus must be
+                        a valid Service port name.
+                      maxLength: 32
+                      minLength: 1
+                      type: string
+                    port:
+                      description: Port to listen on
+                      format: uint16
+                      maximum: 32767
+                      minimum: 1024
+                      type: integer
+                    protocol:
+                      description: Select protocol for this listener. This property
+                        supersedes defaultTlsServerProfile and sni properties, which
+                        are both now DEPRECATED. If specifying protocol, then defaultTlsServerProfile
+                        and sni must not be set. If protocol is not set, selection
+                        is based on defaultTlsServerProfile and sni (legacy behavior
+                        prior to deprecation). If none of protocol, defaultTlsServerProfile,
+                        or sni are set, then this listener will serve plaintext HTTP
+                        and accept any HTTP version.
+                      nullable: true
+                      oneOf:
+                      - required:
+                        - http
+                      - required:
+                        - https
+                      properties:
+                        http:
+                          description: Accept HTTP protocol
+                          properties:
+                            version:
+                              description: Optionally restrict HTTP version to support.
+                                If unset (default), accept any version.
+                              enum:
+                              - HTTP/1
+                              - HTTP/2
+                              nullable: true
+                              type: string
+                          type: object
+                        https:
+                          description: Accept HTTPS protocol
+                          properties:
+                            defaultTlsServerProfile:
+                              description: Configure a default TlsServerProfile to
+                                use to secure this listener. If an SNI mapping is
+                                specified, the default TlsServerProfile will be used
+                                for connections that do not match an SNI entry. If
+                                no SNI mapping is specified, the default TlsServerProfile
+                                will be used for all TLS connections.
+                              nullable: true
+                              type: string
+                            sni:
+                              description: 'Configure an SNI mapping to use to secure
+                                this listener. NOTE: Specifying an SNI mapping is
+                                not supported for Runtimes in McpServer mode.'
+                              items:
+                                description: Defines a single Runtime Listener SNI
+                                  entry
+                                properties:
+                                  hostname:
+                                    description: The precise hostname or wildcard-prefixed
+                                      hostname (e.g., "*.example.com") against which
+                                      the SNI server name is compared
+                                    maxLength: 253
+                                    minLength: 1
+                                    pattern: ^(\*\.)?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                                    type: string
+                                  tlsServerProfile:
+                                    description: The TLS Server Profile to use for
+                                      TLS connections matching `hostname`
+                                    type: string
+                                required:
+                                - hostname
+                                - tlsServerProfile
+                                type: object
+                              type: array
+                            version:
+                              description: Optionally restrict HTTP version to support.
+                                If unset (default), accept any version.
+                              enum:
+                              - HTTP/1
+                              - HTTP/2
+                              nullable: true
+                              type: string
+                          type: object
+                          x-kubernetes-validations:
+                          - message: either defaultTlsServerProfile or at least one
+                              sni entry must be provided
+                            rule: has(self.defaultTlsServerProfile) || (has(self.sni)
+                              && self.sni.size() > 0)
+                      type: object
+                    sni:
+                      description: 'DEPRECATED: use protocol instead; invalid when
+                        protocol is specified. Optionally configure an SNI mapping
+                        to use to secure this listener. NOTE: Specifying an SNI mapping
+                        is not supported for Runtimes in McpServer mode.'
+                      items:
+                        description: Defines a single Runtime Listener SNI entry
+                        properties:
+                          hostname:
+                            description: The precise hostname or wildcard-prefixed
+                              hostname (e.g., "*.example.com") against which the SNI
+                              server name is compared
+                            maxLength: 253
+                            minLength: 1
+                            pattern: ^(\*\.)?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                            type: string
+                          tlsServerProfile:
+                            description: The TLS Server Profile to use for TLS connections
+                              matching `hostname`
+                            type: string
+                        required:
+                        - hostname
+                        - tlsServerProfile
+                        type: object
+                      type: array
+                  required:
+                  - name
+                  - port
+                  type: object
+                  x-kubernetes-validations:
+                  - message: protocol cannot be specified alongside defaultTlsServerProfile
+                      or sni (remove defaultTlsServerProfile and sni if specified)
+                    rule: '!has(self.protocol) || (!has(self.defaultTlsServerProfile)
+                      && (!has(self.sni) || self.sni.size() == 0))'
+                type: array
+              livenessProbe:
+                default:
+                  httpGet:
+                    path: /alive
+                    port: 3001
+                description: Configures the liveness probe for Runtime container
+                nullable: true
+                properties:
+                  exec:
+                    description: Exec specifies a command to execute in the container.
+                    properties:
+                      command:
+                        description: Command is the command line to execute inside
+                          the container, the working directory for the command  is
+                          root ('/') in the container's filesystem. The command is
+                          simply exec'd, it is not run inside a shell, so traditional
+                          shell instructions ('|', etc) won't work. To use a shell,
+                          you need to explicitly call out to that shell. Exit status
+                          of 0 is treated as live/healthy and non-zero is unhealthy.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  failureThreshold:
+                    description: Minimum consecutive failures for the probe to be
+                      considered failed after having succeeded. Defaults to 3. Minimum
+                      value is 1.
+                    format: int32
+                    type: integer
+                  grpc:
+                    description: GRPC specifies a GRPC HealthCheckRequest.
+                    properties:
+                      port:
+                        description: Port number of the gRPC service. Number must
+                          be in the range 1 to 65535.
+                        format: int32
+                        type: integer
+                      service:
+                        description: |-
+                          Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+
+                          If this is not specified, the default behavior is defined by gRPC.
+                        type: string
+                    required:
+                    - port
+                    type: object
+                  httpGet:
+                    description: HTTPGet specifies an HTTP GET request to perform.
+                    properties:
+                      host:
+                        description: Host name to connect to, defaults to the pod
+                          IP. You probably want to set "Host" in httpHeaders instead.
+                        type: string
+                      httpHeaders:
+                        description: Custom headers to set in the request. HTTP allows
+                          repeated headers.
+                        items:
+                          description: HTTPHeader describes a custom header to be
+                            used in HTTP probes
+                          properties:
+                            name:
+                              description: The header field name. This will be canonicalized
+                                upon output, so case-variant names will be understood
+                                as the same header.
+                              type: string
+                            value:
+                              description: The header field value
+                              type: string
+                          required:
+                          - name
+                          - value
+                          type: object
+                        type: array
+                      path:
+                        description: Path to access on the HTTP server.
+                        type: string
+                      port:
+                        description: Name or number of the port to access on the container.
+                          Number must be in the range 1 to 65535. Name must be an
+                          IANA_SVC_NAME.
+                        x-kubernetes-int-or-string: true
+                      scheme:
+                        description: Scheme to use for connecting to the host. Defaults
+                          to HTTP.
+                        type: string
+                    required:
+                    - port
+                    type: object
+                  initialDelaySeconds:
+                    description: 'Number of seconds after the container has started
+                      before liveness probes are initiated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+                    format: int32
+                    type: integer
+                  periodSeconds:
+                    description: How often (in seconds) to perform the probe. Default
+                      to 10 seconds. Minimum value is 1.
+                    format: int32
+                    type: integer
+                  successThreshold:
+                    description: Minimum consecutive successes for the probe to be
+                      considered successful after having failed. Defaults to 1. Must
+                      be 1 for liveness and startup. Minimum value is 1.
+                    format: int32
+                    type: integer
+                  tcpSocket:
+                    description: TCPSocket specifies a connection to a TCP port.
+                    properties:
+                      host:
+                        description: 'Optional: Host name to connect to, defaults
+                          to the pod IP.'
+                        type: string
+                      port:
+                        description: Number or name of the port to access on the container.
+                          Number must be in the range 1 to 65535. Name must be an
+                          IANA_SVC_NAME.
+                        x-kubernetes-int-or-string: true
+                    required:
+                    - port
+                    type: object
+                  terminationGracePeriodSeconds:
+                    description: Optional duration in seconds the pod needs to terminate
+                      gracefully upon probe failure. The grace period is the duration
+                      in seconds after the processes running in the pod are sent a
+                      termination signal and the time when the processes are forcibly
+                      halted with a kill signal. Set this value longer than the expected
+                      cleanup time for your process. If this value is nil, the pod's
+                      terminationGracePeriodSeconds will be used. Otherwise, this
+                      value overrides the value provided by the pod spec. Value must
+                      be non-negative integer. The value zero indicates stop immediately
+                      via the kill signal (no opportunity to shut down). This is a
+                      beta field and requires enabling ProbeTerminationGracePeriod
+                      feature gate. Minimum value is 1. spec.terminationGracePeriodSeconds
+                      is used if unset.
+                    format: int64
+                    type: integer
+                  timeoutSeconds:
+                    description: 'Number of seconds after which the probe times out.
+                      Defaults to 1 second. Minimum value is 1. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+                    format: int32
+                    type: integer
+                type: object
+              loadBalancerService:
+                nullable: true
+                properties:
+                  database:
+                    description: Name of database configuration to use; must be defined
+                      in components.
+                    maxLength: 32
+                    minLength: 1
+                    type: string
+                required:
+                - database
+                type: object
+              logLevel:
+                default:
+                  all: error
+                properties:
+                  all:
+                    description: Sets the global logging level
+                    enum:
+                    - trace
+                    - debug
+                    - info
+                    - warn
+                    - error
+                    - "off"
+                    type: string
+                required:
+                - all
+                type: object
+              mode:
+                description: The mode used to process incoming requests
+                oneOf:
+                - required:
+                  - basic
+                - required:
+                  - apiRouter
+                - required:
+                  - gatewayApi
+                - required:
+                  - mcpServer
+                properties:
+                  apiRouter:
+                    description: Route among provided APIs
+                    properties:
+                      apiSets:
+                        description: List of `APISet` custom resources to deploy to
+                          this Runtime
+                        items:
+                          type: string
+                        type: array
+                      apis:
+                        description: List of `API` custom resources to deploy to this
+                          Runtime
+                        items:
+                          type: string
+                        type: array
+                      assembly:
+                        description: Name of `Assembly` custom resource to define
+                          assembly flow. The `Assembly` must use `flow` type of assembly.
+                        nullable: true
+                        type: string
+                      debugProbeService:
+                        description: Configure debug probe service
+                        nullable: true
+                        properties:
+                          database:
+                            description: Name of database configuration to use; must
+                              be defined in components.
+                            maxLength: 32
+                            minLength: 1
+                            type: string
+                        required:
+                        - database
+                        type: object
+                      plans:
+                        description: Properties specific to a selection of APIs or
+                          their operations
+                        items:
+                          properties:
+                            apis:
+                              items:
+                                properties:
+                                  name:
+                                    type: string
+                                  operations:
+                                    items:
+                                      properties:
+                                        operation:
+                                          nullable: true
+                                          type: string
+                                        operationId:
+                                          nullable: true
+                                          type: string
+                                        path:
+                                          nullable: true
+                                          type: string
+                                        rateLimitMap:
+                                          additionalProperties:
+                                            type: string
+                                          description: Override plan rateLimitMap
+                                            for this operation. Any alias not found
+                                            in this map is retrieved from the plan
+                                            rateLimitMap.
+                                          type: object
+                                      type: object
+                                    type: array
+                                required:
+                                - name
+                                type: object
+                              type: array
+                            countLimitMap:
+                              additionalProperties:
+                                type: string
+                              type: object
+                            name:
+                              type: string
+                            properties:
+                              additionalProperties:
+                                type: string
+                              type: object
+                            rateLimitMap:
+                              additionalProperties:
+                                type: string
+                              type: object
+                            telemetry:
+                              additionalProperties:
+                                type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        type: array
+                      routing:
+                        description: External routing configuration for this Runtime
+                        properties:
+                          basePath:
+                            type: string
+                          domain:
+                            type: string
+                          subdomain:
+                            type: string
+                        required:
+                        - basePath
+                        - domain
+                        - subdomain
+                        type: object
+                      subscriptionService:
+                        description: Configure gateway authentication / authorization
+                          for APIs
+                        nullable: true
+                        properties:
+                          cache:
+                            nullable: true
+                            properties:
+                              enableStale:
+                                nullable: true
+                                type: boolean
+                              maxRecords:
+                                format: uint64
+                                maximum: 1000
+                                minimum: 10
+                                nullable: true
+                                type: integer
+                              ttlSeconds:
+                                format: uint64
+                                maximum: 3600
+                                minimum: 1
+                                type: integer
+                            required:
+                            - ttlSeconds
+                            type: object
+                          database:
+                            description: Name of database configuration to use; must
+                              be defined in components.
+                            maxLength: 32
+                            minLength: 1
+                            type: string
+                        required:
+                        - database
+                        type: object
+                    type: object
+                  basic:
+                    description: Execute given assembly
+                    properties:
+                      assembly:
+                        description: Name of `Assembly` custom resource to execute.
+                          The `Assembly` must use `basic` type of assembly.
+                        type: string
+                    required:
+                    - assembly
+                    type: object
+                  gatewayApi:
+                    description: Gateway API
+                    properties:
+                      backendRefs:
+                        description: List of BackendRefs and their associated configuration
+                          (endpoints, auto-scaling config, etc.)
+                        items:
+                          description: Configuration for a single BackendRef
+                          properties:
+                            autoScaleConfig:
+                              description: Name of effective AutoScaleConfig for the
+                                target, if any. Only supported for `target` of type
+                                `BackendRefTarget::Runtime`.
+                              nullable: true
+                              type: string
+                            endpoints:
+                              description: List of endpoints known to exist on the
+                                target
+                              items:
+                                type: string
+                              type: array
+                            target:
+                              description: The backendRef's target resource metadata
+                              properties:
+                                kind:
+                                  description: Supported `BackendRef` kinds
+                                  enum:
+                                  - Runtime
+                                  - IdigRuntime
+                                  - Service
+                                  type: string
+                                name:
+                                  type: string
+                                namespace:
+                                  type: string
+                              required:
+                              - kind
+                              - name
+                              - namespace
+                              type: object
+                          required:
+                          - endpoints
+                          - target
+                          type: object
+                        type: array
+                      httpRoutes:
+                        description: List of `HTTPRoute` resources to deploy to this
+                          Runtime
+                        items:
+                          type: string
+                        minItems: 1
+                        type: array
+                      listenerPortMap:
+                        description: Map from Runtime listener name to Gateway listener
+                          names
+                        items:
+                          description: Maps the name of a Runtime listener to the
+                            names of Gateway listeners
+                          properties:
+                            gatewayListeners:
+                              items:
+                                type: string
+                              type: array
+                            runtimeListener:
+                              type: string
+                          required:
+                          - gatewayListeners
+                          - runtimeListener
+                          type: object
+                        type: array
+                      listenerRouteMap:
+                        description: Map from Gateway listener names to routes attached
+                          to the specified listener
+                        items:
+                          description: Maps the name of a GatewayListeners to an array
+                            of TypedObjectReferences, each of which is a reference
+                            to a route (e.g., HTTPRoute) that is attached to the specified
+                            listener.
+                          properties:
+                            gatewayListener:
+                              type: string
+                            routes:
+                              items:
+                                description: TypedObjectReference contains enough
+                                  information to let you locate the typed referenced
+                                  object
+                                properties:
+                                  apiGroup:
+                                    description: APIGroup is the group for the resource
+                                      being referenced. If APIGroup is not specified,
+                                      the specified Kind must be in the core API group.
+                                      For any other third-party types, APIGroup is
+                                      required.
+                                    type: string
+                                  kind:
+                                    description: Kind is the type of resource being
+                                      referenced
+                                    type: string
+                                  name:
+                                    description: Name is the name of resource being
+                                      referenced
+                                    type: string
+                                  namespace:
+                                    description: Namespace is the namespace of resource
+                                      being referenced Note that when a namespace
+                                      is specified, a gateway.networking.k8s.io/ReferenceGrant
+                                      object is required in the referent namespace
+                                      to allow that namespace's owner to accept the
+                                      reference. See the ReferenceGrant documentation
+                                      for details. (Alpha) This field requires the
+                                      CrossNamespaceVolumeDataSource feature gate
+                                      to be enabled.
+                                    type: string
+                                required:
+                                - kind
+                                - name
+                                type: object
+                              type: array
+                          required:
+                          - gatewayListener
+                          - routes
+                          type: object
+                        type: array
+                    required:
+                    - httpRoutes
+                    type: object
+                  mcpServer:
+                    description: MCP Server
+                    properties:
+                      assembly:
+                        description: Name of `Assembly` custom resource to define
+                          assembly flow. The `Assembly` must use `flow` type of assembly.
+                        nullable: true
+                        type: string
+                      description:
+                        description: A human-readable description of the server. This
+                          can be used by clients to improve the LLM's understanding
+                          of available tools, resources, etc.
+                        nullable: true
+                        type: string
+                      instructions:
+                        description: Instructions describing how to use the server
+                          and its features. This can be used by clients to improve
+                          the LLM's understanding of available tools, resources, etc.
+                        nullable: true
+                        type: string
+                      plans:
+                        description: Properties specific to a selection of Primitives.
+                        items:
+                          properties:
+                            countLimitMap:
+                              additionalProperties:
+                                type: string
+                              type: object
+                            name:
+                              description: Name of plan
+                              type: string
+                            properties:
+                              additionalProperties:
+                                type: string
+                              type: object
+                            rateLimitMap:
+                              additionalProperties:
+                                type: string
+                              type: object
+                            selectors:
+                              description: List of primitive selections
+                              items:
+                                description: Identifies a primitive call type
+                                oneOf:
+                                - required:
+                                  - resource
+                                - required:
+                                  - prompt
+                                - required:
+                                  - tool
+                                properties:
+                                  prompt:
+                                    description: Select an MCPPrompt
+                                    properties:
+                                      name:
+                                        description: Name of MCPPrompt
+                                        type: string
+                                    required:
+                                    - name
+                                    type: object
+                                  resource:
+                                    description: Select an MCPResource
+                                    properties:
+                                      uri:
+                                        description: URI of MCPResource
+                                        type: string
+                                    required:
+                                    - uri
+                                    type: object
+                                  tool:
+                                    description: Select an MCPTool
+                                    properties:
+                                      name:
+                                        description: Name of MCPTool
+                                        type: string
+                                    required:
+                                    - name
+                                    type: object
+                                type: object
+                              type: array
+                            telemetry:
+                              additionalProperties:
+                                type: string
+                              type: object
+                          required:
+                          - name
+                          type: object
+                        type: array
+                      prompts:
+                        description: List of `MCPPRompt` custom resources to deploy
+                          to this Runtime.
+                        items:
+                          type: string
+                        type: array
+                      protocolVersion:
+                        description: The version of Model Context Protocol that the
+                          server wants to use. This may not match the version that
+                          a client requests. If a client cannot support this version,
+                          it MUST disconnect.
+                        enum:
+                        - "2025-06-18T00:00:00Z"
+                        - latest
+                        nullable: true
+                        type: string
+                      remoteService:
+                        description: Service for sharing sessions across instances
+                        nullable: true
+                        properties:
+                          database:
+                            description: Name of database configuration to use; must
+                              be defined in components.
+                            maxLength: 32
+                            minLength: 1
+                            type: string
+                          sessionIdleTimeoutSeconds:
+                            description: Specify idle time in seconds before a session
+                              ID is removed from the database. Range of 0 - 31,536,000
+                              (1 Year). Value of 0 disables idle timeout. Defaults
+                              to 3600 seconds.
+                            format: uint64
+                            maximum: 31536000
+                            minimum: 0
+                            nullable: true
+                            type: integer
+                        required:
+                        - database
+                        type: object
+                      resources:
+                        description: List of `MCPResource` custom resources to deploy
+                          to this Runtime.
+                        items:
+                          type: string
+                        type: array
+                      routing:
+                        description: External routing configuration for this Runtime
+                        properties:
+                          basePath:
+                            type: string
+                          domain:
+                            type: string
+                          subdomain:
+                            type: string
+                        required:
+                        - basePath
+                        - domain
+                        - subdomain
+                        type: object
+                      subscriptionService:
+                        description: Configure gateway authentication / authorization
+                        nullable: true
+                        properties:
+                          cache:
+                            nullable: true
+                            properties:
+                              enableStale:
+                                nullable: true
+                                type: boolean
+                              maxRecords:
+                                format: uint64
+                                maximum: 1000
+                                minimum: 10
+                                nullable: true
+                                type: integer
+                              ttlSeconds:
+                                format: uint64
+                                maximum: 3600
+                                minimum: 1
+                                type: integer
+                            required:
+                            - ttlSeconds
+                            type: object
+                          database:
+                            description: Name of database configuration to use; must
+                              be defined in components.
+                            maxLength: 32
+                            minLength: 1
+                            type: string
+                        required:
+                        - database
+                        type: object
+                      title:
+                        description: A human-readable title for the server.
+                        nullable: true
+                        type: string
+                      tools:
+                        description: List of `MCPTool` custom resources to deploy
+                          to this Runtime.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                type: object
+              modules:
+                additionalProperties:
+                  properties:
+                    configMaps:
+                      description: List of ConfigMaps to make available in the module
+                      items:
+                        properties:
+                          name:
+                            description: Name of ConfigMap
+                            type: string
+                            x-kubernetes-validations:
+                            - message: ConfigMap name must not be empty
+                              rule: self.size() > 0
+                          subPath:
+                            description: Optionally, mount the ConfigMap content into
+                              this subPath relative to the module root
+                            nullable: true
+                            type: string
+                            x-kubernetes-validations:
+                            - message: subPath must be a relative path (cannot start
+                                with '/')
+                              rule: '!self.startsWith(''/'')'
+                            - message: subPath must not end with '/'
+                              rule: '!self.endsWith(''/'')'
+                        required:
+                        - name
+                        type: object
+                      type: array
+                      x-kubernetes-validations:
+                      - message: at least one ConfigMap must be specified
+                        rule: self.size() > 0
+                  required:
+                  - configMaps
+                  type: object
+                type: object
+                x-kubernetes-validations:
+                - message: module names must consist of lower case alphanumeric characters
+                    or '-', must start and end with an alphanumeric character, and
+                    must not exceed 32 characters in length
+                  rule: self.all(key, key.matches('^[0-9a-z]$|^[0-9a-z][0-9a-z-]{0,30}[0-9a-z]$'))
+              oauth:
+                nullable: true
+                properties:
+                  cacheService:
+                    nullable: true
+                    properties:
+                      database:
+                        description: Name of database configuration to use; must be
+                          defined in components.
+                        maxLength: 32
+                        minLength: 1
+                        type: string
+                    required:
+                    - database
+                    type: object
+                type: object
+              openTelemetry:
+                description: Configuration for OpenTelemetry in microservices.
+                nullable: true
+                properties:
+                  additionalSpans:
+                    description: Add more granular spans for transactions. By default,
+                      only required spans per OpenTelemetry specification are produced
+                      (e.g., http).
+                    enum:
+                    - globalFlow
+                    - assemblyPolicy
+                    - globalPolicy
+                    - userDefinedPolicy
+                    nullable: true
+                    type: string
+                  attributes:
+                    additionalProperties:
+                      type: string
+                    description: Additional attributes to be set on each span.
+                    nullable: true
+                    type: object
+                  batching:
+                    description: Batching configuration to use when exporting.
+                    nullable: true
+                    properties:
+                      batchSize:
+                        description: Maximum number of spans to process in a single
+                          batch.
+                        format: uint
+                        minimum: 0
+                        type: integer
+                      interval:
+                        description: Interval between two consecutive exports.
+                        type: string
+                      queueSize:
+                        description: Maximum queue size to buffer spans for delayed
+                          processing.
+                        format: uint
+                        minimum: 0
+                        type: integer
+                      threads:
+                        description: Maximum concurrent exports to perform.
+                        format: uint
+                        minimum: 0
+                        type: integer
+                      timeout:
+                        description: Maximum time allowed to complete the export.
+                        type: string
+                    required:
+                    - batchSize
+                    - interval
+                    - queueSize
+                    - threads
+                    - timeout
+                    type: object
+                  endpoints:
+                    description: List of endpoints to send telemetry data to.
+                    items:
+                      properties:
+                        protocol:
+                          description: Protocol used in export.
+                          enum:
+                          - grpc
+                          - http/protobuf
+                          - http/json
+                          type: string
+                        signals:
+                          description: Signals to send to this endpoint. Defaults
+                            to traces and logs.
+                          nullable: true
+                          properties:
+                            logs:
+                              description: Send OpenTelemetry Logs signal
+                              type: boolean
+                            metrics:
+                              description: Send OpenTelemetry Metrics signal
+                              type: boolean
+                            traces:
+                              description: Send OpenTelemetry Traces signal
+                              type: boolean
+                          required:
+                          - logs
+                          - metrics
+                          - traces
+                          type: object
+                        tlsClientProfile:
+                          description: Optional TlsClientProfile for use when connecting
+                            to endpoint.
+                          nullable: true
+                          type: string
+                        url:
+                          description: URL to OTLP collector endpoint.
+                          type: string
+                      required:
+                      - protocol
+                      - url
+                      type: object
+                    minItems: 1
+                    type: array
+                  headers:
+                    additionalProperties:
+                      type: string
+                    description: Additional headers to be sent in export request.
+                    nullable: true
+                    type: object
+                  sampling:
+                    description: Sampling of spans to apply when collecting spans
+                      for export.
+                    nullable: true
+                    properties:
+                      parentBased:
+                        description: Use parent based sampling when available
+                        type: boolean
+                      ratio:
+                        description: Ratio to apply when using RatioBased sampler
+                        format: double
+                        nullable: true
+                        type: number
+                      samplerType:
+                        description: Built-in sampler type to use when parent sampling
+                          is not in effect
+                        enum:
+                        - AlwaysOn
+                        - AlwaysOff
+                        - RatioBased
+                        type: string
+                    required:
+                    - parentBased
+                    - samplerType
+                    type: object
+                required:
+                - endpoints
+                type: object
+              rateLimitService:
+                nullable: true
+                properties:
+                  cache:
+                    nullable: true
+                    properties:
+                      capacity:
+                        description: Maximum number of individual limits that can
+                          be stored in cache. This is an LRU (least-recently-used)
+                          cache, so exceeding the number of entries will result in
+                          cache misses for the oldest keys.
+                        format: uint64
+                        maximum: 65536
+                        minimum: 32
+                        type: integer
+                      fallback:
+                        description: Configuration for the fallback to cache-only
+                          operation if there is an error communicating with the rate
+                          limit datastore. If not specified, fallback will not occur.
+                        nullable: true
+                        properties:
+                          enabled:
+                            default: true
+                            description: If true (default), rate limit service will
+                              fall back to cache and continue functioning if communication
+                              with the datastore returns an error. If false, fallback
+                              will not occur, so a datastore error will result in
+                              a transaction error.
+                            type: boolean
+                        type: object
+                      maxAgeMilliseconds:
+                        default: 500
+                        description: The maximum age (in milliseconds) of cache entry
+                          (time since last updated from database) before the cache
+                          will elect to fetch a new value from the datastore. The
+                          default value is 500 milliseconds.
+                        format: uint64
+                        maximum: 5000
+                        minimum: 5
+                        type: integer
+                      maxPercent:
+                        default: 85
+                        description: 'The closer a rate limit value gets to `max`,
+                          the more likely it is for the value to be exceeded by peer
+                          runtimes. This property specifies the maximum value found
+                          in cache, as a percentage of `max`, before cache is ignored
+                          and the actual value is retrieved from the datastore. This
+                          helps minimize the likelihood of an overage. Default: 85%'
+                        format: int64
+                        maximum: 99
+                        minimum: 1
+                        type: integer
+                    required:
+                    - capacity
+                    type: object
+                  database:
+                    description: Name of database configuration to use; must be defined
+                      in components.
+                    maxLength: 32
+                    minLength: 1
+                    type: string
+                  responseHeaders:
+                    description: Style of response headers (e.g., rate and count limit
+                      response headers)
+                    enum:
+                    - standard
+                    - combined
+                    nullable: true
+                    type: string
+                  updateIntervalMilliseconds:
+                    default: 97
+                    format: uint64
+                    maximum: 1000
+                    minimum: 5
+                    type: integer
+                required:
+                - database
+                type: object
+              readinessProbe:
+                default:
+                  httpGet:
+                    path: /ready
+                    port: 3001
+                description: Configures the readiness probe for Runtime container
+                nullable: true
+                properties:
+                  exec:
+                    description: Exec specifies a command to execute in the container.
+                    properties:
+                      command:
+                        description: Command is the command line to execute inside
+                          the container, the working directory for the command  is
+                          root ('/') in the container's filesystem. The command is
+                          simply exec'd, it is not run inside a shell, so traditional
+                          shell instructions ('|', etc) won't work. To use a shell,
+                          you need to explicitly call out to that shell. Exit status
+                          of 0 is treated as live/healthy and non-zero is unhealthy.
+                        items:
+                          type: string
+                        type: array
+                    type: object
+                  failureThreshold:
+                    description: Minimum consecutive failures for the probe to be
+                      considered failed after having succeeded. Defaults to 3. Minimum
+                      value is 1.
+                    format: int32
+                    type: integer
+                  grpc:
+                    description: GRPC specifies a GRPC HealthCheckRequest.
+                    properties:
+                      port:
+                        description: Port number of the gRPC service. Number must
+                          be in the range 1 to 65535.
+                        format: int32
+                        type: integer
+                      service:
+                        description: |-
+                          Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md).
+
+                          If this is not specified, the default behavior is defined by gRPC.
+                        type: string
+                    required:
+                    - port
+                    type: object
+                  httpGet:
+                    description: HTTPGet specifies an HTTP GET request to perform.
+                    properties:
+                      host:
+                        description: Host name to connect to, defaults to the pod
+                          IP. You probably want to set "Host" in httpHeaders instead.
+                        type: string
+                      httpHeaders:
+                        description: Custom headers to set in the request. HTTP allows
+                          repeated headers.
+                        items:
+                          description: HTTPHeader describes a custom header to be
+                            used in HTTP probes
+                          properties:
+                            name:
+                              description: The header field name. This will be canonicalized
+                                upon output, so case-variant names will be understood
+                                as the same header.
+                              type: string
+                            value:
+                              description: The header field value
+                              type: string
+                          required:
+                          - name
+                          - value
+                          type: object
+                        type: array
+                      path:
+                        description: Path to access on the HTTP server.
+                        type: string
+                      port:
+                        description: Name or number of the port to access on the container.
+                          Number must be in the range 1 to 65535. Name must be an
+                          IANA_SVC_NAME.
+                        x-kubernetes-int-or-string: true
+                      scheme:
+                        description: Scheme to use for connecting to the host. Defaults
+                          to HTTP.
+                        type: string
+                    required:
+                    - port
+                    type: object
+                  initialDelaySeconds:
+                    description: 'Number of seconds after the container has started
+                      before liveness probes are initiated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+                    format: int32
+                    type: integer
+                  periodSeconds:
+                    description: How often (in seconds) to perform the probe. Default
+                      to 10 seconds. Minimum value is 1.
+                    format: int32
+                    type: integer
+                  successThreshold:
+                    description: Minimum consecutive successes for the probe to be
+                      considered successful after having failed. Defaults to 1. Must
+                      be 1 for liveness and startup. Minimum value is 1.
+                    format: int32
+                    type: integer
+                  tcpSocket:
+                    description: TCPSocket specifies a connection to a TCP port.
+                    properties:
+                      host:
+                        description: 'Optional: Host name to connect to, defaults
+                          to the pod IP.'
+                        type: string
+                      port:
+                        description: Number or name of the port to access on the container.
+                          Number must be in the range 1 to 65535. Name must be an
+                          IANA_SVC_NAME.
+                        x-kubernetes-int-or-string: true
+                    required:
+                    - port
+                    type: object
+                  terminationGracePeriodSeconds:
+                    description: Optional duration in seconds the pod needs to terminate
+                      gracefully upon probe failure. The grace period is the duration
+                      in seconds after the processes running in the pod are sent a
+                      termination signal and the time when the processes are forcibly
+                      halted with a kill signal. Set this value longer than the expected
+                      cleanup time for your process. If this value is nil, the pod's
+                      terminationGracePeriodSeconds will be used. Otherwise, this
+                      value overrides the value provided by the pod spec. Value must
+                      be non-negative integer. The value zero indicates stop immediately
+                      via the kill signal (no opportunity to shut down). This is a
+                      beta field and requires enabling ProbeTerminationGracePeriod
+                      feature gate. Minimum value is 1. spec.terminationGracePeriodSeconds
+                      is used if unset.
+                    format: int64
+                    type: integer
+                  timeoutSeconds:
+                    description: 'Number of seconds after which the probe times out.
+                      Defaults to 1 second. Minimum value is 1. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+                    format: int32
+                    type: integer
+                type: object
+              replicas:
+                format: int32
+                nullable: true
+                type: integer
+              resources:
+                description: Optionally configure container resources (CPU & memory)
+                nullable: true
+                properties:
+                  limits:
+                    description: Resource limits
+                    properties:
+                      cpu:
+                        description: CPU expressed using Kubernetes resource quantity
+                          syntax
+                        type: string
+                      memory:
+                        description: Memory expressed using Kubernetes resource quantity
+                          syntax
+                        type: string
+                    required:
+                    - cpu
+                    - memory
+                    type: object
+                  requests:
+                    description: Resource requests
+                    properties:
+                      cpu:
+                        description: CPU expressed using Kubernetes resource quantity
+                          syntax
+                        type: string
+                      memory:
+                        description: Memory expressed using Kubernetes resource quantity
+                          syntax
+                        type: string
+                    required:
+                    - cpu
+                    - memory
+                    type: object
+                required:
+                - limits
+                - requests
+                type: object
+                x-kubernetes-validations:
+                - message: CPU request must be at least 10m
+                  rule: quantity(self.requests.cpu).compareTo(quantity("10m")) >=
+                    0
+                - message: memory request must be at least 20Mi
+                  rule: quantity(self.requests.memory).compareTo(quantity("20Mi"))
+                    >= 0
+                - message: CPU limit must be greater than or equal to CPU request
+                  rule: quantity(self.limits.cpu).compareTo(quantity(self.requests.cpu))
+                    >= 0
+                - message: memory limit must be greater than or equal to memory request
+                  rule: quantity(self.limits.memory).compareTo(quantity(self.requests.memory))
+                    >= 0
+              runtimeConfigRef:
+                description: Name of the `IdigRuntimeConfig` CR in the same namespace.
+                type: string
+              semanticCacheService:
+                description: |-
+                  Semantic cache service configuration — enables vector-similarity caching for AI actions.
+
+                  When set, the operator builds an `idig-config.json` from this field and the referenced entry in `spec.components.databases`, mounts it at `IDIG_CONFIG_PATH`, and injects the path into the runtime container at startup.
+                nullable: true
+                properties:
+                  database:
+                    description: Name of the database entry in `spec.components.databases`
+                      that backs the vector store.  The operator routes this entry
+                      into `idig-config.json` only — Herald never sees it, so Herald's
+                      unused-database validation never fires.
+                    type: string
+                  defaultTtlSeconds:
+                    default: 3600
+                    description: Fallback TTL in seconds when the policy does not
+                      specify one. Defaults to 3600.
+                    format: uint64
+                    minimum: 0
+                    type: integer
+                  indexRootPrefix:
+                    description: Global root prefix shared across all deployments
+                      (e.g. `"idig:"`). Placed at the left-most position of every
+                      key.
+                    type: string
+                  vectorIndices:
+                    additionalProperties:
+                      description: Per-index configuration — mirrors `VectorIndexConfig`
+                        in idig-common.
+                      properties:
+                        dimension:
+                          description: Exact vector dimensionality (e.g. `1536`).
+                          format: uint
+                          minimum: 0
+                          type: integer
+                        storePrefix:
+                          description: Dimension-specific key prefix (e.g. `"vs:1536:"`).
+                            Placed between `indexRootPrefix` and the deployment namespace.
+                          type: string
+                      required:
+                      - dimension
+                      - storePrefix
+                      type: object
+                    description: |-
+                      Vector index configurations, keyed by the **full** RediSearch index name as it exists in Valkey (e.g. `"idig:idx:vs:1536"`).
+
+                      The key is passed verbatim to `FT.INFO` at startup — no prefix is prepended. Use the same name that `idig-valkey-index-manager` creates: `{indexRootPrefix}idx:vs:{dimension}` (e.g. `"idig:idx:vs:768"`).
+                    type: object
+                  verifyIndicesOnStartup:
+                    default: true
+                    description: |-
+                      Verify every configured RediSearch index exists in the live database at startup. Defaults to `true` (fail-fast).
+
+                      Set to `false` for rolling deployments where the database may not be reachable at boot time.
+                    type: boolean
+                required:
+                - database
+                - indexRootPrefix
+                - vectorIndices
+                type: object
+              serviceName:
+                description: Customize the name of the Service generated for this
+                  Runtime
+                nullable: true
+                type: string
+              sqlInjectionFilters:
+                description: SQL injection filter definitions
+                nullable: true
+                properties:
+                  andOrAttack:
+                    nullable: true
+                    type: string
+                  commands:
+                    nullable: true
+                    type: string
+                  custom:
+                    additionalProperties:
+                      type: string
+                    nullable: true
+                    type: object
+                    x-kubernetes-validations:
+                    - message: 'invalid custom SQL injection filter: ''commands''
+                        is a reserved rule name'
+                      rule: self.filter(k, k == 'commands').size() == 0
+                    - message: 'invalid custom SQL injection filter: ''escapeSequence''
+                        is a reserved rule name'
+                      rule: self.filter(k, k == 'escapeSequence').size() == 0
+                    - message: 'invalid custom SQL injection filter: ''keywordInjection''
+                        is a reserved rule name'
+                      rule: self.filter(k, k == 'keywordInjection').size() == 0
+                    - message: 'invalid custom SQL injection filter: ''likeMatch''
+                        is a reserved rule name'
+                      rule: self.filter(k, k == 'likeMatch').size() == 0
+                    - message: 'invalid custom SQL injection filter: ''metacharacters''
+                        is a reserved rule name'
+                      rule: self.filter(k, k == 'metacharacters').size() == 0
+                    - message: 'invalid custom SQL injection filter: ''msSqlCommands''
+                        is a reserved rule name'
+                      rule: self.filter(k, k == 'msSqlCommands').size() == 0
+                    - message: 'invalid custom SQL injection filter: ''andOrAttack''
+                        is a reserved rule name'
+                      rule: self.filter(k, k == 'andOrAttack').size() == 0
+                    - message: 'invalid custom SQL injection filter: ''oracleBufferOverflow''
+                        is a reserved rule name'
+                      rule: self.filter(k, k == 'oracleBufferOverflow').size() ==
+                        0
+                    - message: 'invalid custom SQL injection filter: ''simpleMetacharacters''
+                        is a reserved rule name'
+                      rule: self.filter(k, k == 'simpleMetacharacters').size() ==
+                        0
+                  escapeSequence:
+                    nullable: true
+                    type: string
+                  keywordInjection:
+                    nullable: true
+                    type: string
+                  likeMatch:
+                    nullable: true
+                    type: string
+                  metacharacters:
+                    nullable: true
+                    type: string
+                  msSqlCommands:
+                    nullable: true
+                    type: string
+                  oracleBufferOverflow:
+                    nullable: true
+                    type: string
+                  simpleMetacharacters:
+                    nullable: true
+                    type: string
+                type: object
+            required:
+            - image
+            - mode
+            - runtimeConfigRef
+            type: object
+            x-kubernetes-validations:
+            - message: rateLimitService is required when components.rateLimits is
+                defined
+              rule: self.?components.?rateLimits.optMap(rl, rl.size()).orValue(0)
+                == 0 || has(self.rateLimitService)
+            - message: rateLimitService is required when components.countLimits is
+                defined
+              rule: self.?components.?countLimits.optMap(cl, cl.size()).orValue(0)
+                == 0 || has(self.rateLimitService)
+          status:
+            description: |-
+              Status for `IdigRuntime`.
+
+              `replicas` and `label_selector` are required by the CRD `/scale` subresource (declared in the `#[kube(scale(...))]` annotation). The `IdigRuntime` reconciler writes these from the underlying Deployment status so that HPAs targeting `IdigRuntime` can observe current replica counts.
+
+              `deployment`, `hash`, `listeners`, and `service` mirror Herald `RuntimeStatus` and give operators full observability into the reconciled state.
+            nullable: true
+            properties:
+              autoScaleConfig:
+                description: Name of the `AutoScaleConfig` CR currently governing
+                  autoscaling for this Runtime. `None` when autoscaling is not active.
+                nullable: true
+                type: string
+              autoScaleMetrics:
+                description: Autoscaling metrics timestamps — written by the autoscaling
+                  controller. `None` when autoscaling is not active.
+                nullable: true
+                properties:
+                  lastRequestAt:
+                    description: The last time this resource received a request via
+                      an autoscaling router.
+                    format: date-time
+                    nullable: true
+                    type: string
+                  lastUpdateAt:
+                    description: The last time an autoscaling controller updated this
+                      status object.
+                    format: date-time
+                    nullable: true
+                    type: string
+                type: object
+              conditions:
+                items:
+                  description: Condition contains details for one aspect of the current
+                    state of this API Resource.
+                  properties:
+                    lastTransitionTime:
+                      description: lastTransitionTime is the last time the condition
+                        transitioned from one status to another. This should be when
+                        the underlying condition changed.  If that is not known, then
+                        using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: message is a human readable message indicating
+                        details about the transition. This may be an empty string.
+                      type: string
+                    observedGeneration:
+                      description: observedGeneration represents the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.conditions[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: reason contains a programmatic identifier indicating
+                        the reason for the condition's last transition. Producers
+                        of specific condition types may define expected values and
+                        meanings for this field, and whether the values are considered
+                        a guaranteed API. The value should be a CamelCase string.
+                        This field may not be empty.
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                nullable: true
+                type: array
+              deployment:
+                description: Status of the managed Deployment (name + k8s DeploymentStatus).
+                nullable: true
+                properties:
+                  availableReplicas:
+                    description: Total number of available non-terminating pods (ready
+                      for at least minReadySeconds) targeted by this deployment.
+                    format: int32
+                    type: integer
+                  collisionCount:
+                    description: Count of hash collisions for the Deployment. The
+                      Deployment controller uses this field as a collision avoidance
+                      mechanism when it needs to create the name for the newest ReplicaSet.
+                    format: int32
+                    type: integer
+                  conditions:
+                    description: Represents the latest available observations of a
+                      deployment's current state.
+                    items:
+                      description: DeploymentCondition describes the state of a deployment
+                        at a certain point.
+                      properties:
+                        lastTransitionTime:
+                          description: Last time the condition transitioned from one
+                            status to another.
+                          format: date-time
+                          type: string
+                        lastUpdateTime:
+                          description: The last time this condition was updated.
+                          format: date-time
+                          type: string
+                        message:
+                          description: A human readable message indicating details
+                            about the transition.
+                          type: string
+                        reason:
+                          description: The reason for the condition's last transition.
+                          type: string
+                        status:
+                          description: Status of the condition, one of True, False,
+                            Unknown.
+                          type: string
+                        type:
+                          description: Type of deployment condition.
+                          type: string
+                      required:
+                      - status
+                      - type
+                      type: object
+                    type: array
+                  name:
+                    type: string
+                  observedGeneration:
+                    description: The generation observed by the deployment controller.
+                    format: int64
+                    type: integer
+                  readyReplicas:
+                    description: Total number of non-terminating pods targeted by
+                      this Deployment with a Ready Condition.
+                    format: int32
+                    type: integer
+                  replicas:
+                    description: Total number of non-terminating pods targeted by
+                      this deployment (their labels match the selector).
+                    format: int32
+                    type: integer
+                  terminatingReplicas:
+                    description: |-
+                      Total number of terminating pods targeted by this deployment. Terminating pods have a non-null .metadata.deletionTimestamp and have not yet reached the Failed or Succeeded .status.phase.
+
+                      This is an alpha field. Enable DeploymentReplicaSetTerminatingReplicas to be able to use this field.
+                    format: int32
+                    type: integer
+                  unavailableReplicas:
+                    description: Total number of unavailable pods targeted by this
+                      deployment. This is the total number of pods that are still
+                      required for the deployment to have 100% available capacity.
+                      They may either be pods that are running but not yet available
+                      or pods that still have not been created.
+                    format: int32
+                    type: integer
+                  updatedReplicas:
+                    description: Total number of non-terminating pods targeted by
+                      this deployment that have the desired template spec.
+                    format: int32
+                    type: integer
+                required:
+                - name
+                type: object
+              hash:
+                description: Composite config hash — changes when any child CRD content
+                  changes, triggering a rolling update of the managed Deployment.
+                nullable: true
+                type: string
+              labelSelector:
+                description: Label selector string for the managed Deployment pods
+                  — required by the `/scale` subresource.
+                nullable: true
+                type: string
+              listeners:
+                description: Per-listener endpoint URLs derived from the Service name
+                  and listener ports.
+                items:
+                  properties:
+                    endpoint:
+                      description: Service endpoint for this listener
+                      type: string
+                    name:
+                      description: Listener name
+                      type: string
+                  required:
+                  - endpoint
+                  - name
+                  type: object
+                nullable: true
+                type: array
+              replicas:
+                description: Current number of ready replicas — required by the `/scale`
+                  subresource.
+                format: int32
+                nullable: true
+                type: integer
+              service:
+                description: Name of the managed Service for this Runtime.
+                nullable: true
+                type: string
+            type: object
+        required:
+        - spec
+        title: IdigRuntimeValidated
+        type: object
+        x-kubernetes-validations:
+        - message: metadata.name must be 32 characters or less
+          rule: self.metadata.name.size() <= 32
+    served: true
+    storage: true
+    subresources:
+      scale:
+        labelSelectorPath: .status.labelSelector
+        specReplicasPath: .spec.replicas
+        statusReplicasPath: .status.replicas
+      status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: jwtproviders.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -2051,7 +4717,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: managements.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -2330,6 +4996,18 @@ spec:
                   type: object
                 nullable: true
                 type: array
+              http:
+                nullable: true
+                properties:
+                  version:
+                    description: Optionally restrict HTTP version to support. If unset
+                      (default), accept any version.
+                    enum:
+                    - HTTP/1
+                    - HTTP/2
+                    nullable: true
+                    type: string
+                type: object
               identityService:
                 description: Configuration for the identity service
                 nullable: true
@@ -3055,7 +5733,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: mcpprompts.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -3112,6 +5790,11 @@ spec:
                 description: A human-readable description of the prompt. This can
                   be used by clients to improve the LLM's understanding of available
                   prompts. It can be thought of like a "hint" to the model.
+                nullable: true
+                type: string
+              name:
+                description: Explicit MCP name for the prompt. Falls back to the config
+                  file name when omitted.
                 nullable: true
                 type: string
               properties:
@@ -3361,7 +6044,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: mcpresources.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -3399,6 +6082,11 @@ spec:
                 type: string
               mimeType:
                 description: Optional MIME type for the resource
+                nullable: true
+                type: string
+              name:
+                description: Explicit MCP name for the resource. Falls back to the
+                  config file name when omitted.
                 nullable: true
                 type: string
               properties:
@@ -3653,7 +6341,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: mcptools.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -3693,6 +6381,11 @@ spec:
                 description: JSON Schema defining expected input parameters
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
+              name:
+                description: Explicit MCP name for the tool. Falls back to the config
+                  file name when omitted.
+                nullable: true
+                type: string
               outputSchema:
                 description: JSON Schema defining expected output structure
                 type: object
@@ -3944,7 +6637,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: oauthproviders.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -4580,7 +7273,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: runtimeconfigs.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -4916,6 +7609,26 @@ spec:
                 required:
                 - endpoints
                 type: object
+              protocols:
+                description: Optionally configure protocol settings applied to all
+                  Gateway-managed listeners.
+                nullable: true
+                properties:
+                  http:
+                    description: Optionally configure HTTP-layer settings for all
+                      HTTP/HTTPS listeners.
+                    nullable: true
+                    properties:
+                      version:
+                        description: Optionally restrict HTTP version to support.
+                          If unset (default), accept any version.
+                        enum:
+                        - HTTP/1
+                        - HTTP/2
+                        nullable: true
+                        type: string
+                    type: object
+                type: object
               replicas:
                 format: int32
                 nullable: true
@@ -4975,6 +7688,7 @@ spec:
                 nullable: true
                 type: string
               tlsServerProfile:
+                description: 'DEPRECATED: configure TLS in Gateway listeners instead'
                 nullable: true
                 type: string
             required:
@@ -5071,7 +7785,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: runtimes.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -5138,7 +7852,7 @@ spec:
                     type: string
                   defaultMode:
                     default: denyAll
-                    description: Default behaviour if no valid remote config is available
+                    description: Default behavior if no valid remote config is available
                     enum:
                     - allowAll
                     - denyAll
@@ -5583,13 +8297,14 @@ spec:
                   description: Defines a single listener for the Runtime
                   properties:
                     defaultTlsServerProfile:
-                      description: Optionally configure a default TlsServerProfile
+                      description: 'DEPRECATED: use protocol instead; invalid when
+                        protocol is specified. Optionally configure a default TlsServerProfile
                         to use to secure this listener. If an SNI mapping is specified,
                         the default TlsServerProfile will be used for connections
                         that do not match an SNI entry. If no SNI mapping is specified,
                         the default TlsServerProfile will be used for all TLS connections.
                         If no SNI mapping is specified and no default TlsServerProfile
-                        is specified, the listener will not use TLS
+                        is specified, the listener will not use TLS'
                       nullable: true
                       type: string
                     name:
@@ -5605,10 +8320,91 @@ spec:
                       maximum: 32767
                       minimum: 1024
                       type: integer
+                    protocol:
+                      description: Select protocol for this listener. This property
+                        supersedes defaultTlsServerProfile and sni properties, which
+                        are both now DEPRECATED. If specifying protocol, then defaultTlsServerProfile
+                        and sni must not be set. If protocol is not set, selection
+                        is based on defaultTlsServerProfile and sni (legacy behavior
+                        prior to deprecation). If none of protocol, defaultTlsServerProfile,
+                        or sni are set, then this listener will serve plaintext HTTP
+                        and accept any HTTP version.
+                      nullable: true
+                      oneOf:
+                      - required:
+                        - http
+                      - required:
+                        - https
+                      properties:
+                        http:
+                          description: Accept HTTP protocol
+                          properties:
+                            version:
+                              description: Optionally restrict HTTP version to support.
+                                If unset (default), accept any version.
+                              enum:
+                              - HTTP/1
+                              - HTTP/2
+                              nullable: true
+                              type: string
+                          type: object
+                        https:
+                          description: Accept HTTPS protocol
+                          properties:
+                            defaultTlsServerProfile:
+                              description: Configure a default TlsServerProfile to
+                                use to secure this listener. If an SNI mapping is
+                                specified, the default TlsServerProfile will be used
+                                for connections that do not match an SNI entry. If
+                                no SNI mapping is specified, the default TlsServerProfile
+                                will be used for all TLS connections.
+                              nullable: true
+                              type: string
+                            sni:
+                              description: 'Configure an SNI mapping to use to secure
+                                this listener. NOTE: Specifying an SNI mapping is
+                                not supported for Runtimes in McpServer mode.'
+                              items:
+                                description: Defines a single Runtime Listener SNI
+                                  entry
+                                properties:
+                                  hostname:
+                                    description: The precise hostname or wildcard-prefixed
+                                      hostname (e.g., "*.example.com") against which
+                                      the SNI server name is compared
+                                    maxLength: 253
+                                    minLength: 1
+                                    pattern: ^(\*\.)?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$
+                                    type: string
+                                  tlsServerProfile:
+                                    description: The TLS Server Profile to use for
+                                      TLS connections matching `hostname`
+                                    type: string
+                                required:
+                                - hostname
+                                - tlsServerProfile
+                                type: object
+                              type: array
+                            version:
+                              description: Optionally restrict HTTP version to support.
+                                If unset (default), accept any version.
+                              enum:
+                              - HTTP/1
+                              - HTTP/2
+                              nullable: true
+                              type: string
+                          type: object
+                          x-kubernetes-validations:
+                          - message: either defaultTlsServerProfile or at least one
+                              sni entry must be provided
+                            rule: has(self.defaultTlsServerProfile) || (has(self.sni)
+                              && self.sni.size() > 0)
+                      type: object
                     sni:
-                      description: 'Optionally configure an SNI mapping to use to
-                        secure this listener. Note: Specifying an SNI mapping is not
-                        supported for Runtimes in McpServer mode.'
+                      description: 'DEPRECATED: use protocol instead; invalid when
+                        protocol is specified. Optionally configure an SNI mapping
+                        to use to secure this listener. NOTE: Specifying an SNI mapping
+                        is not supported for Runtimes in McpServer mode.'
                       items:
                         description: Defines a single Runtime Listener SNI entry
                         properties:
@@ -5633,6 +8429,11 @@ spec:
                   - name
                   - port
                   type: object
+                  x-kubernetes-validations:
+                  - message: protocol cannot be specified alongside defaultTlsServerProfile
+                      or sni (remove defaultTlsServerProfile and sni if specified)
+                    rule: '!has(self.protocol) || (!has(self.defaultTlsServerProfile)
+                      && (!has(self.sni) || self.sni.size() == 0))'
                 type: array
               livenessProbe:
                 default:
@@ -5994,6 +8795,7 @@ spec:
                                   description: Supported `BackendRef` kinds
                                   enum:
                                   - Runtime
+                                  - IdigRuntime
                                   - Service
                                   type: string
                                 name:
@@ -7040,7 +9842,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: tlsclientprofiles.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -7239,7 +10041,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: tlsserverprofiles.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -7442,7 +10244,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.0
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: userdefinedpolicies.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com

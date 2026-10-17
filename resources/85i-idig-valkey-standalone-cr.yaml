@@ -1,0 +1,63 @@
+---
+# Source: valkey/templates/valkey-standalone.yaml
+apiVersion: valkey.datapower.ibm.com/v1beta2
+kind: Valkey
+metadata:
+  name: ${INST_NAME}
+  labels:
+    app.kubernetes.io/name: ${INST_NAME}
+    helm.sh/chart: valkey-1.0.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: ${INST_NAME}
+    app.kubernetes.io/version: 1.0.0
+    app.kubernetes.io/component: middleware
+  annotations:
+spec:
+  kubernetesConfig:
+    image: "${IDIG_IMG_REGISTRY}/valkey-bundle:9.1"
+    imagePullPolicy: "Always"
+    imagePullSecrets:
+      - name: idig-registry-secret
+    valkeySecret:
+      name: "valkey-secret"
+      key: "password"
+    persistentVolumeClaimRetentionPolicy:
+      whenDeleted: Retain
+      whenScaled: Retain
+  TLS:
+    ca: "ca.crt"
+    cert: "tls.crt"
+    key: "tls.key"
+    secret:
+      secretName: "valkey-tls"
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: ${OCP_BLOCK_STORAGE}
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+  valkeyConfig:
+    additionalValkeyConfig: valkey-extra-config
+  livenessProbe:
+    exec:
+      command:
+        - sh
+        - '-c'
+        - 'valkey-cli -h ${HOSTNAME} -p ${VALKEY_PORT} -a ${VALKEY_PASSWORD} --tls --cert ${VALKEY_TLS_CERT} --key ${VALKEY_TLS_CERT_KEY} --cacert ${VALKEY_TLS_CA_KEY} ping'
+    failureThreshold: 3
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  readinessProbe:
+    exec:
+      command:
+        - sh
+        - '-c'
+        - 'valkey-cli -h ${HOSTNAME} -p ${VALKEY_PORT} -a ${VALKEY_PASSWORD} --tls --cert ${VALKEY_TLS_CERT} --key ${VALKEY_TLS_CERT_KEY} --cacert ${VALKEY_TLS_CA_KEY} ping'
+    failureThreshold: 3
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1

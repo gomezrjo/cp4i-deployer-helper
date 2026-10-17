@@ -58559,7 +58559,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.19.0
-    datapower.ibm.com/operator-version: 1.18.4
+    datapower.ibm.com/operator-version: 1.18.5
   creationTimestamp: null
   labels:
     app.kubernetes.io/instance: datapower-operator
@@ -58745,7 +58745,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.19.0
-    datapower.ibm.com/operator-version: 1.18.4
+    datapower.ibm.com/operator-version: 1.18.5
   creationTimestamp: null
   labels:
     app.kubernetes.io/instance: datapower-operator
@@ -58938,7 +58938,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.19.0
-    datapower.ibm.com/operator-version: 1.18.4
+    datapower.ibm.com/operator-version: 1.18.5
   creationTimestamp: null
   labels:
     app.kubernetes.io/instance: datapower-operator
@@ -59038,7 +59038,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.19.0
-    datapower.ibm.com/operator-version: 1.18.4
+    datapower.ibm.com/operator-version: 1.18.5
   creationTimestamp: null
   labels:
     app.kubernetes.io/instance: datapower-operator
@@ -62214,7 +62214,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.19.0
-    datapower.ibm.com/operator-version: 1.18.4
+    datapower.ibm.com/operator-version: 1.18.5
   creationTimestamp: null
   labels:
     app.kubernetes.io/instance: datapower-operator
@@ -62445,7 +62445,7 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.19.0
-    datapower.ibm.com/operator-version: 1.18.4
+    datapower.ibm.com/operator-version: 1.18.5
   creationTimestamp: null
   labels:
     app.kubernetes.io/instance: datapower-operator
