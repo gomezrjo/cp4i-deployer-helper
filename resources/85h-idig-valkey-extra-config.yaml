@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: valkey-extra-config
+data:
+  # The valkey-operator appends this verbatim to its generated valkey.conf.
+  #
+  # Three bundle modules are declared explicitly here so the
+  # bundle-docker-entrypoint.sh auto-load loop skips them (it skips any .so
+  # already present in the config file) and Valkey loads them from this config
+  # with deterministic ordering and explicit arguments.
+  #
+  # libsearch.so args:
+  #   --reader-threads 2       explicit count; avoids thread count instability when
+  #   --writer-threads 5         the default (physical CPU count) is too high in containers
+  #
+  # NOTE: --use-coordinator is intentionally omitted. That flag is for cluster/sharded
+  # deployments only. In standalone mode it causes FT.CREATE to skip
+  # ValkeyModule_ReplicateVerbatim, so index schemas are never written to the AOF
+  # and are lost on every pod restart. IDIG deploys a single standalone Valkey
+  # instance (kind: Valkey, not ValkeyCluster), so this flag must not be set.
+  # See: AM-3954
+  #
+  # Note: libvalkey_ldap.so is NOT included — it is not present in valkey-bundle:9.1.
+  valkey.conf: |
+    loadmodule /usr/lib/valkey/libsearch.so --reader-threads 2 --writer-threads 5
+    loadmodule /usr/lib/valkey/libjson.so
+    loadmodule /usr/lib/valkey/libvalkey_bloom.so

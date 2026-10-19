@@ -7,11 +7,11 @@ spec:
     - idig-registry-secret
     - ibm-entitlement-key
   imageRegistry: ${IDIG_IMG_REGISTRY}
-  version: 12.1.1.2
+  version: 12.1.1.3
   profile: dev
   license:
     accept: true
-    use: nonproduction
+    use: nonproduction  # Change to "production" for production deployments
     license: "L-PAZT-LQ5TZL"
   enableAnalytics: true
   enableDevPortal: true
@@ -21,4 +21,4 @@ spec:
   watsonxSecret: "watsonx-credentials"
   storageClassName: ${OCP_BLOCK_STORAGE}
   nanoGateway:
-    gatewayDomain: nanogw.${STACK_HOST}
+    gatewayDomain: idig.${STACK_HOST}
