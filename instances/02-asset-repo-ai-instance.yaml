@@ -11,6 +11,12 @@ spec:
     accept: true
     license: ${INST_LIC}
   replicas: 1
+  resources:
+    api:
+      requests:
+        memory: 512Mi
+      limits:
+        memory: 512Mi
   singleReplicaOnly: true
   storage:
     assetDataVolume:
