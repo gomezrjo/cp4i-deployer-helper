@@ -4,10 +4,7 @@ metadata:
   name: ibm-apiconnect-catalog
   namespace: openshift-marketplace
 spec:
-  displayName: ibm-apiconnect-8.3.0-linux-amd64
+  displayName: ibm-apiconnect-8.4.0
   publisher: IBM
-  image: icr.io/cpopen/ibm-apiconnect-catalog@sha256:53f6d7d27e9d7c01e58faf00d71c7d4d51c7df44ac0708c4bce7db1cf1eb7a8e
+  image: icr.io/cpopen/ibm-apiconnect-catalog@sha256:3dc74554059b962bd89a230f98151af801885c7d873b28e18a78e189d842755e
   sourceType: grpc
-  grpcPodConfig:
-    nodeSelector:
-      kubernetes.io/arch: amd64
