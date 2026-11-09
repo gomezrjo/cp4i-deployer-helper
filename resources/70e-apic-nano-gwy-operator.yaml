@@ -23,9 +23,18 @@ rules:
   - apiGroups:
       - gateway.networking.k8s.io
     resources:
+      - referencegrants
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - gateway.networking.k8s.io
+    resources:
       - gatewayclasses
       - gateways
       - httproutes
+      - tlsroutes
     verbs:
       - get
       - list
@@ -38,6 +47,7 @@ rules:
       - gatewayclasses/status
       - gateways/status
       - httproutes/status
+      - tlsroutes/status
     verbs:
       - get
       - patch
@@ -149,6 +159,19 @@ rules:
       - update
       - watch
   - apiGroups:
+      - rbac.authorization.k8s.io
+    resources:
+      - clusterroles
+      - clusterrolebindings
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
       - autoscaling
     resources:
       - horizontalpodautoscalers
@@ -159,6 +182,14 @@ rules:
       - list
       - patch
       - update
+      - watch
+  - apiGroups:
+      - discovery.k8s.io
+    resources:
+      - endpointslices
+    verbs:
+      - get
+      - list
       - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -208,7 +239,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          image: cp.icr.io/cp/datapower/datapower-nano-operator:1.0.1@sha256:781c5d05f295c6d7f6b6bd7ecf0d8e1a601d7dded90986261efc73c89c7e7640
+          image: cp.icr.io/cp/datapower/datapower-nano-operator:1.1.0@sha256:459122400678880664da79c4fc3136d3d671a17e534f6c1380e27ce35a2ab2d4
           imagePullPolicy: Always
           name: datapower-nano-operator
           resources:
@@ -229,7 +260,7 @@ spec:
       hostNetwork: false
       hostPID: false
       imagePullSecrets:
-        - name: ibm-entitlement-key
+        - name: <your-registry-secret-name>
       securityContext:
         runAsNonRoot: true
       serviceAccountName: datapower-nano-operator

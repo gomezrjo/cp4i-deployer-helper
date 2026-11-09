@@ -2,7 +2,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: apis.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -31,49 +31,52 @@ spec:
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               cors:
-                description: A list of CORS rules, to be attempted in the order listed.
-                  The first rule that matches the requested Origin is applied. If
-                  no rule matches the Origin, the CORS request is denied. If the list
-                  is empty, CORS is not enabled for this API, and CORS requests to
-                  this API receive no special handling.
+                description: |-
+                  A list of CORS rules, to be attempted in the order listed. The first rule
+                  that matches the requested Origin is applied. If no rule matches the Origin,
+                  the CORS request is denied. If the list is empty, CORS is not enabled for
+                  this API, and CORS requests to this API receive no special handling.
                 items:
-                  description: A rule that specifies how to handle a CORS request.
-                    A CORS rule contains a list of origins that is compared with the
-                    request Origin to determine if the rule applies.
+                  description: |-
+                    A rule that specifies how to handle a CORS request. A CORS rule contains a
+                    list of origins that is compared with the request Origin to determine if
+                    the rule applies.
                   properties:
                     action:
-                      description: Is this an Allow or Deny rule? Specifically, whether
-                        the origins in `originList` are allowed or denied by this
-                        rule.
+                      description: |-
+                        Is this an Allow or Deny rule? Specifically, whether the origins in
+                        `originList` are allowed or denied by this rule.
                       enum:
                       - allow
                       - deny
                       type: string
                     allowCredentials:
                       default: false
-                      description: 'If true, return `Access-Control-Allow-Credentials:
-                        true`. If false (default), the header `Access-Control-Allow-Credentials`
-                        is not returned.'
+                      description: |-
+                        If true, return `Access-Control-Allow-Credentials: true`.
+                        If false (default), the header `Access-Control-Allow-Credentials` is not
+                        returned.
                       type: boolean
                     allowHeaders:
-                      description: 'Headers allowed in the follow-on to a preflight
-                        request. If empty, allow all headers: the headers requested
-                        in `Access-Control-Request-Headers` are all returned in the
-                        header `Access-Control-Allow-Headers`'
+                      description: |-
+                        Headers allowed in the follow-on to a preflight request. If empty, allow
+                        all headers: the headers requested in `Access-Control-Request-Headers` are
+                        all returned in the header `Access-Control-Allow-Headers`
                       items:
                         type: string
                       type: array
                     allowMethods:
-                      description: 'Methods allowed in the follow-on to a preflight
-                        request. If empty, allow any method: the method requested
-                        by header `Access-Control-Request-Method` is returned in `Access-Control-Allow-Methods`'
+                      description: |-
+                        Methods allowed in the follow-on to a preflight request. If empty, allow
+                        any method: the method requested by header `Access-Control-Request-Method`
+                        is returned in `Access-Control-Allow-Methods`
                       items:
                         type: string
                       type: array
                     exposeHeaders:
-                      description: Headers that can be exposed as part of a response.
-                        If not specified, the header `Access-Control-Expose-Headers`
-                        is returned with default values.
+                      description: |-
+                        Headers that can be exposed as part of a response. If not specified, the header
+                        `Access-Control-Expose-Headers` is returned with default values.
                       nullable: true
                       properties:
                         backend:
@@ -88,22 +91,34 @@ spec:
                           type: boolean
                       type: object
                     maxAgeSeconds:
-                      description: Max age (seconds) for which the preflight response
-                        is valid. If not specified, the header `Access-Control-Max-Age`
-                        is not returned.
+                      description: |-
+                        Max age (seconds) for which the preflight response is valid. If not specified,
+                        the header `Access-Control-Max-Age` is not returned.
                       format: uint16
+                      maximum: 65535
                       minimum: 0
                       nullable: true
                       type: integer
                     originList:
                       description: |-
-                        Origins to which this rule applies. Origins include scheme (e.g., `http:`, `https:`, etc.), hostname, and optionally port. (For example, `http://example.com` or `https://example.com:1234`). Origin names may contain a `*` wildcard character which will match 0 or more characters.
+                        Origins to which this rule applies. Origins include scheme (e.g., `http:`,
+                        `https:`, etc.), hostname, and optionally port. (For example,
+                        `http://example.com` or `https://example.com:1234`). Origin names may
+                        contain a `*` wildcard character which will match 0 or more characters.
 
-                        If `action` = `allow`, specifies origins allowed by this rule. If the requested Origin does not match any origin in this list, this rule does not apply, and the next rule in the rules list (if any) is attempted.
+                        If `action` = `allow`, specifies origins allowed by this rule. If the
+                        requested Origin does not match any origin in this list, this rule
+                        does not apply, and the next rule in the rules list (if any) is attempted.
 
-                        Advanced: If `action` = `deny`, specifies origins that are denied by this rule. A requested origin that matches any element in the list will be denied; all other origins are allowed and the settings in the rule apply. A Deny rule always results in either the Origin being accepted (because it did not appear in `originList`) and the rule applied, OR the CORS request being rejected; it never falls through to the next rule, as Allow rules do.
+                        Advanced: If `action` = `deny`, specifies origins that are denied by
+                        this rule. A requested origin that matches any element in the list will
+                        be denied; all other origins are allowed and the settings in the rule apply.
+                        A Deny rule always results in either the Origin being accepted (because it
+                        did not appear in `originList`) and the rule applied, OR the CORS request
+                        being rejected; it never falls through to the next rule, as Allow rules do.
 
-                        Therefore, at most one Deny rule may appear in a list of CORS rules, and it must be the last (or only) rule.
+                        Therefore, at most one Deny rule may appear in a list of CORS rules, and it
+                        must be the last (or only) rule.
                       items:
                         type: string
                       type: array
@@ -334,6 +349,13 @@ spec:
                     items:
                       type: string
                     type: array
+                  databases:
+                    default: []
+                    description: List of databases depended on by this resource's
+                      assembly.
+                    items:
+                      type: string
+                    type: array
                   distributedVariableService:
                     default: false
                     description: True if this resource's assembly depends on a distributedVariableService
@@ -391,9 +413,9 @@ spec:
                           type: array
                       type: object
                     default: {}
-                    description: Secrets depended on by this resource's assembly.
-                      Maps Secret name to required and optional data key(s) within
-                      Secret.
+                    description: |-
+                      Secrets depended on by this resource's assembly.
+                      Maps Secret name to required and optional data key(s) within Secret.
                     type: object
                   tlsClientProfiles:
                     default: []
@@ -430,7 +452,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: apisets.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -466,50 +488,52 @@ spec:
                       type: object
                       x-kubernetes-preserve-unknown-fields: true
                     cors:
-                      description: A list of CORS rules, to be attempted in the order
-                        listed. The first rule that matches the requested Origin is
-                        applied. If no rule matches the Origin, the CORS request is
-                        denied. If the list is empty, CORS is not enabled for this
-                        API, and CORS requests to this API receive no special handling.
+                      description: |-
+                        A list of CORS rules, to be attempted in the order listed. The first rule
+                        that matches the requested Origin is applied. If no rule matches the Origin,
+                        the CORS request is denied. If the list is empty, CORS is not enabled for
+                        this API, and CORS requests to this API receive no special handling.
                       items:
-                        description: A rule that specifies how to handle a CORS request.
-                          A CORS rule contains a list of origins that is compared
-                          with the request Origin to determine if the rule applies.
+                        description: |-
+                          A rule that specifies how to handle a CORS request. A CORS rule contains a
+                          list of origins that is compared with the request Origin to determine if
+                          the rule applies.
                         properties:
                           action:
-                            description: Is this an Allow or Deny rule? Specifically,
-                              whether the origins in `originList` are allowed or denied
-                              by this rule.
+                            description: |-
+                              Is this an Allow or Deny rule? Specifically, whether the origins in
+                              `originList` are allowed or denied by this rule.
                             enum:
                             - allow
                             - deny
                             type: string
                           allowCredentials:
                             default: false
-                            description: 'If true, return `Access-Control-Allow-Credentials:
-                              true`. If false (default), the header `Access-Control-Allow-Credentials`
-                              is not returned.'
+                            description: |-
+                              If true, return `Access-Control-Allow-Credentials: true`.
+                              If false (default), the header `Access-Control-Allow-Credentials` is not
+                              returned.
                             type: boolean
                           allowHeaders:
-                            description: 'Headers allowed in the follow-on to a preflight
-                              request. If empty, allow all headers: the headers requested
-                              in `Access-Control-Request-Headers` are all returned
-                              in the header `Access-Control-Allow-Headers`'
+                            description: |-
+                              Headers allowed in the follow-on to a preflight request. If empty, allow
+                              all headers: the headers requested in `Access-Control-Request-Headers` are
+                              all returned in the header `Access-Control-Allow-Headers`
                             items:
                               type: string
                             type: array
                           allowMethods:
-                            description: 'Methods allowed in the follow-on to a preflight
-                              request. If empty, allow any method: the method requested
-                              by header `Access-Control-Request-Method` is returned
-                              in `Access-Control-Allow-Methods`'
+                            description: |-
+                              Methods allowed in the follow-on to a preflight request. If empty, allow
+                              any method: the method requested by header `Access-Control-Request-Method`
+                              is returned in `Access-Control-Allow-Methods`
                             items:
                               type: string
                             type: array
                           exposeHeaders:
-                            description: Headers that can be exposed as part of a
-                              response. If not specified, the header `Access-Control-Expose-Headers`
-                              is returned with default values.
+                            description: |-
+                              Headers that can be exposed as part of a response. If not specified, the header
+                              `Access-Control-Expose-Headers` is returned with default values.
                             nullable: true
                             properties:
                               backend:
@@ -524,22 +548,34 @@ spec:
                                 type: boolean
                             type: object
                           maxAgeSeconds:
-                            description: Max age (seconds) for which the preflight
-                              response is valid. If not specified, the header `Access-Control-Max-Age`
-                              is not returned.
+                            description: |-
+                              Max age (seconds) for which the preflight response is valid. If not specified,
+                              the header `Access-Control-Max-Age` is not returned.
                             format: uint16
+                            maximum: 65535
                             minimum: 0
                             nullable: true
                             type: integer
                           originList:
                             description: |-
-                              Origins to which this rule applies. Origins include scheme (e.g., `http:`, `https:`, etc.), hostname, and optionally port. (For example, `http://example.com` or `https://example.com:1234`). Origin names may contain a `*` wildcard character which will match 0 or more characters.
+                              Origins to which this rule applies. Origins include scheme (e.g., `http:`,
+                              `https:`, etc.), hostname, and optionally port. (For example,
+                              `http://example.com` or `https://example.com:1234`). Origin names may
+                              contain a `*` wildcard character which will match 0 or more characters.
 
-                              If `action` = `allow`, specifies origins allowed by this rule. If the requested Origin does not match any origin in this list, this rule does not apply, and the next rule in the rules list (if any) is attempted.
+                              If `action` = `allow`, specifies origins allowed by this rule. If the
+                              requested Origin does not match any origin in this list, this rule
+                              does not apply, and the next rule in the rules list (if any) is attempted.
 
-                              Advanced: If `action` = `deny`, specifies origins that are denied by this rule. A requested origin that matches any element in the list will be denied; all other origins are allowed and the settings in the rule apply. A Deny rule always results in either the Origin being accepted (because it did not appear in `originList`) and the rule applied, OR the CORS request being rejected; it never falls through to the next rule, as Allow rules do.
+                              Advanced: If `action` = `deny`, specifies origins that are denied by
+                              this rule. A requested origin that matches any element in the list will
+                              be denied; all other origins are allowed and the settings in the rule apply.
+                              A Deny rule always results in either the Origin being accepted (because it
+                              did not appear in `originList`) and the rule applied, OR the CORS request
+                              being rejected; it never falls through to the next rule, as Allow rules do.
 
-                              Therefore, at most one Deny rule may appear in a list of CORS rules, and it must be the last (or only) rule.
+                              Therefore, at most one Deny rule may appear in a list of CORS rules, and it
+                              must be the last (or only) rule.
                             items:
                               type: string
                             type: array
@@ -785,6 +821,13 @@ spec:
                     items:
                       type: string
                     type: array
+                  databases:
+                    default: []
+                    description: List of databases depended on by this resource's
+                      assembly.
+                    items:
+                      type: string
+                    type: array
                   distributedVariableService:
                     default: false
                     description: True if this resource's assembly depends on a distributedVariableService
@@ -842,9 +885,9 @@ spec:
                           type: array
                       type: object
                     default: {}
-                    description: Secrets depended on by this resource's assembly.
-                      Maps Secret name to required and optional data key(s) within
-                      Secret.
+                    description: |-
+                      Secrets depended on by this resource's assembly.
+                      Maps Secret name to required and optional data key(s) within Secret.
                     type: object
                   tlsClientProfiles:
                     default: []
@@ -881,7 +924,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: assemblies.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -1002,6 +1045,13 @@ spec:
                     items:
                       type: string
                     type: array
+                  databases:
+                    default: []
+                    description: List of databases depended on by this resource's
+                      assembly.
+                    items:
+                      type: string
+                    type: array
                   distributedVariableService:
                     default: false
                     description: True if this resource's assembly depends on a distributedVariableService
@@ -1059,9 +1109,9 @@ spec:
                           type: array
                       type: object
                     default: {}
-                    description: Secrets depended on by this resource's assembly.
-                      Maps Secret name to required and optional data key(s) within
-                      Secret.
+                    description: |-
+                      Secrets depended on by this resource's assembly.
+                      Maps Secret name to required and optional data key(s) within Secret.
                     type: object
                   tlsClientProfiles:
                     default: []
@@ -1098,7 +1148,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: autoscaleconfigs.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -1141,9 +1191,10 @@ spec:
                 description: Enable this AutoScaleConfig
                 type: boolean
               fromZero:
-                description: Configuration for scaling from zero replicas. Required
-                  when toZero is configured. Does not apply to all targets, see `target`
-                  description for details.
+                description: |-
+                  Configuration for scaling from zero replicas.
+                  Required when toZero is configured.
+                  Does not apply to all targets, see `target` description for details.
                 nullable: true
                 properties:
                   replicas:
@@ -1155,55 +1206,57 @@ spec:
                 - replicas
                 type: object
               hpa:
-                description: Parameters for a HorizontalPodAutoscaler when autoscaling
-                  between some minimum (>= 1) and maximum number of pods
+                description: |-
+                  Parameters for a HorizontalPodAutoscaler when autoscaling between some
+                  minimum (>= 1) and maximum number of pods
                 nullable: true
                 properties:
                   enabled:
                     default: true
-                    description: Set to true to enable HPA. When true, a HorizontalPodAutoscaler
-                      will be created and reconciled. When false, any HorizontalPodAutoscaler
-                      previously created will be deleted.
+                    description: |-
+                      Set to true to enable HPA.
+                      When true, a HorizontalPodAutoscaler will be created and reconciled.
+                      When false, any HorizontalPodAutoscaler previously created will be deleted.
                     type: boolean
                   maxReplicas:
-                    description: 'Upper limit for the number of replicas to which
-                      the autoscaler can scale up. Required when HPA is enabled. Minimum:
-                      2. Must be greater than minReplicas.'
+                    description: |-
+                      Upper limit for the number of replicas to which the autoscaler can scale up.
+                      Required when HPA is enabled. Minimum: 2. Must be greater than minReplicas.
                     format: int32
                     minimum: 2
                     nullable: true
                     type: integer
                   minReplicas:
-                    description: 'Lower limit for the number of replicas to which
-                      the autoscaler can scale down. Required when HPA is enabled.
-                      Minimum: 1. Must be less than maxReplicas.'
+                    description: |-
+                      Lower limit for the number of replicas to which the autoscaler can scale down.
+                      Required when HPA is enabled. Minimum: 1. Must be less than maxReplicas.
                     format: int32
                     minimum: 1
                     nullable: true
                     type: integer
                   targetUtilization:
-                    description: Target average utilization percentages for pod resources.
-                      Required when HPA is enabled. At least one of cpu or memory
-                      must be configured when HPA is enabled. Both cpu and memory
-                      may be configured.
+                    description: |-
+                      Target average utilization percentages for pod resources.
+                      Required when HPA is enabled. At least one of cpu or memory must be configured
+                      when HPA is enabled. Both cpu and memory may be configured.
                     nullable: true
                     properties:
                       cpu:
-                        description: Target average CPU utilization, as a percentage
-                          of CPU request. For example, given a request of 100m and
-                          limit of 1000m, and target average utilization of 800m,
-                          the precentage would be 800%. May be configured alongside
-                          memory. Required if memory is not specified.
+                        description: |-
+                          Target average CPU utilization, as a percentage of CPU request.
+                          For example, given a request of 100m and limit of 1000m, and target
+                          average utilization of 800m, the precentage would be 800%.
+                          May be configured alongside memory. Required if memory is not specified.
                         format: int32
                         minimum: 1
                         nullable: true
                         type: integer
                       memory:
-                        description: Target average memory utilization, as a percentage
-                          of memory request. For example, given a request of 20Mi
-                          and limit of 600Mi, and target average utilization of 480Mi
-                          (80% of 600Mi), the precentage would be 2400%. May be configured
-                          alongside cpu. Required if cpu is not specified.
+                        description: |-
+                          Target average memory utilization, as a percentage of memory request.
+                          For example, given a request of 20Mi and limit of 600Mi, and target
+                          average utilization of 480Mi (80% of 600Mi), the precentage would be 2400%.
+                          May be configured alongside cpu. Required if cpu is not specified.
                         format: int32
                         minimum: 1
                         nullable: true
@@ -1228,7 +1281,9 @@ spec:
                 description: |-
                   Define the target of this AutoScaleConfig.
 
-                  When targeting Runtimes, scaling capabilities vary by the `mode` of the selected Runtimes. Runtimes with `mode` of `basic` or `apiRouter` support `toZero`, `fromZero`, and `hpa`. Runtimes with `mode` of `gatewayApi` support `hpa`.
+                  When targeting Runtimes, scaling capabilities vary by the `mode` of the selected Runtimes.
+                  Runtimes with `mode` of `basic` or `apiRouter` support `toZero`, `fromZero`, and `hpa`.
+                  Runtimes with `mode` of `gatewayApi` support `hpa`.
                 properties:
                   kind:
                     description: Specify the Kubernetes resource kind this AutoScaleConfig
@@ -1237,9 +1292,10 @@ spec:
                     - Runtime
                     type: string
                   labelSelectors:
-                    description: Specify how the AutoScaleConfig discovers resources
-                      to scale. If no label selectors are provided, this AutoScaleConfig
-                      will apply to all resources of the specified kind in this namespace.
+                    description: |-
+                      Specify how the AutoScaleConfig discovers resources to scale. If no
+                      label selectors are provided, this AutoScaleConfig will apply to all
+                      resources of the specified kind in this namespace.
                     items:
                       description: A label selector is a label query over a set of
                         resources. The result of matchLabels and matchExpressions
@@ -1292,9 +1348,10 @@ spec:
                 - kind
                 type: object
               toZero:
-                description: Configuration for scaling to zero replicas. When configured,
-                  fromZero must also be configured. Does not apply to all targets,
-                  see `target` description for details.
+                description: |-
+                  Configuration for scaling to zero replicas.
+                  When configured, fromZero must also be configured.
+                  Does not apply to all targets, see `target` description for details.
                 nullable: true
                 properties:
                   strategy:
@@ -1304,8 +1361,9 @@ spec:
                       - sinceLastRequest
                     properties:
                       sinceLastRequest:
-                        description: Scale-to-zero if the target resource has not
-                          **received** a request in the configured amount of time.
+                        description: |-
+                          Scale-to-zero if the target resource has not **received** a request in the
+                          configured amount of time.
                         properties:
                           seconds:
                             format: uint32
@@ -1404,7 +1462,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: jwtproviders.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -1431,9 +1489,9 @@ spec:
           spec:
             properties:
               audClaim:
-                description: Expected audience claim which will use to compare against
-                  the aud claim in the token payload. If this field is not configured,
-                  there will be no extra validation on the aud claim.
+                description: |-
+                  Expected audience claim which will use to compare against the aud claim in the token payload.
+                  If this field is not configured, there will be no extra validation on the aud claim.
                 items:
                   type: string
                 nullable: true
@@ -1445,15 +1503,15 @@ spec:
                 nullable: true
                 type: integer
               issClaim:
-                description: Expected issuer claim which will use to compared against
-                  the iss claim in the token payload. If this field is not configured,
-                  there will be no extra validation on the iss claim.
+                description: |-
+                  Expected issuer claim which will use to compared against the iss claim in the token payload.
+                  If this field is not configured, there will be no extra validation on the iss claim.
                 nullable: true
                 type: string
               jwks:
-                description: Specifies how JSON Web Keys (JWKs) are provided for JWT
-                  validation. A JWK can be used for signing, encryption, or both (nested
-                  JWTs).
+                description: |-
+                  Specifies how JSON Web Keys (JWKs) are provided for JWT validation.
+                  A JWK can be used for signing, encryption, or both (nested JWTs).
                 oneOf:
                 - required:
                   - signing
@@ -1480,17 +1538,16 @@ spec:
                                 properties:
                                   chunkedUpload:
                                     default: false
-                                    description: 'Specify to use `transfer-encoding:
-                                      chunked` or to use input message headers and
-                                      payload type unmodified. Default to use incoming
-                                      (false).'
+                                    description: |-
+                                      Specify to use `transfer-encoding: chunked` or to use input message headers and payload type unmodified.
+                                      Default to use incoming (false).
                                     type: boolean
                                   compressRequest:
                                     default: none
-                                    description: Specify which compression to use.
-                                      Default to None. Set Accept-Encoding header
-                                      with all supported types. Handle Content-Encoding
-                                      with all supported types.
+                                    description: |-
+                                      Specify which compression to use. Default to None.
+                                      Set Accept-Encoding header with all supported types.
+                                      Handle Content-Encoding with all supported types.
                                     enum:
                                     - br
                                     - gzip
@@ -1547,8 +1604,6 @@ spec:
                                 - url
                                 type: object
                               security:
-                                description: Security credentials used to authenticate
-                                  with endpoints.
                                 nullable: true
                                 oneOf:
                                 - required:
@@ -1559,10 +1614,9 @@ spec:
                                       Secret.
                                     properties:
                                       secret:
-                                        description: Name of the Kubernetes Secret
-                                          which contains basic auth credentials. Secret
-                                          data must contain key `username` and may
-                                          optionally contain key `password`.
+                                        description: |-
+                                          Name of the Kubernetes Secret which contains basic auth credentials.
+                                          Secret data must contain key `username` and may optionally contain key `password`.
                                         type: string
                                     required:
                                     - secret
@@ -1575,7 +1629,8 @@ spec:
                             description: |-
                               Load JWKS from a Kubernetes Secret.
 
-                              When used for signing, Secret must contain data literal 'signingKey'. When used for encryption, Secret must contain data literal 'encryptionKey'.
+                              When used for signing, Secret must contain data literal 'signingKey'.
+                              When used for encryption, Secret must contain data literal 'encryptionKey'.
 
                               In all cases, the value(s) must be a public key in either PEM or JWK format.
                             type: string
@@ -1601,17 +1656,16 @@ spec:
                                 properties:
                                   chunkedUpload:
                                     default: false
-                                    description: 'Specify to use `transfer-encoding:
-                                      chunked` or to use input message headers and
-                                      payload type unmodified. Default to use incoming
-                                      (false).'
+                                    description: |-
+                                      Specify to use `transfer-encoding: chunked` or to use input message headers and payload type unmodified.
+                                      Default to use incoming (false).
                                     type: boolean
                                   compressRequest:
                                     default: none
-                                    description: Specify which compression to use.
-                                      Default to None. Set Accept-Encoding header
-                                      with all supported types. Handle Content-Encoding
-                                      with all supported types.
+                                    description: |-
+                                      Specify which compression to use. Default to None.
+                                      Set Accept-Encoding header with all supported types.
+                                      Handle Content-Encoding with all supported types.
                                     enum:
                                     - br
                                     - gzip
@@ -1668,8 +1722,6 @@ spec:
                                 - url
                                 type: object
                               security:
-                                description: Security credentials used to authenticate
-                                  with endpoints.
                                 nullable: true
                                 oneOf:
                                 - required:
@@ -1680,10 +1732,9 @@ spec:
                                       Secret.
                                     properties:
                                       secret:
-                                        description: Name of the Kubernetes Secret
-                                          which contains basic auth credentials. Secret
-                                          data must contain key `username` and may
-                                          optionally contain key `password`.
+                                        description: |-
+                                          Name of the Kubernetes Secret which contains basic auth credentials.
+                                          Secret data must contain key `username` and may optionally contain key `password`.
                                         type: string
                                     required:
                                     - secret
@@ -1696,7 +1747,8 @@ spec:
                             description: |-
                               Load JWKS from a Kubernetes Secret.
 
-                              When used for signing, Secret must contain data literal 'signingKey'. When used for encryption, Secret must contain data literal 'encryptionKey'.
+                              When used for signing, Secret must contain data literal 'signingKey'.
+                              When used for encryption, Secret must contain data literal 'encryptionKey'.
 
                               In all cases, the value(s) must be a public key in either PEM or JWK format.
                             type: string
@@ -1715,17 +1767,16 @@ spec:
                                 properties:
                                   chunkedUpload:
                                     default: false
-                                    description: 'Specify to use `transfer-encoding:
-                                      chunked` or to use input message headers and
-                                      payload type unmodified. Default to use incoming
-                                      (false).'
+                                    description: |-
+                                      Specify to use `transfer-encoding: chunked` or to use input message headers and payload type unmodified.
+                                      Default to use incoming (false).
                                     type: boolean
                                   compressRequest:
                                     default: none
-                                    description: Specify which compression to use.
-                                      Default to None. Set Accept-Encoding header
-                                      with all supported types. Handle Content-Encoding
-                                      with all supported types.
+                                    description: |-
+                                      Specify which compression to use. Default to None.
+                                      Set Accept-Encoding header with all supported types.
+                                      Handle Content-Encoding with all supported types.
                                     enum:
                                     - br
                                     - gzip
@@ -1782,8 +1833,6 @@ spec:
                                 - url
                                 type: object
                               security:
-                                description: Security credentials used to authenticate
-                                  with endpoints.
                                 nullable: true
                                 oneOf:
                                 - required:
@@ -1794,10 +1843,9 @@ spec:
                                       Secret.
                                     properties:
                                       secret:
-                                        description: Name of the Kubernetes Secret
-                                          which contains basic auth credentials. Secret
-                                          data must contain key `username` and may
-                                          optionally contain key `password`.
+                                        description: |-
+                                          Name of the Kubernetes Secret which contains basic auth credentials.
+                                          Secret data must contain key `username` and may optionally contain key `password`.
                                         type: string
                                     required:
                                     - secret
@@ -1810,7 +1858,8 @@ spec:
                             description: |-
                               Load JWKS from a Kubernetes Secret.
 
-                              When used for signing, Secret must contain data literal 'signingKey'. When used for encryption, Secret must contain data literal 'encryptionKey'.
+                              When used for signing, Secret must contain data literal 'signingKey'.
+                              When used for encryption, Secret must contain data literal 'encryptionKey'.
 
                               In all cases, the value(s) must be a public key in either PEM or JWK format.
                             type: string
@@ -1837,17 +1886,16 @@ spec:
                                 properties:
                                   chunkedUpload:
                                     default: false
-                                    description: 'Specify to use `transfer-encoding:
-                                      chunked` or to use input message headers and
-                                      payload type unmodified. Default to use incoming
-                                      (false).'
+                                    description: |-
+                                      Specify to use `transfer-encoding: chunked` or to use input message headers and payload type unmodified.
+                                      Default to use incoming (false).
                                     type: boolean
                                   compressRequest:
                                     default: none
-                                    description: Specify which compression to use.
-                                      Default to None. Set Accept-Encoding header
-                                      with all supported types. Handle Content-Encoding
-                                      with all supported types.
+                                    description: |-
+                                      Specify which compression to use. Default to None.
+                                      Set Accept-Encoding header with all supported types.
+                                      Handle Content-Encoding with all supported types.
                                     enum:
                                     - br
                                     - gzip
@@ -1904,8 +1952,6 @@ spec:
                                 - url
                                 type: object
                               security:
-                                description: Security credentials used to authenticate
-                                  with endpoints.
                                 nullable: true
                                 oneOf:
                                 - required:
@@ -1916,10 +1962,9 @@ spec:
                                       Secret.
                                     properties:
                                       secret:
-                                        description: Name of the Kubernetes Secret
-                                          which contains basic auth credentials. Secret
-                                          data must contain key `username` and may
-                                          optionally contain key `password`.
+                                        description: |-
+                                          Name of the Kubernetes Secret which contains basic auth credentials.
+                                          Secret data must contain key `username` and may optionally contain key `password`.
                                         type: string
                                     required:
                                     - secret
@@ -1932,7 +1977,8 @@ spec:
                             description: |-
                               Load JWKS from a Kubernetes Secret.
 
-                              When used for signing, Secret must contain data literal 'signingKey'. When used for encryption, Secret must contain data literal 'encryptionKey'.
+                              When used for signing, Secret must contain data literal 'signingKey'.
+                              When used for encryption, Secret must contain data literal 'encryptionKey'.
 
                               In all cases, the value(s) must be a public key in either PEM or JWK format.
                             type: string
@@ -2019,8 +2065,9 @@ spec:
                           type: array
                       type: object
                     default: {}
-                    description: Secrets required by this OAuthProvider. Maps Secret
-                      name to required and optional data key(s) within Secret.
+                    description: |-
+                      Secrets required by this OAuthProvider.
+                      Maps Secret name to required and optional data key(s) within Secret.
                     type: object
                   tlsClientProfiles:
                     default: []
@@ -2051,7 +2098,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: managements.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -2105,7 +2152,9 @@ spec:
                 description: |-
                   Specify annotations to apply to the Management Deployment and Pods.
 
-                  DataPower Nano Operator controls the value of nano.datapower.ibm.com/hash annotation. All other annotations specified by the user will be propagated as-is to the managed Deployment and Pods.
+                  DataPower Nano Operator controls the value of nano.datapower.ibm.com/hash
+                  annotation. All other annotations specified by the user will be propagated
+                  as-is to the managed Deployment and Pods.
                 type: object
               database:
                 description: Database configuration
@@ -2118,10 +2167,10 @@ spec:
                   cluster:
                     properties:
                       credential:
-                        description: Optional; name of Secret containing user credential
-                          for authentication with database. If a Secret is provided,
-                          it must contain `username` field. Optionally, it may also
-                          contain `password` field.
+                        description: |-
+                          Optional; name of Secret containing user credential for authentication
+                          with database. If a Secret is provided, it must contain `username` field.
+                          Optionally, it may also contain `password` field.
                         nullable: true
                         type: string
                       endpoints:
@@ -2154,10 +2203,10 @@ spec:
                   singlePrimary:
                     properties:
                       credential:
-                        description: Optional; name of Secret containing user credential
-                          for authentication with database. If a Secret is provided,
-                          it must contain `username` field. Optionally, it may also
-                          contain `password` field.
+                        description: |-
+                          Optional; name of Secret containing user credential for authentication
+                          with database. If a Secret is provided, it must contain `username` field.
+                          Optionally, it may also contain `password` field.
                         nullable: true
                         type: string
                       endpoint:
@@ -2191,7 +2240,8 @@ spec:
                     a Container.
                   properties:
                     name:
-                      description: Name of the environment variable. Must be a C_IDENTIFIER.
+                      description: Name of the environment variable. May consist of
+                        any printable ASCII characters except '='.
                       type: string
                     value:
                       description: 'Variable references $(VAR_NAME) are expanded using
@@ -2246,6 +2296,37 @@ spec:
                           required:
                           - fieldPath
                           type: object
+                        fileKeyRef:
+                          description: FileKeyRef selects a key of the env file. Requires
+                            the EnvFiles feature gate to be enabled.
+                          properties:
+                            key:
+                              description: The key within the env file. An invalid
+                                key will prevent the pod from starting. The keys defined
+                                within a source may consist of any printable ASCII
+                                characters except '='. During Alpha stage of the EnvFiles
+                                feature gate, the key size is limited to 128 characters.
+                              type: string
+                            optional:
+                              description: |-
+                                Specify whether the file or its key must be defined. If the file or key does not exist, then the env var is not published. If optional is set to true and the specified key does not exist, the environment variable will not be set in the Pod's containers.
+
+                                If optional is set to false and the specified key does not exist, an error will be returned during Pod creation.
+                              type: boolean
+                            path:
+                              description: The path within the volume from which to
+                                select the file. Must be relative and may not contain
+                                the '..' path or start with '..'.
+                              type: string
+                            volumeName:
+                              description: The name of the volume mount containing
+                                the env file.
+                              type: string
+                          required:
+                          - key
+                          - path
+                          - volumeName
+                          type: object
                         resourceFieldRef:
                           description: 'Selects a resource of the container: only
                             resources limits and requests (limits.cpu, limits.memory,
@@ -2259,7 +2340,8 @@ spec:
                             divisor:
                               description: Specifies the output format of the exposed
                                 resources, defaults to "1"
-                              type: string
+                              nullable: true
+                              x-kubernetes-int-or-string: true
                             resource:
                               description: 'Required: resource to select'
                               type: string
@@ -2309,6 +2391,7 @@ spec:
                     default: 3001
                     description: Sets the port for the health probe endpoint
                     format: uint16
+                    maximum: 65535
                     minimum: 0
                     type: integer
                 type: object
@@ -2352,6 +2435,24 @@ spec:
                     maximum: 255
                     minimum: 1
                     type: integer
+                  maxIdentifiers:
+                    description: |-
+                      Maximum number of identifiers allowed per identity group request.
+                      If unset, the service default (20) is used.
+                    format: uint8
+                    maximum: 255
+                    minimum: 1
+                    nullable: true
+                    type: integer
+                  maxPlans:
+                    description: |-
+                      Maximum number of plans allowed per identity group request.
+                      If unset, the service default (200) is used.
+                    format: uint8
+                    maximum: 255
+                    minimum: 1
+                    nullable: true
+                    type: integer
                 required:
                 - maxBulkAddSize
                 type: object
@@ -2362,6 +2463,7 @@ spec:
                 - IfNotPresent
                 - Always
                 - Never
+                - null
                 nullable: true
                 type: string
               imagePullSecrets:
@@ -2386,7 +2488,10 @@ spec:
                 description: |-
                   Specify labels to apply to the Management Deployment and Pods.
 
-                  DataPower Nano Operator controls the values of app.kubernetes.io/name, app.kubernetes.io/instance and nano.datapower.ibm.com/component labels. All other labels specified by the user will be propagated as-is to the managed Deployment and Pods.
+                  DataPower Nano Operator controls the values of app.kubernetes.io/name,
+                  app.kubernetes.io/instance and nano.datapower.ibm.com/component labels.
+                  All other labels specified by the user will be propagated as-is to the
+                  managed Deployment and Pods.
                 type: object
               livenessProbe:
                 default:
@@ -2670,6 +2775,7 @@ spec:
                 type: object
               port:
                 format: uint16
+                maximum: 65535
                 minimum: 0
                 nullable: true
                 type: integer
@@ -2829,11 +2935,11 @@ spec:
                       cpu:
                         description: CPU expressed using Kubernetes resource quantity
                           syntax
-                        type: string
+                        x-kubernetes-int-or-string: true
                       memory:
                         description: Memory expressed using Kubernetes resource quantity
                           syntax
-                        type: string
+                        x-kubernetes-int-or-string: true
                     required:
                     - cpu
                     - memory
@@ -2844,11 +2950,11 @@ spec:
                       cpu:
                         description: CPU expressed using Kubernetes resource quantity
                           syntax
-                        type: string
+                        x-kubernetes-int-or-string: true
                       memory:
                         description: Memory expressed using Kubernetes resource quantity
                           syntax
-                        type: string
+                        x-kubernetes-int-or-string: true
                     required:
                     - cpu
                     - memory
@@ -3006,7 +3112,7 @@ spec:
                     description: |-
                       Total number of terminating pods targeted by this deployment. Terminating pods have a non-null .metadata.deletionTimestamp and have not yet reached the Failed or Succeeded .status.phase.
 
-                      This is an alpha field. Enable DeploymentReplicaSetTerminatingReplicas to be able to use this field.
+                      This is a beta field and requires enabling DeploymentReplicaSetTerminatingReplicas feature (enabled by default).
                     format: int32
                     type: integer
                   unavailableReplicas:
@@ -3067,7 +3173,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: mcpprompts.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -3121,9 +3227,10 @@ spec:
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               description:
-                description: A human-readable description of the prompt. This can
-                  be used by clients to improve the LLM's understanding of available
-                  prompts. It can be thought of like a "hint" to the model.
+                description: |-
+                  A human-readable description of the prompt. This can be used by clients to improve
+                  the LLM's understanding of available prompts. It can be thought of like a "hint"
+                  to the model.
                 nullable: true
                 type: string
               properties:
@@ -3277,6 +3384,13 @@ spec:
                     items:
                       type: string
                     type: array
+                  databases:
+                    default: []
+                    description: List of databases depended on by this resource's
+                      assembly.
+                    items:
+                      type: string
+                    type: array
                   distributedVariableService:
                     default: false
                     description: True if this resource's assembly depends on a distributedVariableService
@@ -3334,9 +3448,9 @@ spec:
                           type: array
                       type: object
                     default: {}
-                    description: Secrets depended on by this resource's assembly.
-                      Maps Secret name to required and optional data key(s) within
-                      Secret.
+                    description: |-
+                      Secrets depended on by this resource's assembly.
+                      Maps Secret name to required and optional data key(s) within Secret.
                     type: object
                   tlsClientProfiles:
                     default: []
@@ -3373,7 +3487,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: mcpresources.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -3404,9 +3518,10 @@ spec:
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               description:
-                description: A human-readable description of the resource. This can
-                  be used by clients to improve the LLM's understanding of available
-                  resources. It can be thought of like a "hint" to the model.
+                description: |-
+                  A human-readable description of the resource. This can be used by clients to improve
+                  the LLM's understanding of available resources. It can be thought of like a "hint"
+                  to the model.
                 nullable: true
                 type: string
               mimeType:
@@ -3569,6 +3684,13 @@ spec:
                     items:
                       type: string
                     type: array
+                  databases:
+                    default: []
+                    description: List of databases depended on by this resource's
+                      assembly.
+                    items:
+                      type: string
+                    type: array
                   distributedVariableService:
                     default: false
                     description: True if this resource's assembly depends on a distributedVariableService
@@ -3626,9 +3748,9 @@ spec:
                           type: array
                       type: object
                     default: {}
-                    description: Secrets depended on by this resource's assembly.
-                      Maps Secret name to required and optional data key(s) within
-                      Secret.
+                    description: |-
+                      Secrets depended on by this resource's assembly.
+                      Maps Secret name to required and optional data key(s) within Secret.
                     type: object
                   tlsClientProfiles:
                     default: []
@@ -3665,7 +3787,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: mcptools.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -3696,9 +3818,10 @@ spec:
                 type: object
                 x-kubernetes-preserve-unknown-fields: true
               description:
-                description: A human-readable description of the tool. This can be
-                  used by clients to improve the LLM's understanding of available
-                  tools. It can be thought of like a "hint" to the model.
+                description: |-
+                  A human-readable description of the tool. This can be used by clients to improve
+                  the LLM's understanding of available tools. It can be thought of like a "hint"
+                  to the model.
                 nullable: true
                 type: string
               inputSchema:
@@ -3860,6 +3983,13 @@ spec:
                     items:
                       type: string
                     type: array
+                  databases:
+                    default: []
+                    description: List of databases depended on by this resource's
+                      assembly.
+                    items:
+                      type: string
+                    type: array
                   distributedVariableService:
                     default: false
                     description: True if this resource's assembly depends on a distributedVariableService
@@ -3917,9 +4047,9 @@ spec:
                           type: array
                       type: object
                     default: {}
-                    description: Secrets depended on by this resource's assembly.
-                      Maps Secret name to required and optional data key(s) within
-                      Secret.
+                    description: |-
+                      Secrets depended on by this resource's assembly.
+                      Maps Secret name to required and optional data key(s) within Secret.
                     type: object
                   tlsClientProfiles:
                     default: []
@@ -3956,7 +4086,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: oauthproviders.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -4007,16 +4137,16 @@ spec:
                             properties:
                               chunkedUpload:
                                 default: false
-                                description: 'Specify to use `transfer-encoding: chunked`
-                                  or to use input message headers and payload type
-                                  unmodified. Default to use incoming (false).'
+                                description: |-
+                                  Specify to use `transfer-encoding: chunked` or to use input message headers and payload type unmodified.
+                                  Default to use incoming (false).
                                 type: boolean
                               compressRequest:
                                 default: none
-                                description: Specify which compression to use. Default
-                                  to None. Set Accept-Encoding header with all supported
-                                  types. Handle Content-Encoding with all supported
-                                  types.
+                                description: |-
+                                  Specify which compression to use. Default to None.
+                                  Set Accept-Encoding header with all supported types.
+                                  Handle Content-Encoding with all supported types.
                                 enum:
                                 - br
                                 - gzip
@@ -4073,8 +4203,6 @@ spec:
                             - url
                             type: object
                           security:
-                            description: Security credentials used to authenticate
-                              with endpoints.
                             nullable: true
                             oneOf:
                             - required:
@@ -4085,10 +4213,9 @@ spec:
                                   Secret.
                                 properties:
                                   secret:
-                                    description: Name of the Kubernetes Secret which
-                                      contains basic auth credentials. Secret data
-                                      must contain key `username` and may optionally
-                                      contain key `password`.
+                                    description: |-
+                                      Name of the Kubernetes Secret which contains basic auth credentials.
+                                      Secret data must contain key `username` and may optionally contain key `password`.
                                     type: string
                                 required:
                                 - secret
@@ -4110,15 +4237,16 @@ spec:
                         properties:
                           chunkedUpload:
                             default: false
-                            description: 'Specify to use `transfer-encoding: chunked`
-                              or to use input message headers and payload type unmodified.
-                              Default to use incoming (false).'
+                            description: |-
+                              Specify to use `transfer-encoding: chunked` or to use input message headers and payload type unmodified.
+                              Default to use incoming (false).
                             type: boolean
                           compressRequest:
                             default: none
-                            description: Specify which compression to use. Default
-                              to None. Set Accept-Encoding header with all supported
-                              types. Handle Content-Encoding with all supported types.
+                            description: |-
+                              Specify which compression to use. Default to None.
+                              Set Accept-Encoding header with all supported types.
+                              Handle Content-Encoding with all supported types.
                             enum:
                             - br
                             - gzip
@@ -4174,8 +4302,6 @@ spec:
                         - url
                         type: object
                       security:
-                        description: Security credentials used to authenticate with
-                          OAuth provider endpoints.
                         nullable: true
                         oneOf:
                         - required:
@@ -4185,10 +4311,9 @@ spec:
                             description: Basic authentication using Kubernetes Secret.
                             properties:
                               bodyCredentials:
-                                description: Optional body field names to use when
-                                  sending credentials in the request body (for endpoints
-                                  that expect credentials in the body rather than
-                                  HTTP Basic header).
+                                description: |-
+                                  Optional body field names to use when sending credentials in the request body
+                                  (for endpoints that expect credentials in the body rather than HTTP Basic header).
                                 nullable: true
                                 properties:
                                   passwordField:
@@ -4204,9 +4329,9 @@ spec:
                                 - usernameField
                                 type: object
                               secret:
-                                description: Name of the Kubernetes Secret which contains
-                                  basic auth credentials. Secret data must contain
-                                  keys `username` and `password`.
+                                description: |-
+                                  Name of the Kubernetes Secret which contains basic auth credentials.
+                                  Secret data must contain keys `username` and `password`.
                                 type: string
                             required:
                             - secret
@@ -4218,6 +4343,7 @@ spec:
                   cacheTtlSeconds:
                     description: Required when cacheType=ttl, ignored otherwise
                     format: uint16
+                    maximum: 65535
                     minimum: 1
                     nullable: true
                     type: integer
@@ -4236,15 +4362,16 @@ spec:
                         properties:
                           chunkedUpload:
                             default: false
-                            description: 'Specify to use `transfer-encoding: chunked`
-                              or to use input message headers and payload type unmodified.
-                              Default to use incoming (false).'
+                            description: |-
+                              Specify to use `transfer-encoding: chunked` or to use input message headers and payload type unmodified.
+                              Default to use incoming (false).
                             type: boolean
                           compressRequest:
                             default: none
-                            description: Specify which compression to use. Default
-                              to None. Set Accept-Encoding header with all supported
-                              types. Handle Content-Encoding with all supported types.
+                            description: |-
+                              Specify which compression to use. Default to None.
+                              Set Accept-Encoding header with all supported types.
+                              Handle Content-Encoding with all supported types.
                             enum:
                             - br
                             - gzip
@@ -4300,8 +4427,6 @@ spec:
                         - url
                         type: object
                       security:
-                        description: Security credentials used to authenticate with
-                          OAuth provider endpoints.
                         nullable: true
                         oneOf:
                         - required:
@@ -4311,10 +4436,9 @@ spec:
                             description: Basic authentication using Kubernetes Secret.
                             properties:
                               bodyCredentials:
-                                description: Optional body field names to use when
-                                  sending credentials in the request body (for endpoints
-                                  that expect credentials in the body rather than
-                                  HTTP Basic header).
+                                description: |-
+                                  Optional body field names to use when sending credentials in the request body
+                                  (for endpoints that expect credentials in the body rather than HTTP Basic header).
                                 nullable: true
                                 properties:
                                   passwordField:
@@ -4330,9 +4454,9 @@ spec:
                                 - usernameField
                                 type: object
                               secret:
-                                description: Name of the Kubernetes Secret which contains
-                                  basic auth credentials. Secret data must contain
-                                  keys `username` and `password`.
+                                description: |-
+                                  Name of the Kubernetes Secret which contains basic auth credentials.
+                                  Secret data must contain keys `username` and `password`.
                                 type: string
                             required:
                             - secret
@@ -4352,15 +4476,16 @@ spec:
                         properties:
                           chunkedUpload:
                             default: false
-                            description: 'Specify to use `transfer-encoding: chunked`
-                              or to use input message headers and payload type unmodified.
-                              Default to use incoming (false).'
+                            description: |-
+                              Specify to use `transfer-encoding: chunked` or to use input message headers and payload type unmodified.
+                              Default to use incoming (false).
                             type: boolean
                           compressRequest:
                             default: none
-                            description: Specify which compression to use. Default
-                              to None. Set Accept-Encoding header with all supported
-                              types. Handle Content-Encoding with all supported types.
+                            description: |-
+                              Specify which compression to use. Default to None.
+                              Set Accept-Encoding header with all supported types.
+                              Handle Content-Encoding with all supported types.
                             enum:
                             - br
                             - gzip
@@ -4416,8 +4541,6 @@ spec:
                         - url
                         type: object
                       security:
-                        description: Security credentials used to authenticate with
-                          OAuth provider endpoints.
                         nullable: true
                         oneOf:
                         - required:
@@ -4427,10 +4550,9 @@ spec:
                             description: Basic authentication using Kubernetes Secret.
                             properties:
                               bodyCredentials:
-                                description: Optional body field names to use when
-                                  sending credentials in the request body (for endpoints
-                                  that expect credentials in the body rather than
-                                  HTTP Basic header).
+                                description: |-
+                                  Optional body field names to use when sending credentials in the request body
+                                  (for endpoints that expect credentials in the body rather than HTTP Basic header).
                                 nullable: true
                                 properties:
                                   passwordField:
@@ -4446,9 +4568,9 @@ spec:
                                 - usernameField
                                 type: object
                               secret:
-                                description: Name of the Kubernetes Secret which contains
-                                  basic auth credentials. Secret data must contain
-                                  keys `username` and `password`.
+                                description: |-
+                                  Name of the Kubernetes Secret which contains basic auth credentials.
+                                  Secret data must contain keys `username` and `password`.
                                 type: string
                             required:
                             - secret
@@ -4468,6 +4590,7 @@ spec:
                 enum:
                 - "2.0"
                 - "2.1"
+                - null
                 nullable: true
                 type: string
             type: object
@@ -4560,8 +4683,9 @@ spec:
                           type: array
                       type: object
                     default: {}
-                    description: Secrets required by this OAuthProvider. Maps Secret
-                      name to required and optional data key(s) within Secret.
+                    description: |-
+                      Secrets required by this OAuthProvider.
+                      Maps Secret name to required and optional data key(s) within Secret.
                     type: object
                   tlsClientProfiles:
                     default: []
@@ -4592,7 +4716,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: runtimeconfigs.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -4628,7 +4752,8 @@ spec:
                     a Container.
                   properties:
                     name:
-                      description: Name of the environment variable. Must be a C_IDENTIFIER.
+                      description: Name of the environment variable. May consist of
+                        any printable ASCII characters except '='.
                       type: string
                     value:
                       description: 'Variable references $(VAR_NAME) are expanded using
@@ -4683,6 +4808,37 @@ spec:
                           required:
                           - fieldPath
                           type: object
+                        fileKeyRef:
+                          description: FileKeyRef selects a key of the env file. Requires
+                            the EnvFiles feature gate to be enabled.
+                          properties:
+                            key:
+                              description: The key within the env file. An invalid
+                                key will prevent the pod from starting. The keys defined
+                                within a source may consist of any printable ASCII
+                                characters except '='. During Alpha stage of the EnvFiles
+                                feature gate, the key size is limited to 128 characters.
+                              type: string
+                            optional:
+                              description: |-
+                                Specify whether the file or its key must be defined. If the file or key does not exist, then the env var is not published. If optional is set to true and the specified key does not exist, the environment variable will not be set in the Pod's containers.
+
+                                If optional is set to false and the specified key does not exist, an error will be returned during Pod creation.
+                              type: boolean
+                            path:
+                              description: The path within the volume from which to
+                                select the file. Must be relative and may not contain
+                                the '..' path or start with '..'.
+                              type: string
+                            volumeName:
+                              description: The name of the volume mount containing
+                                the env file.
+                              type: string
+                          required:
+                          - key
+                          - path
+                          - volumeName
+                          type: object
                         resourceFieldRef:
                           description: 'Selects a resource of the container: only
                             resources limits and requests (limits.cpu, limits.memory,
@@ -4696,7 +4852,8 @@ spec:
                             divisor:
                               description: Specifies the output format of the exposed
                                 resources, defaults to "1"
-                              type: string
+                              nullable: true
+                              x-kubernetes-int-or-string: true
                             resource:
                               description: 'Required: resource to select'
                               type: string
@@ -4731,6 +4888,16 @@ spec:
                   type: object
                 nullable: true
                 type: array
+              externalTrafficPolicy:
+                description: |-
+                  External traffic policy for LoadBalancer services.
+                  Required when serviceType: LoadBalancer.
+                  Not configurable when serviceType is not set to LoadBalancer.
+                enum:
+                - Local
+                - Cluster
+                nullable: true
+                type: string
               hostAliases:
                 items:
                   description: HostAlias holds the mapping between IP and hostnames
@@ -4756,6 +4923,7 @@ spec:
                 - IfNotPresent
                 - Always
                 - Never
+                - null
                 nullable: true
                 type: string
               imagePullSecrets:
@@ -4800,9 +4968,9 @@ spec:
                 nullable: true
                 properties:
                   additionalSpans:
-                    description: Add more granular spans for transactions. By default,
-                      only required spans per OpenTelemetry specification are produced
-                      (e.g., http).
+                    description: |-
+                      Settings to customize additional spans in transaction.
+                      Each setting adds more spans from previous one which has performance implications.
                     enum:
                     - globalFlow
                     - assemblyPolicy
@@ -4946,6 +5114,11 @@ spec:
                         - HTTP/2
                         nullable: true
                         type: string
+                      xffTrust:
+                        description: XFF trust policy. If unset (default), accept
+                          XFF.
+                        nullable: true
+                        type: boolean
                     type: object
                 type: object
               replicas:
@@ -4962,11 +5135,11 @@ spec:
                       cpu:
                         description: CPU expressed using Kubernetes resource quantity
                           syntax
-                        type: string
+                        x-kubernetes-int-or-string: true
                       memory:
                         description: Memory expressed using Kubernetes resource quantity
                           syntax
-                        type: string
+                        x-kubernetes-int-or-string: true
                     required:
                     - cpu
                     - memory
@@ -4977,11 +5150,11 @@ spec:
                       cpu:
                         description: CPU expressed using Kubernetes resource quantity
                           syntax
-                        type: string
+                        x-kubernetes-int-or-string: true
                       memory:
                         description: Memory expressed using Kubernetes resource quantity
                           syntax
-                        type: string
+                        x-kubernetes-int-or-string: true
                     required:
                     - cpu
                     - memory
@@ -5003,9 +5176,55 @@ spec:
                 - message: memory limit must be greater than or equal to memory request
                   rule: quantity(self.limits.memory).compareTo(quantity(self.requests.memory))
                     >= 0
+              serviceAnnotations:
+                additionalProperties:
+                  type: string
+                description: Annotations to apply to the Service resource for Gateway
+                  API mode
+                type: object
               serviceName:
                 nullable: true
                 type: string
+              serviceType:
+                description: Service type for Gateway API mode Runtimes
+                enum:
+                - ClusterIP
+                - LoadBalancer
+                - null
+                nullable: true
+                type: string
+              sessionPersistence:
+                description: Configure session persistence.
+                nullable: true
+                properties:
+                  encryptionKeys:
+                    description: |-
+                      Keys used for session cookies.
+
+                      The first key is used for encryption. All keys are tried in order
+                      during decryption to support key rotation without invalidating
+                      existing cookies.
+                    items:
+                      oneOf:
+                      - required:
+                        - secret
+                      properties:
+                        secret:
+                          properties:
+                            name:
+                              description: |-
+                                Name of Kubernetes Secret which holds key used for encryption and decryption
+                                of session cookies. Secret must contain data literal "key" whose value is an
+                                AES-256-GCM key.
+                              type: string
+                          required:
+                          - name
+                          type: object
+                      type: object
+                    type: array
+                required:
+                - encryptionKeys
+                type: object
               tlsServerProfile:
                 description: 'DEPRECATED: configure TLS in Gateway listeners instead'
                 nullable: true
@@ -5104,7 +5323,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: runtimes.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -5158,7 +5377,9 @@ spec:
                 description: |-
                   Specify annotations to apply to the Runtime Deployment and Pods.
 
-                  DataPower Nano Operator controls the value of nano.datapower.ibm.com/hash annotation. All other annotations specified by the user will be propagated as-is to the managed Deployment and Pods.
+                  DataPower Nano Operator controls the value of nano.datapower.ibm.com/hash
+                  annotation. All other annotations specified by the user will be propagated
+                  as-is to the managed Deployment and Pods.
                 type: object
               blockService:
                 nullable: true
@@ -5171,7 +5392,7 @@ spec:
                     type: string
                   defaultMode:
                     default: denyAll
-                    description: Default behaviour if no valid remote config is available
+                    description: Default behavior if no valid remote config is available
                     enum:
                     - allowAll
                     - denyAll
@@ -5219,10 +5440,10 @@ spec:
                         properties:
                           autoDecrement:
                             default: true
-                            description: If true (default), the count limit is automatically
-                              decremented at the end of the transaction by the amount
-                              it was incremented during the transaction. If false,
-                              the count is only decremented by a Decrement operation.
+                            description: |-
+                              If true (default), the count limit is automatically decremented at the end
+                              of the transaction by the amount it was incremented during the transaction.
+                              If false, the count is only decremented by a Decrement operation.
                             type: boolean
                           dynamicValue:
                             description: JSONata expression to be added to the limit
@@ -5230,15 +5451,16 @@ spec:
                             nullable: true
                             type: string
                           max:
-                            description: Max allowed for this count limit. A value
-                              of 0 means "unlimited" (any number of calls are allowed).
+                            description: |-
+                              Max allowed for this count limit. A value of 0 means "unlimited" (any number
+                              of calls are allowed).
                             format: int64
                             minimum: 0
                             type: integer
                           weightExpr:
-                            description: JSONata expression for the weight of a call
-                              (i.e., the amount by which the count is incremented
-                              or decremented). Must evaluate to a positive integer.
+                            description: |-
+                              JSONata expression for the weight of a call (i.e., the amount by which the
+                              count is incremented or decremented). Must evaluate to a positive integer.
                               If not set, the weight defaults to 1.
                             nullable: true
                             type: string
@@ -5260,9 +5482,9 @@ spec:
                         cluster:
                           properties:
                             credential:
-                              description: Optional; name of Secret containing user
-                                credential for authentication with database. If a
-                                Secret is provided, it must contain `username` field.
+                              description: |-
+                                Optional; name of Secret containing user credential for authentication
+                                with database. If a Secret is provided, it must contain `username` field.
                                 Optionally, it may also contain `password` field.
                               nullable: true
                               type: string
@@ -5305,9 +5527,9 @@ spec:
                         singlePrimary:
                           properties:
                             credential:
-                              description: Optional; name of Secret containing user
-                                credential for authentication with database. If a
-                                Secret is provided, it must contain `username` field.
+                              description: |-
+                                Optional; name of Secret containing user credential for authentication
+                                with database. If a Secret is provided, it must contain `username` field.
                                 Optionally, it may also contain `password` field.
                               nullable: true
                               type: string
@@ -5355,9 +5577,9 @@ spec:
                             nullable: true
                             type: string
                           exceedAction:
-                            description: 'Action to take when rate limit is exceeded.
-                              Applies only to rate limit operations that return a
-                              `LimitExceeded` error: Consume, Check.'
+                            description: |-
+                              Action to take when rate limit is exceeded. Applies only to rate limit
+                              operations that return a `LimitExceeded` error: Consume, Check.
                             enum:
                             - return429
                             - return500
@@ -5369,9 +5591,9 @@ spec:
                             minimum: 1
                             type: integer
                           intervalOffset:
-                            description: 'Cause interval to start at an offset other
-                              than the default. Valid values: 0 (default) = no change,
-                              -1 = interval will start at an arbitrary offset.'
+                            description: |-
+                              Cause interval to start at an offset other than the default. Valid values:
+                              0 (default) = no change, -1 = interval will start at an arbitrary offset.
                             format: int32
                             maximum: 0
                             minimum: -1
@@ -5385,17 +5607,17 @@ spec:
                             - day
                             type: string
                           max:
-                            description: Max allowed for this rate limit during each
-                              interval. A value of 0 means "unlimited" (any number
-                              of calls are allowed).
+                            description: |-
+                              Max allowed for this rate limit during each interval. A value of 0 means
+                              "unlimited" (any number of calls are allowed).
                             format: int64
                             minimum: 0
                             type: integer
                           weightExpr:
-                            description: JSONata expression for the weight of a call
-                              (i.e., the amount by which the remaining count is consumed
-                              or replenished). Must evaluate to a positive integer.
-                              If not set, the weight defaults to 1.
+                            description: |-
+                              JSONata expression for the weight of a call (i.e., the amount by which the
+                              remaining count is consumed or replenished). Must evaluate to a positive
+                              integer. If not set, the weight defaults to 1.
                             nullable: true
                             type: string
                         required:
@@ -5424,7 +5646,8 @@ spec:
                     a Container.
                   properties:
                     name:
-                      description: Name of the environment variable. Must be a C_IDENTIFIER.
+                      description: Name of the environment variable. May consist of
+                        any printable ASCII characters except '='.
                       type: string
                     value:
                       description: 'Variable references $(VAR_NAME) are expanded using
@@ -5479,6 +5702,37 @@ spec:
                           required:
                           - fieldPath
                           type: object
+                        fileKeyRef:
+                          description: FileKeyRef selects a key of the env file. Requires
+                            the EnvFiles feature gate to be enabled.
+                          properties:
+                            key:
+                              description: The key within the env file. An invalid
+                                key will prevent the pod from starting. The keys defined
+                                within a source may consist of any printable ASCII
+                                characters except '='. During Alpha stage of the EnvFiles
+                                feature gate, the key size is limited to 128 characters.
+                              type: string
+                            optional:
+                              description: |-
+                                Specify whether the file or its key must be defined. If the file or key does not exist, then the env var is not published. If optional is set to true and the specified key does not exist, the environment variable will not be set in the Pod's containers.
+
+                                If optional is set to false and the specified key does not exist, an error will be returned during Pod creation.
+                              type: boolean
+                            path:
+                              description: The path within the volume from which to
+                                select the file. Must be relative and may not contain
+                                the '..' path or start with '..'.
+                              type: string
+                            volumeName:
+                              description: The name of the volume mount containing
+                                the env file.
+                              type: string
+                          required:
+                          - key
+                          - path
+                          - volumeName
+                          type: object
                         resourceFieldRef:
                           description: 'Selects a resource of the container: only
                             resources limits and requests (limits.cpu, limits.memory,
@@ -5492,7 +5746,8 @@ spec:
                             divisor:
                               description: Specifies the output format of the exposed
                                 resources, defaults to "1"
-                              type: string
+                              nullable: true
+                              x-kubernetes-int-or-string: true
                             resource:
                               description: 'Required: resource to select'
                               type: string
@@ -5542,6 +5797,7 @@ spec:
                     default: 3001
                     description: Sets the port for the health probe endpoint
                     format: uint16
+                    maximum: 65535
                     minimum: 0
                     type: integer
                 type: object
@@ -5570,6 +5826,7 @@ spec:
                 - IfNotPresent
                 - Always
                 - Never
+                - null
                 nullable: true
                 type: string
               imagePullSecrets:
@@ -5608,7 +5865,10 @@ spec:
                 description: |-
                   Specify labels to apply to the Runtime Deployment and Pods.
 
-                  DataPower Nano Operator controls the values of app.kubernetes.io/name, app.kubernetes.io/instance and nano.datapower.ibm.com/component labels. All other labels specified by the user will be propagated as-is to the managed Deployment and Pods.
+                  DataPower Nano Operator controls the values of app.kubernetes.io/name,
+                  app.kubernetes.io/instance and nano.datapower.ibm.com/component labels.
+                  All other labels specified by the user will be propagated as-is to the
+                  managed Deployment and Pods.
                 type: object
               listeners:
                 description: Optionally define one or more listeners
@@ -5616,20 +5876,18 @@ spec:
                   description: Defines a single listener for the Runtime
                   properties:
                     defaultTlsServerProfile:
-                      description: 'DEPRECATED: use protocol instead; invalid when
-                        protocol is specified. Optionally configure a default TlsServerProfile
-                        to use to secure this listener. If an SNI mapping is specified,
-                        the default TlsServerProfile will be used for connections
-                        that do not match an SNI entry. If no SNI mapping is specified,
-                        the default TlsServerProfile will be used for all TLS connections.
-                        If no SNI mapping is specified and no default TlsServerProfile
-                        is specified, the listener will not use TLS'
+                      description: |-
+                        DEPRECATED: use protocol instead; invalid when protocol is specified.
+                        Optionally configure a default TlsServerProfile to use to secure this listener.
+                        If an SNI mapping is specified, the default TlsServerProfile will be used for connections that do not match an SNI entry.
+                        If no SNI mapping is specified, the default TlsServerProfile will be used for all TLS connections.
+                        If no SNI mapping is specified and no default TlsServerProfile is specified, the listener will not use TLS
                       nullable: true
                       type: string
                     name:
-                      description: Name of the listener. This name will also be used
-                        for the port name in the managed Service, and thus must be
-                        a valid Service port name.
+                      description: |-
+                        Name of the listener. This name will also be used for the port name in the managed
+                        Service, and thus must be a valid Service port name.
                       maxLength: 32
                       minLength: 1
                       type: string
@@ -5640,20 +5898,20 @@ spec:
                       minimum: 1024
                       type: integer
                     protocol:
-                      description: Select protocol for this listener. This property
-                        supersedes defaultTlsServerProfile and sni properties, which
-                        are both now DEPRECATED. If specifying protocol, then defaultTlsServerProfile
-                        and sni must not be set. If protocol is not set, selection
-                        is based on defaultTlsServerProfile and sni (legacy behavior
-                        prior to deprecation). If none of protocol, defaultTlsServerProfile,
-                        or sni are set, then this listener will serve plaintext HTTP
-                        and accept any HTTP version.
+                      description: |-
+                        Select protocol for this listener.
+                        This property supersedes defaultTlsServerProfile and sni properties, which are both now DEPRECATED.
+                        If specifying protocol, then defaultTlsServerProfile and sni must not be set.
+                        If protocol is not set, selection is based on defaultTlsServerProfile and sni (legacy behavior prior to deprecation).
+                        If none of protocol, defaultTlsServerProfile, or sni are set, then this listener will serve plaintext HTTP and accept any HTTP version.
                       nullable: true
                       oneOf:
                       - required:
                         - http
                       - required:
                         - https
+                      - required:
+                        - tls
                       properties:
                         http:
                           description: Accept HTTP protocol
@@ -5666,23 +5924,27 @@ spec:
                               - HTTP/2
                               nullable: true
                               type: string
+                            xffTrust:
+                              description: XFF trust policy. If unset (default), accept
+                                XFF.
+                              nullable: true
+                              type: boolean
                           type: object
                         https:
                           description: Accept HTTPS protocol
                           properties:
                             defaultTlsServerProfile:
-                              description: Configure a default TlsServerProfile to
-                                use to secure this listener. If an SNI mapping is
-                                specified, the default TlsServerProfile will be used
-                                for connections that do not match an SNI entry. If
-                                no SNI mapping is specified, the default TlsServerProfile
-                                will be used for all TLS connections.
+                              description: |-
+                                Configure a default TlsServerProfile to use to secure this listener.
+                                If an SNI mapping is specified, the default TlsServerProfile will be used for
+                                connections that do not match an SNI entry. If no SNI mapping is specified, the
+                                default TlsServerProfile will be used for all TLS connections.
                               nullable: true
                               type: string
                             sni:
-                              description: 'Configure an SNI mapping to use to secure
-                                this listener. NOTE: Specifying an SNI mapping is
-                                not supported for Runtimes in McpServer mode.'
+                              description: |-
+                                Configure an SNI mapping to use to secure this listener.
+                                NOTE: Specifying an SNI mapping is not supported for Runtimes in McpServer mode.
                               items:
                                 description: Defines a single Runtime Listener SNI
                                   entry
@@ -5712,18 +5974,104 @@ spec:
                               - HTTP/2
                               nullable: true
                               type: string
+                            xffTrust:
+                              description: XFF trust policy. If unset (default), accept
+                                XFF.
+                              nullable: true
+                              type: boolean
                           type: object
                           x-kubernetes-validations:
                           - message: either defaultTlsServerProfile or at least one
                               sni entry must be provided
                             rule: has(self.defaultTlsServerProfile) || (has(self.sni)
                               && self.sni.size() > 0)
+                        tls:
+                          description: |-
+                            Accept TLS protocol — supports both termination and passthrough per hostname.
+
+                            - `terminate` entries — TLS is terminated at the gateway; a `tlsServerProfile` is required.
+                            - `passthrough` — TLS is forwarded opaque to the backend; no `tlsServerProfile`.
+
+                            At most one entry (across `terminate` and `passthrough`) may omit `hostnames`,
+                            acting as the default/catch-all rule.
+                          properties:
+                            passthrough:
+                              description: |-
+                                TLS passthrough configuration. All `hostnames` are forwarded opaque to the
+                                backend. If `hostnames` is empty the passthrough entry acts as the catch-all
+                                default.
+                              nullable: true
+                              properties:
+                                hostnames:
+                                  description: |-
+                                    SNI hostnames (precise or wildcard-prefixed, e.g. `*.example.com`) that are
+                                    forwarded opaque to the backend. When empty this entry is the catch-all default.
+                                  items:
+                                    type: string
+                                  type: array
+                              type: object
+                            terminate:
+                              description: |-
+                                One or more TLS termination entries. Each entry terminates TLS at the gateway
+                                for its listed `hostnames` using the named `TlsServerProfile`. An entry with
+                                an empty `hostnames` list acts as the catch-all default.
+                              items:
+                                description: |-
+                                  Configuration for a TLS termination entry.
+
+                                  All listed `hostnames` are terminated at the gateway using `tlsServerProfile`.
+                                  If `hostnames` is empty this entry acts as the default (catch-all) terminate rule.
+                                properties:
+                                  application:
+                                    description: Application-layer configuration for
+                                      the decrypted connection.
+                                    oneOf:
+                                    - required:
+                                      - http
+                                    properties:
+                                      http:
+                                        description: HTTP application-layer configuration
+                                          (e.g. version pinning, XFF trust).
+                                        properties:
+                                          version:
+                                            description: Optionally restrict HTTP
+                                              version to support. If unset (default),
+                                              accept any version.
+                                            enum:
+                                            - HTTP/1
+                                            - HTTP/2
+                                            nullable: true
+                                            type: string
+                                          xffTrust:
+                                            description: XFF trust policy. If unset
+                                              (default), accept XFF.
+                                            nullable: true
+                                            type: boolean
+                                        type: object
+                                    type: object
+                                  hostnames:
+                                    description: |-
+                                      SNI hostnames (precise or wildcard-prefixed, e.g. `*.example.com`) that are
+                                      terminated at the gateway. When empty this entry is the catch-all default.
+                                    items:
+                                      type: string
+                                    type: array
+                                  tlsServerProfile:
+                                    description: Name of the `TlsServerProfile` resource
+                                      to use for TLS termination.
+                                    type: string
+                                required:
+                                - application
+                                - tlsServerProfile
+                                type: object
+                              type: array
+                          type: object
                       type: object
                     sni:
-                      description: 'DEPRECATED: use protocol instead; invalid when
-                        protocol is specified. Optionally configure an SNI mapping
-                        to use to secure this listener. NOTE: Specifying an SNI mapping
-                        is not supported for Runtimes in McpServer mode.'
+                      description: |-
+                        DEPRECATED: use protocol instead; invalid when protocol is specified.
+                        Optionally configure an SNI mapping to use to secure this listener.
+                        NOTE: Specifying an SNI mapping is not supported for Runtimes in McpServer mode.
                       items:
                         description: Defines a single Runtime Listener SNI entry
                         properties:
@@ -5952,8 +6300,9 @@ spec:
                           type: string
                         type: array
                       assembly:
-                        description: Name of `Assembly` custom resource to define
-                          assembly flow. The `Assembly` must use `flow` type of assembly.
+                        description: |-
+                          Name of `Assembly` custom resource to define assembly flow.
+                          The `Assembly` must use `flow` type of assembly.
                         nullable: true
                         type: string
                       debugProbeService:
@@ -5994,10 +6343,9 @@ spec:
                                         rateLimitMap:
                                           additionalProperties:
                                             type: string
-                                          description: Override plan rateLimitMap
-                                            for this operation. Any alias not found
-                                            in this map is retrieved from the plan
-                                            rateLimitMap.
+                                          description: |-
+                                            Override plan rateLimitMap for this operation. Any alias not found in this map
+                                            is retrieved from the plan rateLimitMap.
                                           type: object
                                       type: object
                                     type: array
@@ -6080,7 +6428,8 @@ spec:
                     description: Execute given assembly
                     properties:
                       assembly:
-                        description: Name of `Assembly` custom resource to execute.
+                        description: |-
+                          Name of `Assembly` custom resource to execute.
                           The `Assembly` must use `basic` type of assembly.
                         type: string
                     required:
@@ -6096,11 +6445,22 @@ spec:
                           description: Configuration for a single BackendRef
                           properties:
                             autoScaleConfig:
-                              description: Name of effective AutoScaleConfig for the
-                                target, if any. Only supported for `target` of type
-                                `BackendRefTarget::Runtime`.
+                              description: |-
+                                Name of effective AutoScaleConfig for the target, if any.
+                                Only supported for `target` of type `BackendRefTarget::Runtime`.
                               nullable: true
                               type: string
+                            endpointDiscovery:
+                              description: Endpoint discovery config for this backendRef.
+                              nullable: true
+                              properties:
+                                serviceName:
+                                  description: Service name to use when discovering
+                                    endpoints for a backendRef
+                                  type: string
+                              required:
+                              - serviceName
+                              type: object
                             endpoints:
                               description: List of endpoints known to exist on the
                                 target
@@ -6130,12 +6490,21 @@ spec:
                           - target
                           type: object
                         type: array
+                      externalTrafficPolicy:
+                        description: |-
+                          External traffic policy for LoadBalancer services.
+                          Required when serviceType: LoadBalancer.
+                          Not configurable when serviceType is not set to LoadBalancer.
+                        enum:
+                        - Local
+                        - Cluster
+                        nullable: true
+                        type: string
                       httpRoutes:
                         description: List of `HTTPRoute` resources to deploy to this
                           Runtime
                         items:
                           type: string
-                        minItems: 1
                         type: array
                       listenerPortMap:
                         description: Map from Runtime listener name to Gateway listener
@@ -6159,10 +6528,10 @@ spec:
                         description: Map from Gateway listener names to routes attached
                           to the specified listener
                         items:
-                          description: Maps the name of a GatewayListeners to an array
-                            of TypedObjectReferences, each of which is a reference
-                            to a route (e.g., HTTPRoute) that is attached to the specified
-                            listener.
+                          description: |-
+                            Maps the name of a GatewayListeners to an array of TypedObjectReferences,
+                            each of which is a reference to a route (e.g., HTTPRoute) that is attached
+                            to the specified listener.
                           properties:
                             gatewayListener:
                               type: string
@@ -6208,27 +6577,93 @@ spec:
                           - routes
                           type: object
                         type: array
-                    required:
-                    - httpRoutes
+                      serviceAnnotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations to apply to the Service resource.
+                        type: object
+                      serviceType:
+                        default: ClusterIP
+                        description: Service type for the Runtime service.
+                        enum:
+                        - ClusterIP
+                        - LoadBalancer
+                        type: string
+                      sessionPersistence:
+                        description: |-
+                          Session persistence configuration.
+
+                          Absent when no attached HTTPRoute has session persistence enabled.
+                        nullable: true
+                        properties:
+                          encryptionKeys:
+                            description: |-
+                              Keys used for session cookies.
+
+                              The first key is used for encryption. All keys are tried in order
+                              during decryption to support key rotation without invalidating
+                              existing cookies.
+                            items:
+                              oneOf:
+                              - required:
+                                - secret
+                              properties:
+                                secret:
+                                  properties:
+                                    name:
+                                      description: |-
+                                        Name of Kubernetes Secret which holds key used for encryption and decryption
+                                        of session cookies. Secret must contain data literal "key" whose value is an
+                                        AES-256-GCM key.
+                                      type: string
+                                  required:
+                                  - name
+                                  type: object
+                              type: object
+                            type: array
+                        required:
+                        - encryptionKeys
+                        type: object
+                      tlsRoutes:
+                        description: List of `TLSRoute` resources to deploy to this
+                          Runtime
+                        items:
+                          type: string
+                        type: array
                     type: object
                   mcpServer:
                     description: MCP Server
                     properties:
                       assembly:
-                        description: Name of `Assembly` custom resource to define
-                          assembly flow. The `Assembly` must use `flow` type of assembly.
+                        description: |-
+                          Name of `Assembly` custom resource to define assembly flow.
+                          The `Assembly` must use `flow` type of assembly.
                         nullable: true
                         type: string
+                      debugProbeService:
+                        description: Configure debug probe service
+                        nullable: true
+                        properties:
+                          database:
+                            description: Name of database configuration to use; must
+                              be defined in components.
+                            maxLength: 32
+                            minLength: 1
+                            type: string
+                        required:
+                        - database
+                        type: object
                       description:
-                        description: A human-readable description of the server. This
-                          can be used by clients to improve the LLM's understanding
-                          of available tools, resources, etc.
+                        description: |-
+                          A human-readable description of the server. This can be used by clients to
+                          improve the LLM's understanding of available tools, resources, etc.
                         nullable: true
                         type: string
                       instructions:
-                        description: Instructions describing how to use the server
-                          and its features. This can be used by clients to improve
-                          the LLM's understanding of available tools, resources, etc.
+                        description: |-
+                          Instructions describing how to use the server and its features. This can
+                          be used by clients to improve the LLM's understanding of available tools,
+                          resources, etc.
                         nullable: true
                         type: string
                       plans:
@@ -6306,13 +6741,14 @@ spec:
                           type: string
                         type: array
                       protocolVersion:
-                        description: The version of Model Context Protocol that the
-                          server wants to use. This may not match the version that
-                          a client requests. If a client cannot support this version,
-                          it MUST disconnect.
+                        description: |-
+                          The version of Model Context Protocol that the server wants to use.
+                          This may not match the version that a client requests.
+                          If a client cannot support this version, it MUST disconnect.
                         enum:
                         - "2025-06-18T00:00:00Z"
                         - latest
+                        - null
                         nullable: true
                         type: string
                       remoteService:
@@ -6326,10 +6762,10 @@ spec:
                             minLength: 1
                             type: string
                           sessionIdleTimeoutSeconds:
-                            description: Specify idle time in seconds before a session
-                              ID is removed from the database. Range of 0 - 31,536,000
-                              (1 Year). Value of 0 disables idle timeout. Defaults
-                              to 3600 seconds.
+                            description: |-
+                              Specify idle time in seconds before a session ID is removed from the database.
+                              Range of 0 - 31,536,000 (1 Year). Value of 0 disables idle timeout.
+                              Defaults to 3600 seconds.
                             format: uint64
                             maximum: 31536000
                             minimum: 0
@@ -6417,8 +6853,9 @@ spec:
                             - message: ConfigMap name must not be empty
                               rule: self.size() > 0
                           subPath:
-                            description: Optionally, mount the ConfigMap content into
-                              this subPath relative to the module root
+                            description: |-
+                              Optionally, mount the ConfigMap content into this subPath
+                              relative to the module root
                             nullable: true
                             type: string
                             x-kubernetes-validations:
@@ -6464,9 +6901,9 @@ spec:
                 nullable: true
                 properties:
                   additionalSpans:
-                    description: Add more granular spans for transactions. By default,
-                      only required spans per OpenTelemetry specification are produced
-                      (e.g., http).
+                    description: |-
+                      Settings to customize additional spans in transaction.
+                      Each setting adds more spans from previous one which has performance implications.
                     enum:
                     - globalFlow
                     - assemblyPolicy
@@ -6599,47 +7036,48 @@ spec:
                     nullable: true
                     properties:
                       capacity:
-                        description: Maximum number of individual limits that can
-                          be stored in cache. This is an LRU (least-recently-used)
-                          cache, so exceeding the number of entries will result in
-                          cache misses for the oldest keys.
+                        description: |-
+                          Maximum number of individual limits that can be stored in cache. This is
+                          an LRU (least-recently-used) cache, so exceeding the number of entries will
+                          result in cache misses for the oldest keys.
                         format: uint64
                         maximum: 65536
                         minimum: 32
                         type: integer
                       fallback:
-                        description: Configuration for the fallback to cache-only
-                          operation if there is an error communicating with the rate
-                          limit datastore. If not specified, fallback will not occur.
+                        description: |-
+                          Configuration for the fallback to cache-only operation if there is an error
+                          communicating with the rate limit datastore. If not specified, fallback
+                          will not occur.
                         nullable: true
                         properties:
                           enabled:
                             default: true
-                            description: If true (default), rate limit service will
-                              fall back to cache and continue functioning if communication
-                              with the datastore returns an error. If false, fallback
-                              will not occur, so a datastore error will result in
-                              a transaction error.
+                            description: |-
+                              If true (default), rate limit service will fall back to cache and continue
+                              functioning if communication with the datastore returns an error. If false,
+                              fallback will not occur, so a datastore error will result in a transaction
+                              error.
                             type: boolean
                         type: object
                       maxAgeMilliseconds:
                         default: 500
-                        description: The maximum age (in milliseconds) of cache entry
-                          (time since last updated from database) before the cache
-                          will elect to fetch a new value from the datastore. The
-                          default value is 500 milliseconds.
+                        description: |-
+                          The maximum age (in milliseconds) of cache entry (time since last updated
+                          from database) before the cache will elect to fetch a new value from the
+                          datastore. The default value is 500 milliseconds.
                         format: uint64
                         maximum: 5000
                         minimum: 5
                         type: integer
                       maxPercent:
                         default: 85
-                        description: 'The closer a rate limit value gets to `max`,
-                          the more likely it is for the value to be exceeded by peer
-                          runtimes. This property specifies the maximum value found
-                          in cache, as a percentage of `max`, before cache is ignored
-                          and the actual value is retrieved from the datastore. This
-                          helps minimize the likelihood of an overage. Default: 85%'
+                        description: |-
+                          The closer a rate limit value gets to `max`, the more likely it is for the
+                          value to be exceeded by peer runtimes. This property specifies the maximum
+                          value found in cache, as a percentage of `max`, before cache is ignored and
+                          the actual value is retrieved from the datastore. This helps minimize the
+                          likelihood of an overage. Default: 85%
                         format: int64
                         maximum: 99
                         minimum: 1
@@ -6826,11 +7264,11 @@ spec:
                       cpu:
                         description: CPU expressed using Kubernetes resource quantity
                           syntax
-                        type: string
+                        x-kubernetes-int-or-string: true
                       memory:
                         description: Memory expressed using Kubernetes resource quantity
                           syntax
-                        type: string
+                        x-kubernetes-int-or-string: true
                     required:
                     - cpu
                     - memory
@@ -6841,11 +7279,11 @@ spec:
                       cpu:
                         description: CPU expressed using Kubernetes resource quantity
                           syntax
-                        type: string
+                        x-kubernetes-int-or-string: true
                       memory:
                         description: Memory expressed using Kubernetes resource quantity
                           syntax
-                        type: string
+                        x-kubernetes-int-or-string: true
                     required:
                     - cpu
                     - memory
@@ -7092,7 +7530,7 @@ spec:
                     description: |-
                       Total number of terminating pods targeted by this deployment. Terminating pods have a non-null .metadata.deletionTimestamp and have not yet reached the Failed or Succeeded .status.phase.
 
-                      This is an alpha field. Enable DeploymentReplicaSetTerminatingReplicas to be able to use this field.
+                      This is a beta field and requires enabling DeploymentReplicaSetTerminatingReplicas feature (enabled by default).
                     format: int32
                     type: integer
                   unavailableReplicas:
@@ -7160,7 +7598,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: tlsclientprofiles.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -7201,19 +7639,23 @@ spec:
                   type: string
                 type: array
               clientSecret:
-                description: Secret containing only client credentials (tls.key, tls.crt).
-                  Any ca.crt in this secret represents the client's CA, not the server
-                  CA. Mutually exclusive with `secret`.
+                description: |-
+                  Secret containing only client credentials (tls.key, tls.crt).
+                  Any ca.crt in this secret represents the client's CA, not the server CA.
+                  Mutually exclusive with `secret`.
                 nullable: true
                 type: string
               secret:
-                description: Secret containing server CA and optional client credentials.
+                description: |-
+                  Secret containing server CA and optional client credentials.
                   Mutually exclusive with `clientSecret` and `serverAuth`.
                 nullable: true
                 type: string
               serverAuth:
-                description: Server authentication configuration. Optional even when
-                  `clientSecret` is specified. Mutually exclusive with `secret`.
+                description: |-
+                  Server authentication configuration.
+                  Optional even when `clientSecret` is specified.
+                  Mutually exclusive with `secret`.
                 nullable: true
                 properties:
                   caSourceRefs:
@@ -7359,7 +7801,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: tlsserverprofiles.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -7400,8 +7842,10 @@ spec:
                   type: string
                 type: array
               clientAuth:
-                description: Client authentication configuration. Requires `serverSecret`
-                  when specified. Mutually exclusive with `secret`.
+                description: |-
+                  Client authentication configuration.
+                  Requires `serverSecret` when specified.
+                  Mutually exclusive with `secret`.
                 nullable: true
                 properties:
                   caSourceRefs:
@@ -7460,14 +7904,16 @@ spec:
                 - caSourceRefs
                 type: object
               secret:
-                description: Secret containing server credentials and optional client
-                  CA. Mutually exclusive with `serverSecret` and `clientAuth`.
+                description: |-
+                  Secret containing server credentials and optional client CA.
+                  Mutually exclusive with `serverSecret` and `clientAuth`.
                 nullable: true
                 type: string
               serverSecret:
-                description: Secret containing only server credentials (tls.key, tls.crt).
-                  Any ca.crt in this Secret represents the server's CA, not the client
-                  CA. Mutually exclusive with `secret`.
+                description: |-
+                  Secret containing only server credentials (tls.key, tls.crt).
+                  Any ca.crt in this Secret represents the server's CA, not the client CA.
+                  Mutually exclusive with `secret`.
                 nullable: true
                 type: string
               versions:
@@ -7562,7 +8008,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    nano.datapower.ibm.com/operator-version: 1.0.1
+    nano.datapower.ibm.com/operator-version: 1.1.0
   name: userdefinedpolicies.nano.datapower.ibm.com
 spec:
   group: nano.datapower.ibm.com
@@ -7681,6 +8127,13 @@ spec:
                     items:
                       type: string
                     type: array
+                  databases:
+                    default: []
+                    description: List of databases depended on by this resource's
+                      assembly.
+                    items:
+                      type: string
+                    type: array
                   distributedVariableService:
                     default: false
                     description: True if this resource's assembly depends on a distributedVariableService
@@ -7738,9 +8191,9 @@ spec:
                           type: array
                       type: object
                     default: {}
-                    description: Secrets depended on by this resource's assembly.
-                      Maps Secret name to required and optional data key(s) within
-                      Secret.
+                    description: |-
+                      Secrets depended on by this resource's assembly.
+                      Maps Secret name to required and optional data key(s) within Secret.
                     type: object
                   tlsClientProfiles:
                     default: []
