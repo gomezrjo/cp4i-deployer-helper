@@ -1,0 +1,44 @@
+{
+    "type": "opentelemetry",
+    "api_version": "2.0.0",
+    "name": "e2em-otel-config",
+    "title": "e2em-otel-config",
+    "endpoints": [
+        {
+            "signals": [
+                "traces"
+            ],
+            "endpoint": "${E2EM_OTEL_ENDPOINT}",
+            "protocol": "grpc",
+            "tls_client_profile_url": "${E2EM_TLS_CLIENT_PROFILE_URL}"
+        }
+    ],
+    "headers": [
+        {
+            "name": "authorization",
+            "value": "Bearer ${E2EM_TOKEN}"
+        }
+    ],
+    "attributes": [
+        {
+            "name": "tId",
+            "value": "cloudpak"
+        },
+        {
+            "name": "analytics.url",
+            "value": "${APIC_ANALYTICS_URL}"
+        }
+    ],
+    "batching": {
+        "batch-size": 512,
+        "max-threads": 5,
+        "export-timeout": 10000,
+        "max-queue-size": 2048,
+        "export-interval": 5000
+    },
+    "sampling": {
+        "parent-based": false,
+        "sampler-type": "always_on",
+        "sampler-ratio": 50
+    }
+}
