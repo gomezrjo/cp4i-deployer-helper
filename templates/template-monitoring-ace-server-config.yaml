@@ -1,0 +1,9 @@
+---
+serverConfVersion: 1
+ResourceManagers:
+  OpenTelemetryManager:
+    openTelemetryEnabled: true
+    exporterOtlpGrpcEndpoint: ${E2EM_OTEL_ENDPOINT}
+    openTelemetryTruststoreType: PEM
+    openTelemetryTruststoreFile: /home/aceuser/generic/${E2EM_CERT_NAME}
+    openTelemetryGrpcSecurityId: ${E2EM_SECID}
