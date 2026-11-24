@@ -1,0 +1,32 @@
+spec:
+  queueManager:
+    env:
+      - name: LOG_LEVEL
+        value: debug
+      - name: SPAN_FORMAT
+        value: otel
+      - name: MONITOR_LEVEL
+        value: normal
+      - name: IBMMQ_RFH2_HEADERS_TO_EXPOSE
+        value: tId,cmp,messaging.ibmmq.qmgr.host
+      - name: IBMMQ_DEST_MONITOR_LEVEL_OFF
+        value: SYSTEM.REST.REPLY.QUEUE
+      - name: OTLP_EXPORTER_GRPC_ENDPOINT
+        value: ${E2EM_OTEL_ENDPOINT}
+      - name: OTEL_RESOURCE_ATTRIBUTES
+        value: tId=cloudpak,cmp=IBM MQ,messaging.ibmmq.qmgr.host=${QMGR_NAME}
+      - name: OTEL_EXPORTER_OTLP_HEADERS
+        value: authorization=Bearer ${E2EM_TOKEN}
+      - name: OTLP_EXPORTER_SSL_CACERT_PATH
+        value: /var/run/secrets/e2em/service-ca.crt
+    files:
+      - configMap:
+          defaultMountPath: /var/run/secrets/e2em
+          items:
+            - item: service-ca.crt
+          name:  e2em-ca
+  telemetry:
+    tracing:
+      instana:
+        agentHost: ${E2EM_OTEL_URL}
+        enabled: true
