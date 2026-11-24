@@ -1,0 +1,8 @@
+spec:
+  template:
+      - containers:
+          - env:
+              - name: STUDIO_TEST_ALLOW_PRIVATE_NETWORKS
+                value: 'true'
+            name: api-studio
+        name: api-studio

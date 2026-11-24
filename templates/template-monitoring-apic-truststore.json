@@ -1,0 +1,6 @@
+{
+    "title": "e2em-truststore",
+    "name": "e2em-truststore",
+    "summary": "Truststore for E2EM",
+    "truststore": "${APIC_CERT}"
+}

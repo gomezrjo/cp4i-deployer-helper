@@ -9,4 +9,4 @@ spec:
   dnsNames:
     - '${DP_NANO_GW_DNS}'
   issuerRef:
-    name: ingress-issuer
+    name: ${INGRESS_ISSUER}
